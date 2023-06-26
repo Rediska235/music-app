@@ -1,0 +1,15 @@
+version: "3.9"
+services:
+  identity:
+    image: identity
+    container_name: identity
+    ports:
+      - "5000:80"
+  identity_db:
+    image: "mcr.microsoft.com/mssql/server:2022-latest"
+    container_name: identity_db
+    ports:
+      - "1433:1433" 
+    environment:
+      - ACCEPT_EULA=y
+      - SA_PASSWORD=Strong_Password0
