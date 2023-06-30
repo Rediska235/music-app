@@ -1,23 +1,29 @@
-using MusicApp.Identity.DataAccess;
-using MusicApp.Identity.BusinessLogic;
-using MusicApp.Identity.BusinessLogic.AutoMapper;
+using MusicApp.Identity.Application.AutoMapper;
+using MusicApp.Identity.Application.Extensions;
+using MusicApp.Identity.Infrastructure.Extensions;
+using MusicApp.Identity.Web.Extensions;
+using MusicApp.Identity.Web.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddHttpContextAccessor();
 
-builder.Services.AddDataAccessLayer(builder.Configuration);
-builder.Services.AddBusinessLogicLayer();
+builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
+
+var configuration = builder.Configuration;
+builder.Services.AddJwtAuthentication(configuration);
+builder.Services.AddInfrastructure(configuration);
+builder.Services.AddApplication();
 
 var app = builder.Build();
+
+app.UseMiddleware<ErrorHandlingMiddleware>();
 
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
-
-await app.Services.SeedDatabaseAsync();
 
 app.Run();

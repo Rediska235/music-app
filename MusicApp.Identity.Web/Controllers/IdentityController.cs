@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
 using MusicApp.Identity.BusinessLogic.DTOs;
-using MusicApp.Identity.BusinessLogic.Services;
+using MusicApp.Identity.Application.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MusicApp.Identity.Web.Controllers;
 
@@ -10,45 +10,45 @@ namespace MusicApp.Identity.Web.Controllers;
 public class IdentityController : ControllerBase
 {
     private readonly IIdentityService _identityService;
+    private readonly IConfiguration _configuration;
 
-    public IdentityController(IIdentityService identityService)
+    public IdentityController(IIdentityService identityService, IConfiguration configuration)
     {
         _identityService = identityService;
+        _configuration = configuration;
     }
 
-    //  обработать ошибки
-
     [HttpPost("register")]
-    public async Task<IActionResult> Register(UserRegisterDto userRegisterDto)
+    public IActionResult Register(UserRegisterDto request)
     {
-        var errors = await _identityService.Register(userRegisterDto);
+        var user = _identityService.Register(request);
 
-        if(!errors.IsNullOrEmpty())
-        {
-            foreach (var error in errors)
-            {
-                ModelState.AddModelError(string.Empty, error);
-            }
-
-            return BadRequest(ModelState);
-        }
-
-        return StatusCode(201);
+        return Ok(user);
     }
 
     [HttpPost("login")]
-    public async Task<IActionResult> Login(UserLoginDto userLoginDto)
+    public IActionResult Login(UserLoginDto request)
     {
-        await _identityService.Login(userLoginDto);
+        string secretKey = _configuration.GetSection("JWT:Key").Value;
+        var token = _identityService.Login(request, secretKey);
 
-        return Ok();
+        return Ok(token);
     }
 
     [HttpPost("logout")]
-    public async Task<IActionResult> Logout()
+    public IActionResult Logout()
     {
-        await _identityService.Logout();
-
+        _identityService.Logout();
         return Ok();
+    }
+
+    [HttpGet("refresh-token"), Authorize(AuthenticationSchemes = "ExpiredTokenAllowed")]
+    public IActionResult RefreshToken()
+    {
+        var username = User.Identity.Name;
+        var secretKey = _configuration.GetSection("JWT:Key").Value;
+        var refreshToken = _identityService.RefreshToken(username, secretKey);
+
+        return Ok(refreshToken);
     }
 }

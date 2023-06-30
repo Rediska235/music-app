@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33516.290
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Identity", "Identity\Identity.csproj", "{758C599D-1B13-4922-9A68-93C41EEDA1FF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MusicApp.Identity.Web", "MusicApp.Identity.Web\MusicApp.Identity.Web.csproj", "{D72AF130-2802-4BD9-87E7-0ABFA11B8789}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicApp.Identity.Web", "MusicApp.Identity.Web\MusicApp.Identity.Web.csproj", "{D72AF130-2802-4BD9-87E7-0ABFA11B8789}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MusicApp.Identity.Domain", "MusicApp.Identity.Domain\MusicApp.Identity.Domain.csproj", "{45871ACF-A736-4DD2-9236-9ECBDB2FD0F4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicApp.Identity.DataAccess", "MusicApp.Identity.DataAccess\MusicApp.Identity.DataAccess.csproj", "{0EBBDD57-2029-46D9-8F11-24CFD44D9018}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MusicApp.Identity.Application", "MusicApp.Identity.Application\MusicApp.Identity.Application.csproj", "{AEE7C015-FF58-4ACB-BD03-9823E43A9F88}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicApp.Identity.BusinessLogic", "MusicApp.Identity.BusinessLogic\MusicApp.Identity.BusinessLogic.csproj", "{98702F46-66E9-48E8-8418-B779AC448011}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicApp.Identity.Infrastructure", "MusicApp.Identity.Infrastructure\MusicApp.Identity.Infrastructure.csproj", "{B85E7CF1-7926-42F8-B658-24718E24DAB6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,22 +17,22 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{758C599D-1B13-4922-9A68-93C41EEDA1FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{758C599D-1B13-4922-9A68-93C41EEDA1FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{758C599D-1B13-4922-9A68-93C41EEDA1FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{758C599D-1B13-4922-9A68-93C41EEDA1FF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D72AF130-2802-4BD9-87E7-0ABFA11B8789}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D72AF130-2802-4BD9-87E7-0ABFA11B8789}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D72AF130-2802-4BD9-87E7-0ABFA11B8789}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D72AF130-2802-4BD9-87E7-0ABFA11B8789}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0EBBDD57-2029-46D9-8F11-24CFD44D9018}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0EBBDD57-2029-46D9-8F11-24CFD44D9018}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0EBBDD57-2029-46D9-8F11-24CFD44D9018}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0EBBDD57-2029-46D9-8F11-24CFD44D9018}.Release|Any CPU.Build.0 = Release|Any CPU
-		{98702F46-66E9-48E8-8418-B779AC448011}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{98702F46-66E9-48E8-8418-B779AC448011}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{98702F46-66E9-48E8-8418-B779AC448011}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{98702F46-66E9-48E8-8418-B779AC448011}.Release|Any CPU.Build.0 = Release|Any CPU
+		{45871ACF-A736-4DD2-9236-9ECBDB2FD0F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{45871ACF-A736-4DD2-9236-9ECBDB2FD0F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{45871ACF-A736-4DD2-9236-9ECBDB2FD0F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{45871ACF-A736-4DD2-9236-9ECBDB2FD0F4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AEE7C015-FF58-4ACB-BD03-9823E43A9F88}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AEE7C015-FF58-4ACB-BD03-9823E43A9F88}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AEE7C015-FF58-4ACB-BD03-9823E43A9F88}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AEE7C015-FF58-4ACB-BD03-9823E43A9F88}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B85E7CF1-7926-42F8-B658-24718E24DAB6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B85E7CF1-7926-42F8-B658-24718E24DAB6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B85E7CF1-7926-42F8-B658-24718E24DAB6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B85E7CF1-7926-42F8-B658-24718E24DAB6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
