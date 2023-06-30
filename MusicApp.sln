@@ -5,6 +5,12 @@ VisualStudioVersion = 17.5.33516.290
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Identity", "Identity\Identity.csproj", "{758C599D-1B13-4922-9A68-93C41EEDA1FF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicApp.Identity.Web", "MusicApp.Identity.Web\MusicApp.Identity.Web.csproj", "{D72AF130-2802-4BD9-87E7-0ABFA11B8789}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicApp.Identity.DataAccess", "MusicApp.Identity.DataAccess\MusicApp.Identity.DataAccess.csproj", "{0EBBDD57-2029-46D9-8F11-24CFD44D9018}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicApp.Identity.BusinessLogic", "MusicApp.Identity.BusinessLogic\MusicApp.Identity.BusinessLogic.csproj", "{98702F46-66E9-48E8-8418-B779AC448011}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +21,18 @@ Global
 		{758C599D-1B13-4922-9A68-93C41EEDA1FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{758C599D-1B13-4922-9A68-93C41EEDA1FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{758C599D-1B13-4922-9A68-93C41EEDA1FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D72AF130-2802-4BD9-87E7-0ABFA11B8789}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D72AF130-2802-4BD9-87E7-0ABFA11B8789}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D72AF130-2802-4BD9-87E7-0ABFA11B8789}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D72AF130-2802-4BD9-87E7-0ABFA11B8789}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0EBBDD57-2029-46D9-8F11-24CFD44D9018}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0EBBDD57-2029-46D9-8F11-24CFD44D9018}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0EBBDD57-2029-46D9-8F11-24CFD44D9018}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0EBBDD57-2029-46D9-8F11-24CFD44D9018}.Release|Any CPU.Build.0 = Release|Any CPU
+		{98702F46-66E9-48E8-8418-B779AC448011}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{98702F46-66E9-48E8-8418-B779AC448011}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{98702F46-66E9-48E8-8418-B779AC448011}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{98702F46-66E9-48E8-8418-B779AC448011}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
