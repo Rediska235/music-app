@@ -5,16 +5,19 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
-COPY ["Identity/Identity.csproj", "Identity/"]
-RUN dotnet restore "Identity/Identity.csproj"
+COPY ["MusicApp.Identity.Web/MusicApp.Identity.Web.csproj", "MusicApp.Identity.Web/"]
+COPY ["MusicApp.Identity.Application/MusicApp.Identity.Application.csproj", "MusicApp.Identity.Application/"]
+COPY ["MusicApp.Identity.Domain/MusicApp.Identity.Domain.csproj", "MusicApp.Identity.Domain/"]
+COPY ["MusicApp.Identity.Infrastructure/MusicApp.Identity.Infrastructure.csproj", "MusicApp.Identity.Infrastructure/"]
+RUN dotnet restore "MusicApp.Identity.Web/MusicApp.Identity.Web.csproj"
 COPY . .
-WORKDIR "/src/Identity"
-RUN dotnet build "Identity.csproj" -c Release -o /app/build
+WORKDIR "/src/MusicApp.Identity.Web"
+RUN dotnet build "MusicApp.Identity.Web.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "Identity.csproj" -c Release -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "MusicApp.Identity.Web.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "Identity.dll"]
+ENTRYPOINT ["dotnet", "MusicApp.Identity.Web.dll"]

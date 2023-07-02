@@ -11,7 +11,7 @@ public static class IServiceCollectionExtension
 {
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
-        var connectionString = configuration.GetConnectionString("Local");
+        var connectionString = configuration.GetConnectionString("Default");
         services.AddDbContext<AppDbContext>(options =>
         {
             options.UseSqlServer(connectionString);

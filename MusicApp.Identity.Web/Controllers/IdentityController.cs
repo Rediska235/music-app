@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using MusicApp.Identity.BusinessLogic.DTOs;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using MusicApp.Identity.Application.Services.Interfaces;
-using Microsoft.AspNetCore.Authorization;
+using MusicApp.Identity.Application.DTOs;
 
 namespace MusicApp.Identity.Web.Controllers;
 
@@ -10,12 +10,12 @@ namespace MusicApp.Identity.Web.Controllers;
 public class IdentityController : ControllerBase
 {
     private readonly IIdentityService _identityService;
-    private readonly IConfiguration _configuration;
+    private readonly string _secretKey;
 
     public IdentityController(IIdentityService identityService, IConfiguration configuration)
     {
         _identityService = identityService;
-        _configuration = configuration;
+        _secretKey = configuration.GetSection("JWT:Key").Value;
     }
 
     [HttpPost("register")]
@@ -29,25 +29,16 @@ public class IdentityController : ControllerBase
     [HttpPost("login")]
     public IActionResult Login(UserLoginDto request)
     {
-        string secretKey = _configuration.GetSection("JWT:Key").Value;
-        var token = _identityService.Login(request, secretKey);
+        var token = _identityService.Login(request, _secretKey);
 
         return Ok(token);
-    }
-
-    [HttpPost("logout")]
-    public IActionResult Logout()
-    {
-        _identityService.Logout();
-        return Ok();
     }
 
     [HttpGet("refresh-token"), Authorize(AuthenticationSchemes = "ExpiredTokenAllowed")]
     public IActionResult RefreshToken()
     {
         var username = User.Identity.Name;
-        var secretKey = _configuration.GetSection("JWT:Key").Value;
-        var refreshToken = _identityService.RefreshToken(username, secretKey);
+        var refreshToken = _identityService.RefreshToken(username, _secretKey);
 
         return Ok(refreshToken);
     }

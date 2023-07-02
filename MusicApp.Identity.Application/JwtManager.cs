@@ -22,12 +22,10 @@ public static class JwtManager
         }
 
         var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(secretKey));
-
         var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
-
         var token = new JwtSecurityToken(
             claims: claims,
-            expires: DateTime.Now.AddMinutes(20),
+            expires: DateTime.Now.AddHours(1),
             signingCredentials: creds);
 
         var jwt = new JwtSecurityTokenHandler().WriteToken(token);
@@ -40,25 +38,22 @@ public static class JwtManager
         var refreshToken = new RefreshToken
         {
             Token = Convert.ToBase64String(RandomNumberGenerator.GetBytes(64)),
-            Created = DateTime.Now,
             Expires = DateTime.Now.AddDays(7)
         };
 
         return refreshToken;
     }
 
-    public static void SetRefreshToken(RefreshToken newRefreshToken, HttpContext httpContext, User user)
+    public static void SetRefreshToken(RefreshToken refreshToken, HttpContext httpContext, User user)
     {
         var cookieOptions = new CookieOptions
         {
             HttpOnly = true,
-            Expires = newRefreshToken.Expires
+            Expires = refreshToken.Expires
         };
 
-        httpContext.Response.Cookies.Append("refreshToken", newRefreshToken.Token, cookieOptions);
+        httpContext.Response.Cookies.Append("refreshToken", refreshToken.Token, cookieOptions);
 
-        user.RefreshToken = newRefreshToken.Token;
-        user.TokenCreated = newRefreshToken.Created;
-        user.TokenExpires = newRefreshToken.Expires;
+        user.RefreshToken = refreshToken.Token;
     }
 }

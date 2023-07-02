@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using MusicApp.Identity.BusinessLogic.DTOs;
+using MusicApp.Identity.Application.DTOs;
 
 namespace MusicApp.Identity.Application.Validators;
 

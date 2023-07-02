@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using MusicApp.Identity.BusinessLogic.DTOs;
+using MusicApp.Identity.Application.DTOs;
 using MusicApp.Identity.Domain.Entities;
 
 namespace MusicApp.Identity.Application.AutoMapper;

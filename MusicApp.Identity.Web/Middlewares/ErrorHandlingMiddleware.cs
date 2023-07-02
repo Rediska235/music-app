@@ -1,7 +1,6 @@
 ﻿using MusicApp.Identity.Domain.Exceptions;
 using System.Net;
 using System.Text.Json;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace MusicApp.Identity.Web.Middlewares;
 
@@ -30,7 +29,7 @@ public class ErrorHandlingMiddleware
     {
         var code = HttpStatusCode.InternalServerError;
 
-        if (exception is AlreadyExistsException)
+        if(exception is AlreadyExistsException)
         {
             code = HttpStatusCode.BadRequest;
         }
