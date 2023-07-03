@@ -24,11 +24,6 @@ public class ArtistRepository : IArtistRepository
         _db.Add(artist);
     }
 
-    public void UpdateArtist(Artist artist)
-    {
-        _db.Update(artist);
-    }
-
     public async Task SaveChangesAsync()
     {
         await _db.SaveChangesAsync();

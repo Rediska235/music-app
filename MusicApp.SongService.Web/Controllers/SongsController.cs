@@ -19,17 +19,13 @@ public class SongsController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetAllSongs()
     {
-        var songs = await _service.GetAllSongs();
-
-        return Ok(songs);
+        return Ok(await _service.GetAllSongs());
     }
     
     [HttpGet("{id:guid}")]
     public async Task<IActionResult> GetSongById(Guid id)
     {
-        var song = await _service.GetSongById(id);
-
-        return Ok(song);
+        return Ok(await _service.GetSongById(id));
     }
     
     [HttpPost, Authorize(Roles = "artist")]

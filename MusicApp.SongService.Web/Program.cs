@@ -9,8 +9,8 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 
 var configuration = builder.Configuration;
-builder.Services.AddInfrastructure(configuration);
 builder.Services.AddJwtAuthentication(configuration);
+builder.Services.AddInfrastructure(configuration);
 builder.Services.AddApplication();
 
 var app = builder.Build();

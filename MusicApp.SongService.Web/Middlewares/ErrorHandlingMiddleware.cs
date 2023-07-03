@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using MusicApp.SongService.Domain.Exceptions;
+using System.Net;
 using System.Text.Json;
 
 namespace MusicApp.SongService.Web.Middlewares;
@@ -27,6 +28,15 @@ public class ErrorHandlingMiddleware
     private static Task HandleExceptionAsync(HttpContext context, Exception exception)
     {
         var code = HttpStatusCode.InternalServerError;
+
+        if (exception is NotAllowedException)
+        {
+            code = HttpStatusCode.BadRequest;
+        }
+        else if (exception is NotFoundException)
+        {
+            code = HttpStatusCode.NotFound;
+        }
 
         context.Response.ContentType = "application/json";
         context.Response.StatusCode = (int)code;

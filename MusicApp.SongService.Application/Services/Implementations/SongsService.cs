@@ -1,15 +1,14 @@
 ﻿using MediatR;
-using MusicApp.SongService.Application.CQRS.Commands.CreateArtist;
-using MusicApp.SongService.Application.CQRS.Commands.CreateSong;
-using MusicApp.SongService.Application.CQRS.Commands.DeleteSong;
-using MusicApp.SongService.Application.CQRS.Commands.UpdateArtist;
-using MusicApp.SongService.Application.CQRS.Commands.UpdateSong;
-using MusicApp.SongService.Application.CQRS.Queries.GetAllSongs;
-using MusicApp.SongService.Application.CQRS.Queries.GetArtistByUsername;
-using MusicApp.SongService.Application.CQRS.Queries.GetSongById;
-using MusicApp.SongService.Application.Services.Interfaces;
 using MusicApp.SongService.Domain.Entities;
 using MusicApp.SongService.Domain.Exceptions;
+using MusicApp.SongService.Application.Services.Interfaces;
+using MusicApp.SongService.Application.CQRS.Queries.GetAllSongs;
+using MusicApp.SongService.Application.CQRS.Queries.GetSongById;
+using MusicApp.SongService.Application.CQRS.Commands.CreateSong;
+using MusicApp.SongService.Application.CQRS.Commands.UpdateSong;
+using MusicApp.SongService.Application.CQRS.Commands.DeleteSong;
+using MusicApp.SongService.Application.CQRS.Commands.CreateArtist;
+using MusicApp.SongService.Application.CQRS.Queries.GetArtistByUsername;
 
 namespace MusicApp.SongService.Application.Services.Implementations;
 
@@ -24,14 +23,16 @@ public class SongsService : ISongsService
 
     public async Task<IEnumerable<Song>> GetAllSongs()
     {
-        var songs = await _mediator.Send(new GetAllSongsQuery());
-
-        return songs;
+        return await _mediator.Send(new GetAllSongsQuery());
     }
 
     public async Task<Song> GetSongById(Guid id)
     {
         var song = await _mediator.Send(new GetSongByIdQuery(id));
+        if (song == null)
+        {
+            throw CommonExceptions.songNotFound;
+        }
 
         return song;
     }
@@ -40,8 +41,7 @@ public class SongsService : ISongsService
     {
         var artist = await EnsureUserCreated(username);
 
-        await _mediator.Send(new CreateSongCommand(song));
-        await _mediator.Send(new AddSongToArtistCommand(song, artist));
+        await _mediator.Send(new CreateSongCommand(song, artist));
     }
 
     public async Task UpdateSong(Song song, string username)
