@@ -14,7 +14,7 @@ public class ArtistRepository : IArtistRepository
         _db = db;
     }
 
-    public async Task<Artist> GetArtistbyUsername(string username)
+    public async Task<Artist> GetArtistByUsername(string username)
     {
         return await _db.Artists.FirstOrDefaultAsync(a => a.Username == username);
     }
