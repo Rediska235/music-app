@@ -15,6 +15,6 @@ public class GetArtistByUsernameQueryHandler : IRequestHandler<GetArtistByUserna
 
     public async Task<Artist> Handle(GetArtistByUsernameQuery request, CancellationToken cancellationToken)
     {
-        return await _repository.GetArtistbyUsername(request.Username);
+        return await _repository.GetArtistByUsername(request.Username);
     }
 }
