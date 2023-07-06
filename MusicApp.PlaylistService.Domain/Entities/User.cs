@@ -7,5 +7,7 @@ public class User
     public Guid Id { get; set; }
     public string Username { get; set; } = string.Empty;
     [JsonIgnore]
+    public List<Song> Songs { get; set; } = new();
+    [JsonIgnore]
     public List<Playlist> Playlists { get; set; } = new();
 }

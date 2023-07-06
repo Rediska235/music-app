@@ -1,7 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using MusicApp.PlaylistService.Application.Repositories;
 using MusicApp.PlaylistService.Infrastructure.Data;
+using MusicApp.PlaylistService.Infrastructure.Repositories;
 
 namespace MusicApp.PlaylistService.Infrastructure.Extensions;
 
@@ -15,8 +17,9 @@ public static class IServiceCollectionExtension
             options.UseSqlServer(connectionString);
         });
 
-        //services.AddScoped<ISongRepository, SongRepository>();
-        //services.AddScoped<IArtistRepository, ArtistRepository>();
+        services.AddScoped<IPlaylistRepository, PlaylistRepository>();
+        services.AddScoped<ISongRepository, SongRepository>();
+        services.AddScoped<IUserRepository, UserRepository>();
 
         return services;
     }

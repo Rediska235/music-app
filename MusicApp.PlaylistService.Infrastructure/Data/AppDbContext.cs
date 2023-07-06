@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MusicApp.PlaylistService.Domain.Entities;
+using MusicApp.PlaylistService.Infrastructure.Extensions;
+using System.Diagnostics;
 
 namespace MusicApp.PlaylistService.Infrastructure.Data;
 
@@ -12,5 +14,10 @@ public class AppDbContext : DbContext
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
     {
         Database.EnsureCreated();
+    }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Seed();
     }
 }

@@ -47,8 +47,8 @@ public class PlaylistsService : IPlaylistsService
 
     public async Task CreatePlaylist(Playlist playlist, string username)
     {
-        var creator = await _userRepository.GetUserByUsername(username);
-        playlist.Creator = creator;
+        var user = await EnsureUserCreated(username);
+        playlist.Creator = user;
 
         _playlistRepository.CreatePlaylist(playlist);
         await _playlistRepository.SaveChangesAsync();
@@ -142,5 +142,21 @@ public class PlaylistsService : IPlaylistsService
 
         _playlistRepository.UpdatePlaylist(playlist);
         await _playlistRepository.SaveChangesAsync();
+    }
+
+    private async Task<User> EnsureUserCreated(string username)
+    {
+        var user = await _userRepository.GetUserByUsername(username);
+        if (user == null)
+        {
+            user = new User()
+            {
+                Username = username
+            };
+            _userRepository.CreateUser(user);
+            await _playlistRepository.SaveChangesAsync();
+        }
+
+        return user;
     }
 }

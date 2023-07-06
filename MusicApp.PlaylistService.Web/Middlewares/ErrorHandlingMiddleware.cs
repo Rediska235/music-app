@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using MusicApp.PlaylistService.Domain.Exceptions;
+using System.Net;
 using System.Text.Json;
 
 namespace MusicApp.PlaylistService.Web.Middlewares;
@@ -28,14 +29,14 @@ public class ErrorHandlingMiddleware
     {
         var code = HttpStatusCode.InternalServerError;
 
-        /*if (exception is NotAllowedException)
+        if (exception is NotAllowedException)
         {
             code = HttpStatusCode.BadRequest;
         }
         else if (exception is NotFoundException)
         {
             code = HttpStatusCode.NotFound;
-        }*/
+        }
 
         context.Response.ContentType = "application/json";
         context.Response.StatusCode = (int)code;
