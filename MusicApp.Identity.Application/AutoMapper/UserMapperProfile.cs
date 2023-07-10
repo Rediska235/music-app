@@ -4,9 +4,9 @@ using MusicApp.Identity.Domain.Entities;
 
 namespace MusicApp.Identity.Application.AutoMapper;
 
-public class AutoMapperProfile : Profile
+public class UserMapperProfile : Profile
 {
-    public AutoMapperProfile()
+    public UserMapperProfile()
     {
         CreateMap<UserRegisterDto, User>()
             .ForMember(u => u.PasswordHash, opt => opt.MapFrom(src => BCrypt.Net.BCrypt.HashPassword(src.Password)));
