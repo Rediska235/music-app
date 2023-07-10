@@ -10,35 +10,33 @@ namespace MusicApp.Identity.Web.Controllers;
 public class IdentityController : ControllerBase
 {
     private readonly IIdentityService _identityService;
-    private readonly string _secretKey;
 
-    public IdentityController(IIdentityService identityService, IConfiguration configuration)
+    public IdentityController(IIdentityService identityService)
     {
         _identityService = identityService;
-        _secretKey = configuration.GetSection("JWT:Key").Value;
     }
 
     [HttpPost("register")]
-    public IActionResult Register(UserRegisterDto request)
+    public async Task<IActionResult> Register(UserRegisterDto request)
     {
-        var user = _identityService.Register(request);
+        var user = await _identityService.Register(request);
 
         return Ok(user);
     }
 
     [HttpPost("login")]
-    public IActionResult Login(UserLoginDto request)
+    public async Task<IActionResult> Login(UserLoginDto request)
     {
-        var token = _identityService.Login(request, _secretKey);
+        var token = await _identityService.Login(request);
 
         return Ok(token);
     }
 
     [HttpGet("refresh-token"), Authorize(AuthenticationSchemes = "ExpiredTokenAllowed")]
-    public IActionResult RefreshToken()
+    public async Task<IActionResult> RefreshToken()
     {
         var username = User.Identity.Name;
-        var refreshToken = _identityService.RefreshToken(username, _secretKey);
+        var refreshToken = await _identityService.RefreshToken(username);
 
         return Ok(refreshToken);
     }

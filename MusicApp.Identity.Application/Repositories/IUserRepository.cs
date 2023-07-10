@@ -4,8 +4,8 @@ namespace MusicApp.Identity.Application.Repositories;
 
 public interface IUserRepository
 {
-    User GetUserByUsername(string username);
-    User GetUserByRefreshToken(string refreshToken);
-    void InsertUser(User user);
-    void Save();
+    Task<User> GetUserByUsernameAsync(string username);
+    Task<User> GetUserByRefreshTokenAsync(string refreshToken);
+    Task InsertUserAsync(User user);
+    Task SaveChangesAsync();
 }
