@@ -1,4 +1,5 @@
-﻿using MusicApp.Identity.Application.Repositories;
+﻿using Microsoft.EntityFrameworkCore;
+using MusicApp.Identity.Application.Repositories;
 using MusicApp.Identity.Domain.Entities;
 using MusicApp.Identity.Infrastructure.Data;
 
@@ -13,8 +14,8 @@ public class RoleRepository : IRoleRepository
         _db = db;
     }
 
-    public Role GetRoleByTitle(string title)
+    public async Task<Role> GetRoleByTitleAsync(string title)
     {
-        return _db.Roles.FirstOrDefault(r => r.Title == title);
+        return await _db.Roles.FirstOrDefaultAsync(r => r.Title == title);
     }
 }

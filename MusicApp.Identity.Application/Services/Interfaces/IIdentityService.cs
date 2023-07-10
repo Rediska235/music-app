@@ -5,7 +5,7 @@ namespace MusicApp.Identity.Application.Services.Interfaces;
 
 public interface IIdentityService
 {
-    User Register(UserRegisterDto request);
-    string Login(UserLoginDto request, string secretKey);
-    string RefreshToken(string username, string secretKey);
+    Task<User> Register(UserRegisterDto request);
+    Task<string> Login(UserLoginDto request);
+    Task<string> RefreshToken(string username);
 }

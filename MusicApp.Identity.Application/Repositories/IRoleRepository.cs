@@ -4,5 +4,5 @@ namespace MusicApp.Identity.Application.Repositories;
 
 public interface IRoleRepository
 {
-    Role GetRoleByTitle(string title);
+    Task<Role> GetRoleByTitleAsync(string title);
 }

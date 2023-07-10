@@ -6,7 +6,8 @@ using MusicApp.Identity.Application.Validators;
 using MusicApp.Identity.Application.DTOs;
 using MusicApp.Identity.Domain.Entities;
 using MusicApp.Identity.Domain.Exceptions;
-using FluentValidation.Results;
+using Microsoft.Extensions.Configuration;
+using FluentValidation;
 
 namespace MusicApp.Identity.Application.Services.Implementations;
 
@@ -14,33 +15,38 @@ public class IdentityService : IIdentityService
 {
     private readonly HttpContext _httpContext;
     private readonly IUserRepository _userRepository;
-    private readonly Role _artistRole;
+    private readonly IRoleRepository _roleRepository;
     private readonly IMapper _mapper;
     private readonly UserRegisterDtoValidator _userRegisterDtoValidator;
     private readonly UserLoginDtoValidator _userLoginDtoValidator;
+    private readonly IConfiguration _configuration;
+    private readonly JwtManager _jwtManager;
 
     public IdentityService(
         IHttpContextAccessor httpContextAccessor,
         IUserRepository userRepository,
         IRoleRepository roleRepository,
+        IConfiguration configuration,
+        JwtManager jwtManager,
         IMapper mapper)
     {
         _userRepository = userRepository;
+        _roleRepository = roleRepository;
+        _configuration = configuration;
+        _jwtManager = jwtManager;
         _mapper = mapper;
 
         _httpContext = httpContextAccessor.HttpContext;
-        _artistRole = roleRepository.GetRoleByTitle("artist");
 
         _userRegisterDtoValidator = new UserRegisterDtoValidator();
         _userLoginDtoValidator = new UserLoginDtoValidator();
     }
 
-    public User Register(UserRegisterDto request)
+    public async Task<User> Register(UserRegisterDto request)
     {
-        var result = _userRegisterDtoValidator.Validate(request);
-        ThrowsExceptionIfRequestIsNotValid(result);
+        await _userRegisterDtoValidator.ValidateAndThrowAsync(request);
 
-        var user = _userRepository.GetUserByUsername(request.Username);
+        var user = await _userRepository.GetUserByUsernameAsync(request.Username);
         if(user != null)
         {
             throw CommonExceptions.usernameIsTaken;
@@ -48,23 +54,23 @@ public class IdentityService : IIdentityService
 
         user = _mapper.Map<User>(request);
 
-        if(user.IsArtist)
+        var artistRole = await _roleRepository.GetRoleByTitleAsync("artist");
+        if (user.IsArtist)
         {
-            user.Roles.Add(_artistRole);
+            user.Roles.Add(artistRole);
         }
 
-        _userRepository.InsertUser(user);
-        _userRepository.Save();
+        await _userRepository.InsertUserAsync(user);
+        await _userRepository.SaveChangesAsync();
 
         return user;
     }
 
-    public string Login(UserLoginDto request, string secretKey)
+    public async Task<string> Login(UserLoginDto request)
     {
-        var result = _userLoginDtoValidator.Validate(request);
-        ThrowsExceptionIfRequestIsNotValid(result);
+        await _userLoginDtoValidator.ValidateAndThrowAsync(request);
 
-        var user = _userRepository.GetUserByUsername(request.Username);
+        var user = await _userRepository.GetUserByUsernameAsync(request.Username);
         if(user == null)
         {
             throw CommonExceptions.invalidCredential;
@@ -76,46 +82,33 @@ public class IdentityService : IIdentityService
             throw CommonExceptions.invalidCredential;
         }
 
-        var token = JwtManager.CreateToken(user, secretKey);
-        var refreshToken = JwtManager.GenerateRefreshToken();
-        JwtManager.SetRefreshToken(refreshToken, _httpContext, user);
+        var secretKey = _configuration.GetSection("JWT:Key").Value;
+        var token = _jwtManager.CreateToken(user, secretKey);
+        var refreshToken = _jwtManager.GenerateRefreshToken();
+        _jwtManager.SetRefreshToken(refreshToken, _httpContext, user);
 
-        _userRepository.Save();
+        await _userRepository.SaveChangesAsync();
 
         return token;
     }
 
-    public string RefreshToken(string username, string secretKey)
+    public async Task<string> RefreshToken(string username)
     {
         var refreshToken = _httpContext.Request.Cookies["refreshToken"];
 
-        var user = _userRepository.GetUserByRefreshToken(refreshToken);
+        var user = await _userRepository.GetUserByRefreshTokenAsync(refreshToken);
         if(user == null || user.Username != username)
         {
             throw CommonExceptions.invalidRefreshToken;
         }
 
-        var token = JwtManager.CreateToken(user, secretKey);
-        var newRefreshToken = JwtManager.GenerateRefreshToken();
-        JwtManager.SetRefreshToken(newRefreshToken, _httpContext, user);
+        var secretKey = _configuration.GetSection("JWT:Key").Value;
+        var token = _jwtManager.CreateToken(user, secretKey);
+        var newRefreshToken = _jwtManager.GenerateRefreshToken();
+        _jwtManager.SetRefreshToken(newRefreshToken, _httpContext, user);
 
-        _userRepository.Save();
+        await _userRepository.SaveChangesAsync();
 
         return token;
-    }
-
-    private void ThrowsExceptionIfRequestIsNotValid(ValidationResult result)
-    {
-        if (!result.IsValid)
-        {
-            var errorList = "";
-            foreach (var failure in result.Errors)
-            {
-                errorList += failure.ErrorMessage + ';';
-            }
-            errorList = errorList.Remove(errorList.Length - 1);
-
-            throw new ArgumentException(errorList);
-        }
     }
 }

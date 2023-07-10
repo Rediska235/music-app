@@ -9,6 +9,7 @@ public static class IServiceCollectionExtension
     public static IServiceCollection AddApplication(this IServiceCollection services)
     {
         services.AddScoped<IIdentityService, IdentityService>();
+        services.AddSingleton<JwtManager>();
 
         return services;
     }
