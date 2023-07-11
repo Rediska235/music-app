@@ -1,7 +1,13 @@
-using Microsoft.AspNetCore.Mvc;
-using MusicApp.SongService.Domain.Entities;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
-using MusicApp.SongService.Application.Services.Interfaces;
+using Microsoft.AspNetCore.Mvc;
+using MusicApp.SongService.Application.CQRS.Commands.CreateSong;
+using MusicApp.SongService.Application.CQRS.Commands.DeleteSong;
+using MusicApp.SongService.Application.CQRS.Commands.EnsureArtistCreated;
+using MusicApp.SongService.Application.CQRS.Commands.UpdateSong;
+using MusicApp.SongService.Application.CQRS.Queries.GetAllSongs;
+using MusicApp.SongService.Application.CQRS.Queries.GetSongById;
+using MusicApp.SongService.Domain.Entities;
 
 namespace MusicApp.SongService.Web.Controllers;
 
@@ -9,31 +15,31 @@ namespace MusicApp.SongService.Web.Controllers;
 [Route("api/[controller]")]
 public class SongsController : ControllerBase
 {
-    private readonly ISongsService _service;
+    private readonly IMediator _mediator;
 
-    public SongsController(ISongsService service)
+    public SongsController(IMediator mediator)
     {
-        _service = service;
+        _mediator = mediator;
     }
     
     [HttpGet]
     public async Task<IActionResult> GetAllSongs()
     {
-        return Ok(await _service.GetAllSongs());
+        return Ok(await _mediator.Send(new GetAllSongsQuery()));
     }
     
     [HttpGet("{id:guid}")]
     public async Task<IActionResult> GetSongById(Guid id)
     {
-        return Ok(await _service.GetSongById(id));
+        return Ok(await _mediator.Send(new GetSongByIdQuery(id)));
     }
     
     [HttpPost, Authorize(Roles = "artist")]
     public async Task<IActionResult> CreateSong(Song song)
     {
-        var username = User.Identity.Name;
+        var artist = await _mediator.Send(new EnsureArtistCreatedCommand());
 
-        await _service.CreateSong(song, username);
+        await _mediator.Send(new CreateSongCommand(song, artist));
 
         return StatusCode(201);
     }
@@ -41,9 +47,7 @@ public class SongsController : ControllerBase
     [HttpPut("{id:guid}"), Authorize(Roles = "artist")]
     public async Task<IActionResult> UpdateSong(Song song)
     {
-        var username = User.Identity.Name;
-
-        await _service.UpdateSong(song, username);
+        await _mediator.Send(new UpdateSongCommand(song));
 
         return Ok();
     }
@@ -51,9 +55,7 @@ public class SongsController : ControllerBase
     [HttpDelete("{id:guid}"), Authorize(Roles = "artist")]
     public async Task<IActionResult> DeleteSong(Guid id)
     {
-        var username = User.Identity.Name;
-
-        await _service.DeleteSong(id, username);
+        await _mediator.Send(new DeleteSongCommand(id));
 
         return StatusCode(204);
     }

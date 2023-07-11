@@ -14,14 +14,14 @@ public class ArtistRepository : IArtistRepository
         _db = db;
     }
 
-    public async Task<Artist> GetArtistByUsername(string username)
+    public async Task<Artist> GetArtistByUsernameAsync(string username)
     {
         return await _db.Artists.FirstOrDefaultAsync(a => a.Username == username);
     }
 
-    public void CreateArtist(Artist artist)
+    public async Task CreateArtistAsync(Artist artist)
     {
-        _db.Add(artist);
+        await _db.AddAsync(artist);
     }
 
     public async Task SaveChangesAsync()

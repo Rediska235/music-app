@@ -7,9 +7,9 @@ using System.Security.Cryptography;
 
 namespace MusicApp.Identity.Application;
 
-public static class JwtManager
+public class JwtManager
 {
-    public static string CreateToken(User user, string secretKey)
+    public string CreateToken(User user, string secretKey)
     {
         var claims = new List<Claim>
         {
@@ -33,7 +33,7 @@ public static class JwtManager
         return jwt;
     }
 
-    public static RefreshToken GenerateRefreshToken()
+    public RefreshToken GenerateRefreshToken()
     {
         var refreshToken = new RefreshToken
         {
@@ -44,7 +44,7 @@ public static class JwtManager
         return refreshToken;
     }
 
-    public static void SetRefreshToken(RefreshToken refreshToken, HttpContext httpContext, User user)
+    public void SetRefreshToken(RefreshToken refreshToken, HttpContext httpContext, User user)
     {
         var cookieOptions = new CookieOptions
         {

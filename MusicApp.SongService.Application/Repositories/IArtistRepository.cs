@@ -4,7 +4,7 @@ namespace MusicApp.SongService.Application.Repositories;
 
 public interface IArtistRepository
 {
-    Task<Artist> GetArtistByUsername(string username);
-    void CreateArtist(Artist artist);
+    Task<Artist> GetArtistByUsernameAsync(string username);
+    Task CreateArtistAsync(Artist artist);
     Task SaveChangesAsync();
 }

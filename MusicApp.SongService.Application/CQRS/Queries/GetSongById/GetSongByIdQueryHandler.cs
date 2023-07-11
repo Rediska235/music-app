@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using MusicApp.SongService.Application.Repositories;
 using MusicApp.SongService.Domain.Entities;
+using MusicApp.SongService.Domain.Exceptions;
 
 namespace MusicApp.SongService.Application.CQRS.Queries.GetSongById;
 
@@ -15,6 +16,12 @@ public class GetSongByIdQueryHandler : IRequestHandler<GetSongByIdQuery, Song>
 
     public async Task<Song> Handle(GetSongByIdQuery request, CancellationToken cancellationToken)
     {
-        return await _repository.GetSongByIdAsync(request.Id);
+        var song = await _repository.GetSongByIdAsync(request.Id);
+        if (song == null)
+        {
+            throw CommonExceptions.songNotFound;
+        }
+
+        return song;
     }
 }

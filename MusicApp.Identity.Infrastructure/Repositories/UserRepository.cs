@@ -14,23 +14,23 @@ public class UserRepository : IUserRepository
         _db = db;
     }
 
-    public User GetUserByUsername(string username)
+    public async Task<User> GetUserByUsernameAsync(string username)
     {
-        return _db.Users.Include(u => u.Roles).FirstOrDefault(u => u.Username == username);
+        return await _db.Users.Include(u => u.Roles).FirstOrDefaultAsync(u => u.Username == username);
     }
 
-    public User GetUserByRefreshToken(string refreshToken)
+    public async Task<User> GetUserByRefreshTokenAsync(string refreshToken)
     {
-        return _db.Users.Include(u => u.Roles).FirstOrDefault(u => u.RefreshToken == refreshToken);
+        return await _db.Users.Include(u => u.Roles).FirstOrDefaultAsync(u => u.RefreshToken == refreshToken);
     }
 
-    public void InsertUser(User user)
+    public async Task InsertUserAsync(User user)
     {
-        _db.Add(user);
+        await _db.AddAsync(user);
     }
 
-    public void Save()
+    public async Task SaveChangesAsync()
     {
-        _db.SaveChanges();
+        await _db.SaveChangesAsync();
     }
 }
