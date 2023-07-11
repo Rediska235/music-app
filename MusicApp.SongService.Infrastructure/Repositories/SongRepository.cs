@@ -24,16 +24,16 @@ public class SongRepository : ISongRepository
         return await _db.Songs.Include(s => s.Artist).FirstOrDefaultAsync(t => t.Id == id);
     }
 
-    public void CreateSong(Song song)
+    public async Task CreateSongAsync(Song song)
     {
-        _db.Add(song);
+        await _db.AddAsync(song);
     }
 
     public void UpdateSong(Song song)
     {
         _db.Update(song);
     }
-
+    
     public void DeleteSong(Song song)
     {
         _db.Remove(song);

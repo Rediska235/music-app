@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using MusicApp.SongService.Domain.Entities;
 using MusicApp.SongService.Application.Repositories;
+using FluentValidation;
 
 namespace MusicApp.SongService.Application.CQRS.Commands.CreateSong;
 
@@ -17,11 +18,11 @@ public class CreateSongCommandHandler : IRequestHandler<CreateSongCommand, Song>
 
     public async Task<Song> Handle(CreateSongCommand request, CancellationToken cancellationToken)
     {
-        _validator.ThrowsExceptionIfRequestIsNotValid(request);
+        await _validator.ValidateAndThrowAsync(request);
 
         request.Song.Artist = request.Artist;
 
-        _repository.CreateSong(request.Song);
+        await _repository.CreateSongAsync(request.Song);
         await _repository.SaveChangesAsync();
 
         return request.Song;
