@@ -49,7 +49,7 @@ public class IdentityService : IIdentityService
         var user = await _userRepository.GetUserByUsernameAsync(request.Username);
         if(user != null)
         {
-            throw CommonExceptions.usernameIsTaken;
+            throw new UsernameIsTakenException();
         }
 
         user = _mapper.Map<User>(request);
@@ -73,13 +73,13 @@ public class IdentityService : IIdentityService
         var user = await _userRepository.GetUserByUsernameAsync(request.Username);
         if(user == null)
         {
-            throw CommonExceptions.invalidCredential;
+            throw new InvalidUsernameOrPasswordException();
         }
 
         var isValidPassword = BCrypt.Net.BCrypt.Verify(request.Password, user.PasswordHash);
         if(!isValidPassword)
         {
-            throw CommonExceptions.invalidCredential;
+            throw new InvalidUsernameOrPasswordException();
         }
 
         var secretKey = _configuration.GetSection("JWT:Key").Value;
@@ -99,7 +99,7 @@ public class IdentityService : IIdentityService
         var user = await _userRepository.GetUserByRefreshTokenAsync(refreshToken);
         if(user == null || user.Username != username)
         {
-            throw CommonExceptions.invalidRefreshToken;
+            throw new InvalidRefreshTokenException();
         }
 
         var secretKey = _configuration.GetSection("JWT:Key").Value;
