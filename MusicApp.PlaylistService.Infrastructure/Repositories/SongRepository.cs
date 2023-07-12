@@ -16,6 +16,8 @@ public class SongRepository : ISongRepository
     
     public async Task<Song> GetSongByIdAsync(Guid id)
     {
-        return await _db.Songs.FirstOrDefaultAsync(s => s.Id == id);
+        return await _db.Songs
+            .Include(s => s.Artist)
+            .FirstOrDefaultAsync(s => s.Id == id);
     }
 }

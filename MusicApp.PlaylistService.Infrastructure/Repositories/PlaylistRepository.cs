@@ -16,21 +16,32 @@ public class PlaylistRepository : IPlaylistRepository
 
     public async Task<IEnumerable<Playlist>> GetPublicPlaylistsAsync()
     {
-        return await _db.Playlists.Include(p => p.Creator).Where(p => !p.IsPrivate).ToListAsync();
+        return await _db.Playlists
+            .Include(p => p.Songs)
+            .Include(p => p.Creator)
+            .Where(p => !p.IsPrivate)
+            .ToListAsync();
     }
     public async Task<IEnumerable<Playlist>> GetMyPrivatePlaylistsAsync(string username)
     {
-        return await _db.Playlists.Include(p => p.Creator).Where(p => p.IsPrivate && p.Creator.Username == username).ToListAsync();
+        return await _db.Playlists
+            .Include(p => p.Songs)
+            .Include(p => p.Creator)
+            .Where(p => p.IsPrivate && p.Creator.Username == username)
+            .ToListAsync();
     }
 
     public async Task<Playlist> GetPlaylistByIdAsync(Guid id)
     {
-        return await _db.Playlists.Include(p => p.Creator).FirstOrDefaultAsync(t => t.Id == id);
+        return await _db.Playlists
+            .Include(p => p.Songs)
+            .Include(p => p.Creator)
+            .FirstOrDefaultAsync(t => t.Id == id);
     }
 
-    public void CreatePlaylist(Playlist playlist)
+    public async Task CreatePlaylistAsync(Playlist playlist)
     {
-        _db.Add(playlist);
+        await _db.AddAsync(playlist);
     }
 
     public void UpdatePlaylist(Playlist playlist)

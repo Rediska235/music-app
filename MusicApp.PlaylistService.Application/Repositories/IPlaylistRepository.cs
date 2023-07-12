@@ -7,7 +7,7 @@ public interface IPlaylistRepository
     Task<IEnumerable<Playlist>> GetPublicPlaylistsAsync();
     Task<IEnumerable<Playlist>> GetMyPrivatePlaylistsAsync(string username);
     Task<Playlist> GetPlaylistByIdAsync(Guid id);
-    void CreatePlaylist(Playlist playlist);
+    Task CreatePlaylistAsync(Playlist playlist);
     void UpdatePlaylist(Playlist playlist);
     void DeletePlaylist(Playlist playlist);
     Task SaveChangesAsync();

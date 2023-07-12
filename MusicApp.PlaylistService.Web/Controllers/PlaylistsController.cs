@@ -19,25 +19,19 @@ public class PlaylistsController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetAllPlaylists()
     {
-        var username = User.Identity.Name;
-
-        return Ok(await _service.GetAllPlaylists(username));
+        return Ok(await _service.GetAllPlaylists());
     }
 
     [HttpGet("{id:guid}")]
     public async Task<IActionResult> GetPlaylistById(Guid id)
     {
-        var username = User.Identity.Name;
-
-        return Ok(await _service.GetPlaylistById(id, username));
+        return Ok(await _service.GetPlaylistById(id));
     }
 
     [HttpPost, Authorize]
     public async Task<IActionResult> CreatePlaylist(Playlist playlist)
     {
-        var username = User.Identity.Name;
-
-        await _service.CreatePlaylist(playlist, username);
+        await _service.CreatePlaylist(playlist);
 
         return StatusCode(201);
     }
@@ -45,9 +39,7 @@ public class PlaylistsController : ControllerBase
     [HttpPut("{id:guid}"), Authorize]
     public async Task<IActionResult> UpdatePlaylist(Playlist playlist)
     {
-        var username = User.Identity.Name;
-
-        await _service.UpdatePlaylist(playlist, username);
+        await _service.UpdatePlaylist(playlist);
 
         return Ok();
     }
@@ -55,9 +47,7 @@ public class PlaylistsController : ControllerBase
     [HttpDelete("{id:guid}"), Authorize]
     public async Task<IActionResult> DeletePlaylist(Guid id)
     {
-        var username = User.Identity.Name;
-
-        await _service.DeletePlaylist(id, username);
+        await _service.DeletePlaylist(id);
 
         return StatusCode(204);
     }
@@ -65,9 +55,7 @@ public class PlaylistsController : ControllerBase
     [HttpPatch("{playlistId:guid}/add/{songId:guid}"), Authorize]
     public async Task<IActionResult> AddSong(Guid playlistId, Guid songId)
     {
-        var username = User.Identity.Name;
-
-        await _service.AddSong(playlistId, songId, username);
+        await _service.AddSong(playlistId, songId);
 
         return Ok();
     }
@@ -75,9 +63,7 @@ public class PlaylistsController : ControllerBase
     [HttpPatch("{playlistId:guid}/remove/{songId:guid}"), Authorize]
     public async Task<IActionResult> RemoveSong(Guid playlistId, Guid songId)
     {
-        var username = User.Identity.Name;
-
-        await _service.RemoveSong(playlistId, songId, username);
+        await _service.RemoveSong(playlistId, songId);
 
         return Ok();
     }

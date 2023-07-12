@@ -9,6 +9,7 @@ public static class IServiceCollectionExtension
     public static IServiceCollection AddApplication(this IServiceCollection services)
     {
         services.AddScoped<IPlaylistsService, PlaylistsService>();
+        services.AddScoped<UserService>();
 
         return services;
     }
