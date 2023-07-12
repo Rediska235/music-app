@@ -20,14 +20,14 @@ public class IdentityService : IIdentityService
     private readonly UserRegisterDtoValidator _userRegisterDtoValidator;
     private readonly UserLoginDtoValidator _userLoginDtoValidator;
     private readonly IConfiguration _configuration;
-    private readonly JwtManager _jwtManager;
+    private readonly IJwtService _jwtManager;
 
     public IdentityService(
         IHttpContextAccessor httpContextAccessor,
         IUserRepository userRepository,
         IRoleRepository roleRepository,
         IConfiguration configuration,
-        JwtManager jwtManager,
+        IJwtService jwtManager,
         IMapper mapper)
     {
         _userRepository = userRepository;
