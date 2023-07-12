@@ -2,6 +2,7 @@
 using MusicApp.SongService.Domain.Entities;
 using MusicApp.SongService.Application.Repositories;
 using MusicApp.SongService.Domain.Exceptions;
+using MusicApp.SongService.Application.Services;
 
 namespace MusicApp.SongService.Application.CQRS.Commands.DeleteSong;
 
@@ -21,7 +22,7 @@ public class DeleteSongCommandHandler : IRequestHandler<DeleteSongCommand, Song>
         var song = await _repository.GetSongByIdAsync(request.Id);
         if (song == null)
         {
-            throw CommonExceptions.songNotFound;
+            throw new SongNotFoundException();
         }
 
         _ownerCheckService.ValidateArtist(song);

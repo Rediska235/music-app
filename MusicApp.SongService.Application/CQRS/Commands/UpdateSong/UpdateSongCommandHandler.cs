@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 using MediatR;
 using MusicApp.SongService.Application.Repositories;
+using MusicApp.SongService.Application.Services;
 using MusicApp.SongService.Domain.Entities;
 using MusicApp.SongService.Domain.Exceptions;
 
@@ -23,22 +24,21 @@ public class UpdateSongCommandHandler : IRequestHandler<UpdateSongCommand, Song>
     {
         await _validator.ValidateAndThrowAsync(request);
 
-        var song = request.Song;
-        var title = song.Title;
+        var title = request.Song.Title;
 
-        song = await _repository.GetSongByIdAsync(request.Song.Id);
+        var song = await _repository.GetSongByIdAsync(request.Id);
         if (song == null)
         {
-            throw CommonExceptions.songNotFound;
+            throw new SongNotFoundException();
         }
 
         _artistService.ValidateArtist(song);
 
         song.Title = title;
 
-        _repository.UpdateSong(request.Song);
+        _repository.UpdateSong(song);
         await _repository.SaveChangesAsync();
 
-        return request.Song;
+        return song;
     }
 }

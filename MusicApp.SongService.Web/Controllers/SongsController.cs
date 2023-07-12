@@ -7,7 +7,7 @@ using MusicApp.SongService.Application.CQRS.Commands.EnsureArtistCreated;
 using MusicApp.SongService.Application.CQRS.Commands.UpdateSong;
 using MusicApp.SongService.Application.CQRS.Queries.GetAllSongs;
 using MusicApp.SongService.Application.CQRS.Queries.GetSongById;
-using MusicApp.SongService.Domain.Entities;
+using MusicApp.SongService.Application.DTOs;
 
 namespace MusicApp.SongService.Web.Controllers;
 
@@ -35,7 +35,7 @@ public class SongsController : ControllerBase
     }
     
     [HttpPost, Authorize(Roles = "artist")]
-    public async Task<IActionResult> CreateSong(Song song)
+    public async Task<IActionResult> CreateSong(SongCreateDto song)
     {
         var artist = await _mediator.Send(new EnsureArtistCreatedCommand());
 
@@ -45,9 +45,9 @@ public class SongsController : ControllerBase
     }
     
     [HttpPut("{id:guid}"), Authorize(Roles = "artist")]
-    public async Task<IActionResult> UpdateSong(Song song)
+    public async Task<IActionResult> UpdateSong([FromQuery] Guid id, [FromBody] SongCreateDto song)
     {
-        await _mediator.Send(new UpdateSongCommand(song));
+        await _mediator.Send(new UpdateSongCommand(id, song));
 
         return Ok();
     }

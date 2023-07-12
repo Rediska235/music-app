@@ -29,11 +29,11 @@ public class ErrorHandlingMiddleware
     {
         var code = HttpStatusCode.InternalServerError;
 
-        if (exception is NotAllowedException)
+        if (exception is NotYourSongException)
         {
             code = HttpStatusCode.BadRequest;
         }
-        else if (exception is NotFoundException)
+        else if (exception is SongNotFoundException)
         {
             code = HttpStatusCode.NotFound;
         }

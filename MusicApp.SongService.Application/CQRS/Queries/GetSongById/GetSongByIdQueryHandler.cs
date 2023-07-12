@@ -19,7 +19,7 @@ public class GetSongByIdQueryHandler : IRequestHandler<GetSongByIdQuery, Song>
         var song = await _repository.GetSongByIdAsync(request.Id);
         if (song == null)
         {
-            throw CommonExceptions.songNotFound;
+            throw new SongNotFoundException();
         }
 
         return song;

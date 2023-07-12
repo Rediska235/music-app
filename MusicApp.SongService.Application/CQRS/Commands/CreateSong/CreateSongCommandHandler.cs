@@ -20,11 +20,16 @@ public class CreateSongCommandHandler : IRequestHandler<CreateSongCommand, Song>
     {
         await _validator.ValidateAndThrowAsync(request);
 
-        request.Song.Artist = request.Artist;
+        var song = new Song()
+        {
+            Id = Guid.NewGuid(),
+            Title = request.Song.Title,
+            Artist = request.Artist
+        };
 
-        await _repository.CreateSongAsync(request.Song);
+        await _repository.CreateSongAsync(song);
         await _repository.SaveChangesAsync();
 
-        return request.Song;
+        return song;
     }
 }
