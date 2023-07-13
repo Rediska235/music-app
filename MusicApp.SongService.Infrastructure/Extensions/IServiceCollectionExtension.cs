@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using MusicApp.SongService.Infrastructure.Data;
 using MusicApp.SongService.Application.Repositories;
+using MusicApp.SongService.Infrastructure.Data;
 using MusicApp.SongService.Infrastructure.Repositories;
 
 namespace MusicApp.SongService.Infrastructure.Extensions;

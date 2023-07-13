@@ -1,7 +1,7 @@
-﻿using MediatR;
-using MusicApp.SongService.Domain.Entities;
+﻿using FluentValidation;
+using MediatR;
 using MusicApp.SongService.Application.Repositories;
-using FluentValidation;
+using MusicApp.SongService.Domain.Entities;
 
 namespace MusicApp.SongService.Application.CQRS.Commands.CreateSong;
 

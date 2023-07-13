@@ -35,7 +35,7 @@ public class SongsController : ControllerBase
     }
     
     [HttpPost, Authorize(Roles = "artist")]
-    public async Task<IActionResult> CreateSong(SongCreateDto song)
+    public async Task<IActionResult> CreateSong(SongInputDto song)
     {
         var artist = await _mediator.Send(new EnsureArtistCreatedCommand());
 
@@ -45,7 +45,7 @@ public class SongsController : ControllerBase
     }
     
     [HttpPut("{id:guid}"), Authorize(Roles = "artist")]
-    public async Task<IActionResult> UpdateSong([FromQuery] Guid id, [FromBody] SongCreateDto song)
+    public async Task<IActionResult> UpdateSong([FromRoute] Guid id, [FromBody] SongInputDto song)
     {
         await _mediator.Send(new UpdateSongCommand(id, song));
 

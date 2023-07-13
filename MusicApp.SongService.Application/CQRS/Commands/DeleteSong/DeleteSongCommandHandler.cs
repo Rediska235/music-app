@@ -1,20 +1,20 @@
 ﻿using MediatR;
-using MusicApp.SongService.Domain.Entities;
 using MusicApp.SongService.Application.Repositories;
-using MusicApp.SongService.Domain.Exceptions;
 using MusicApp.SongService.Application.Services;
+using MusicApp.SongService.Domain.Entities;
+using MusicApp.SongService.Domain.Exceptions;
 
 namespace MusicApp.SongService.Application.CQRS.Commands.DeleteSong;
 
 public class DeleteSongCommandHandler : IRequestHandler<DeleteSongCommand, Song>
 {
     private readonly ISongRepository _repository;
-    private readonly ArtistService _ownerCheckService;
+    private readonly ArtistService _artistService;
 
-    public DeleteSongCommandHandler(ISongRepository repository, ArtistService ownerCheckService)
+    public DeleteSongCommandHandler(ISongRepository repository, ArtistService artistService)
     {
         _repository = repository;
-        _ownerCheckService = ownerCheckService;
+        _artistService = artistService;
     }
 
     public async Task<Song> Handle(DeleteSongCommand request, CancellationToken cancellationToken)
@@ -25,7 +25,7 @@ public class DeleteSongCommandHandler : IRequestHandler<DeleteSongCommand, Song>
             throw new SongNotFoundException();
         }
 
-        _ownerCheckService.ValidateArtist(song);
+        _artistService.ValidateArtistAndThrow(song);
 
         _repository.DeleteSong(song);
         await _repository.SaveChangesAsync();

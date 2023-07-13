@@ -1,6 +1,6 @@
 ﻿using MediatR;
-using Microsoft.AspNetCore.Http;
 using MusicApp.SongService.Application.Repositories;
+using MusicApp.SongService.Application.Services;
 using MusicApp.SongService.Domain.Entities;
 
 namespace MusicApp.SongService.Application.CQRS.Commands.EnsureArtistCreated;
@@ -8,17 +8,17 @@ namespace MusicApp.SongService.Application.CQRS.Commands.EnsureArtistCreated;
 public class EnsureArtistCreatedCommandHandler : IRequestHandler<EnsureArtistCreatedCommand, Artist>
 {
     private readonly IArtistRepository _repository;
-    private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly ArtistService _artistService;
 
-    public EnsureArtistCreatedCommandHandler(IArtistRepository repository, IHttpContextAccessor httpContextAccessor)
+    public EnsureArtistCreatedCommandHandler(IArtistRepository repository, ArtistService artistService)
     {
         _repository = repository;
-        _httpContextAccessor = httpContextAccessor;
+        _artistService = artistService;
     }
 
     public async Task<Artist> Handle(EnsureArtistCreatedCommand request, CancellationToken cancellationToken)
     {
-        var username = _httpContextAccessor.HttpContext.User.Identity.Name;
+        var username = _artistService.GetUsername();
         var artist = await _repository.GetArtistByUsernameAsync(username);
         if(artist != null)
         {
@@ -27,6 +27,7 @@ public class EnsureArtistCreatedCommandHandler : IRequestHandler<EnsureArtistCre
 
         artist = new Artist()
         {
+            Id = Guid.NewGuid(),
             Username = username
         };
 

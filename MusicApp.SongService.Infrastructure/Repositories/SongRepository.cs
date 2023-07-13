@@ -16,12 +16,18 @@ public class SongRepository : ISongRepository
 
     public async Task<IEnumerable<Song>> GetAllSongsAsync()
     {
-        return await _db.Songs.Include(s => s.Artist).AsNoTracking().ToListAsync();
+        return await _db.Songs
+            .Include(s => s.Artist)
+            .AsNoTracking()
+            .ToListAsync();
     }
 
     public async Task<Song> GetSongByIdAsync(Guid id)
     {
-        return await _db.Songs.Include(s => s.Artist).AsNoTracking().FirstOrDefaultAsync(t => t.Id == id);
+        return await _db.Songs
+            .Include(s => s.Artist)
+            .AsNoTracking()
+            .FirstOrDefaultAsync(t => t.Id == id);
     }
 
     public async Task CreateSongAsync(Song song)

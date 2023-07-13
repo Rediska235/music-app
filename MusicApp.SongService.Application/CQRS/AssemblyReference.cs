@@ -1,6 +1,3 @@
 ﻿namespace MusicApp.SongService.Application.CQRS;
 
-public class AssemblyReference
-{
-
-}
+public class AssemblyReference { }

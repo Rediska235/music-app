@@ -1,6 +1,6 @@
-using MusicApp.SongService.Web.Extensions;
 using MusicApp.SongService.Application.Extensions;
 using MusicApp.SongService.Infrastructure.Extensions;
+using MusicApp.SongService.Web.Extensions;
 using MusicApp.SongService.Web.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
