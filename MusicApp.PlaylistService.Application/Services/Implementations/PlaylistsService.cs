@@ -1,5 +1,9 @@
-﻿using MusicApp.PlaylistService.Application.Repositories;
+﻿using AutoMapper;
+using FluentValidation;
+using MusicApp.PlaylistService.Application.DTOs;
+using MusicApp.PlaylistService.Application.Repositories;
 using MusicApp.PlaylistService.Application.Services.Interfaces;
+using MusicApp.PlaylistService.Application.Validators;
 using MusicApp.PlaylistService.Domain.Entities;
 using MusicApp.PlaylistService.Domain.Exceptions;
 
@@ -10,15 +14,21 @@ public class PlaylistsService : IPlaylistsService
     private readonly IPlaylistRepository _playlistRepository;
     private readonly ISongRepository _songRepository;
     private readonly UserService _userService;
+    private readonly PlaylistInputDtoValidator _playlistInputDtoValidator;
+    private readonly IMapper _mapper;
 
     public PlaylistsService(
         IPlaylistRepository playlistRepository,
         ISongRepository songRepository,
-        UserService userService)
+        UserService userService,
+        PlaylistInputDtoValidator playlistInputDtoValidator,
+        IMapper mapper)
     {
         _playlistRepository = playlistRepository;
         _songRepository = songRepository;
         _userService = userService;
+        _playlistInputDtoValidator = playlistInputDtoValidator;
+        _mapper = mapper;
     }
 
     public async Task<IEnumerable<Playlist>> GetPlaylists()
@@ -49,9 +59,13 @@ public class PlaylistsService : IPlaylistsService
         return playlist;
     }
 
-    public async Task CreatePlaylist(Playlist playlist)
+    public async Task CreatePlaylist(PlaylistInputDto playlistInputDto)
     {
+        await _playlistInputDtoValidator.ValidateAndThrowAsync(playlistInputDto);
+
         var user = await _userService.GetOrCreateUser();
+
+        var playlist = _mapper.Map<Playlist>(playlistInputDto);
 
         playlist.Creator = user;
 
@@ -59,12 +73,11 @@ public class PlaylistsService : IPlaylistsService
         await _playlistRepository.SaveChangesAsync();
     }
 
-    public async Task UpdatePlaylist(Playlist playlist)
+    public async Task UpdatePlaylist(Guid id, PlaylistInputDto playlistInputDto)
     {
-        var name = playlist.Name;
-        var isPrivate = playlist.IsPrivate;
+        await _playlistInputDtoValidator.ValidateAndThrowAsync(playlistInputDto);
 
-        playlist = await _playlistRepository.GetPlaylistByIdAsync(playlist.Id);
+        var playlist = await _playlistRepository.GetPlaylistByIdAsync(id);
         if (playlist == null)
         {
             throw new PlaylistNotFoundException();
@@ -72,8 +85,8 @@ public class PlaylistsService : IPlaylistsService
 
         _userService.ValidateOwner(playlist);
 
-        playlist.Name = name;
-        playlist.IsPrivate = isPrivate;
+        //Может измениться id (но не должен)
+        playlist = _mapper.Map<Playlist>(playlistInputDto);
 
         _playlistRepository.UpdatePlaylist(playlist);
         await _playlistRepository.SaveChangesAsync();

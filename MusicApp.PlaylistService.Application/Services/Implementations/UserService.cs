@@ -16,11 +16,6 @@ public class UserService
         _repository = repository;
     }
 
-    public string GetUsername()
-    {
-        return _httpContextAccessor.HttpContext.User.Identity.Name;
-    }
-
     public void ValidateOwner(Playlist playlist)
     {
         var username = GetUsername();
@@ -50,5 +45,10 @@ public class UserService
         await _repository.SaveChangesAsync();
         
         return user;
+    }
+
+    public string GetUsername()
+    {
+        return _httpContextAccessor.HttpContext.User.Identity.Name;
     }
 }

@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using MusicApp.PlaylistService.Application.DTOs;
 using MusicApp.PlaylistService.Application.Services.Interfaces;
-using MusicApp.PlaylistService.Domain.Entities;
 
 namespace MusicApp.PlaylistService.Web.Controllers;
 
@@ -29,7 +29,7 @@ public class PlaylistsController : ControllerBase
     }
 
     [HttpPost, Authorize]
-    public async Task<IActionResult> CreatePlaylist(Playlist playlist)
+    public async Task<IActionResult> CreatePlaylist(PlaylistInputDto playlist)
     {
         await _service.CreatePlaylist(playlist);
 
@@ -37,9 +37,9 @@ public class PlaylistsController : ControllerBase
     }
 
     [HttpPut("{id:guid}"), Authorize]
-    public async Task<IActionResult> UpdatePlaylist(Playlist playlist)
+    public async Task<IActionResult> UpdatePlaylist([FromRoute] Guid id, [FromBody] PlaylistInputDto playlist)
     {
-        await _service.UpdatePlaylist(playlist);
+        await _service.UpdatePlaylist(id, playlist);
 
         return Ok();
     }
