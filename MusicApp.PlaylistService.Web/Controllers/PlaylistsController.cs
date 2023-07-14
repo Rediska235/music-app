@@ -17,53 +17,53 @@ public class PlaylistsController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetPlaylists()
+    public async Task<IActionResult> GetPlaylists(CancellationToken cancellationToken)
     {
-        return Ok(await _service.GetPlaylists());
+        return Ok(await _service.GetPlaylists(cancellationToken));
     }
 
     [HttpGet("{id:guid}")]
-    public async Task<IActionResult> GetPlaylistById(Guid id)
+    public async Task<IActionResult> GetPlaylistById(Guid id, CancellationToken cancellationToken)
     {
-        return Ok(await _service.GetPlaylistById(id));
+        return Ok(await _service.GetPlaylistById(id, cancellationToken));
     }
 
     [HttpPost, Authorize]
-    public async Task<IActionResult> CreatePlaylist(PlaylistInputDto playlist)
+    public async Task<IActionResult> CreatePlaylist(PlaylistInputDto playlist, CancellationToken cancellationToken)
     {
-        await _service.CreatePlaylist(playlist);
+        await _service.CreatePlaylist(playlist, cancellationToken);
 
         return StatusCode(201);
     }
 
     [HttpPut("{id:guid}"), Authorize]
-    public async Task<IActionResult> UpdatePlaylist([FromRoute] Guid id, [FromBody] PlaylistInputDto playlist)
+    public async Task<IActionResult> UpdatePlaylist([FromRoute] Guid id, [FromBody] PlaylistInputDto playlist, CancellationToken cancellationToken)
     {
-        await _service.UpdatePlaylist(id, playlist);
+        await _service.UpdatePlaylist(id, playlist, cancellationToken);
 
         return Ok();
     }
 
     [HttpDelete("{id:guid}"), Authorize]
-    public async Task<IActionResult> DeletePlaylist(Guid id)
+    public async Task<IActionResult> DeletePlaylist(Guid id, CancellationToken cancellationToken)
     {
-        await _service.DeletePlaylist(id);
+        await _service.DeletePlaylist(id, cancellationToken);
 
         return StatusCode(204);
     }
 
     [HttpPatch("{playlistId:guid}/add/{songId:guid}"), Authorize]
-    public async Task<IActionResult> AddSong(Guid playlistId, Guid songId)
+    public async Task<IActionResult> AddSong(Guid playlistId, Guid songId, CancellationToken cancellationToken)
     {
-        await _service.AddSong(playlistId, songId);
+        await _service.AddSong(playlistId, songId, cancellationToken);
 
         return Ok();
     }
 
     [HttpPatch("{playlistId:guid}/remove/{songId:guid}"), Authorize]
-    public async Task<IActionResult> RemoveSong(Guid playlistId, Guid songId)
+    public async Task<IActionResult> RemoveSong(Guid playlistId, Guid songId, CancellationToken cancellationToken)
     {
-        await _service.RemoveSong(playlistId, songId);
+        await _service.RemoveSong(playlistId, songId, cancellationToken);
 
         return Ok();
     }

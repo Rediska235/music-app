@@ -14,34 +14,34 @@ public class PlaylistRepository : IPlaylistRepository
         _db = db;
     }
 
-    public async Task<IEnumerable<Playlist>> GetPublicPlaylistsAsync()
+    public async Task<IEnumerable<Playlist>> GetPublicPlaylistsAsync(CancellationToken cancellationToken)
     {
         return await _db.Playlists
             .Include(p => p.Songs)
             .Include(p => p.Creator)
             .Where(p => !p.IsPrivate)
-            .ToListAsync();
+            .ToListAsync(cancellationToken);
     }
-    public async Task<IEnumerable<Playlist>> GetMyPrivatePlaylistsAsync(string username)
+    public async Task<IEnumerable<Playlist>> GetMyPrivatePlaylistsAsync(string username, CancellationToken cancellationToken)
     {
         return await _db.Playlists
             .Include(p => p.Songs)
             .Include(p => p.Creator)
             .Where(p => p.IsPrivate && p.Creator.Username == username)
-            .ToListAsync();
+            .ToListAsync(cancellationToken);
     }
 
-    public async Task<Playlist> GetPlaylistByIdAsync(Guid id)
+    public async Task<Playlist> GetPlaylistByIdAsync(Guid id, CancellationToken cancellationToken)
     {
         return await _db.Playlists
             .Include(p => p.Songs)
             .Include(p => p.Creator)
-            .FirstOrDefaultAsync(t => t.Id == id);
+            .FirstOrDefaultAsync(t => t.Id == id, cancellationToken);
     }
 
-    public async Task CreatePlaylistAsync(Playlist playlist)
+    public async Task CreatePlaylistAsync(Playlist playlist, CancellationToken cancellationToken)
     {
-        await _db.AddAsync(playlist);
+        await _db.AddAsync(playlist, cancellationToken);
     }
 
     public void UpdatePlaylist(Playlist playlist)
@@ -54,8 +54,8 @@ public class PlaylistRepository : IPlaylistRepository
         _db.Remove(playlist);
     }
 
-    public async Task SaveChangesAsync()
+    public async Task SaveChangesAsync(CancellationToken cancellationToken)
     {
-        await _db.SaveChangesAsync();
+        await _db.SaveChangesAsync(cancellationToken);
     }
 }

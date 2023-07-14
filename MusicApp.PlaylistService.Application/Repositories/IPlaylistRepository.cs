@@ -4,11 +4,11 @@ namespace MusicApp.PlaylistService.Application.Repositories;
 
 public interface IPlaylistRepository
 {
-    Task<IEnumerable<Playlist>> GetPublicPlaylistsAsync();
-    Task<IEnumerable<Playlist>> GetMyPrivatePlaylistsAsync(string username);
-    Task<Playlist> GetPlaylistByIdAsync(Guid id);
-    Task CreatePlaylistAsync(Playlist playlist);
+    Task<IEnumerable<Playlist>> GetPublicPlaylistsAsync(CancellationToken cancellationToken);
+    Task<IEnumerable<Playlist>> GetMyPrivatePlaylistsAsync(string username, CancellationToken cancellationToken);
+    Task<Playlist> GetPlaylistByIdAsync(Guid id, CancellationToken cancellationToken);
+    Task CreatePlaylistAsync(Playlist playlist, CancellationToken cancellationToken);
     void UpdatePlaylist(Playlist playlist);
     void DeletePlaylist(Playlist playlist);
-    Task SaveChangesAsync();
+    Task SaveChangesAsync(CancellationToken cancellationToken);
 }

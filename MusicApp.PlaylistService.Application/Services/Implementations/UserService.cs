@@ -26,11 +26,11 @@ public class UserService
         }
     }
 
-    public async Task<User> GetOrCreateUser()
+    public async Task<User> GetOrCreateUser(CancellationToken cancellationToken)
     {
         var username = GetUsername();
 
-        var user = await _repository.GetUserByUsername(username);
+        var user = await _repository.GetUserByUsername(username, cancellationToken);
         if (user != null)
         {
             return user;
@@ -41,8 +41,8 @@ public class UserService
             Username = username
         };
 
-        await _repository.CreateUserAsync(user);
-        await _repository.SaveChangesAsync();
+        await _repository.CreateUserAsync(user, cancellationToken);
+        await _repository.SaveChangesAsync(cancellationToken);
         
         return user;
     }

@@ -14,18 +14,18 @@ public class UserRepository : IUserRepository
         _db = db;
     }
 
-    public async Task<User> GetUserByUsername(string username)
+    public async Task<User> GetUserByUsername(string username, CancellationToken cancellationToken)
     {
-        return await _db.Users.FirstOrDefaultAsync(a => a.Username == username);
+        return await _db.Users.FirstOrDefaultAsync(a => a.Username == username, cancellationToken);
     }
 
-    public async Task CreateUserAsync(User user)
+    public async Task CreateUserAsync(User user, CancellationToken cancellationToken)
     {
-        await _db.AddAsync(user);
+        await _db.AddAsync(user, cancellationToken);
     }
 
-    public async Task SaveChangesAsync()
+    public async Task SaveChangesAsync(CancellationToken cancellationToken)
     {
-        await _db.SaveChangesAsync();
+        await _db.SaveChangesAsync(cancellationToken);
     }
 }

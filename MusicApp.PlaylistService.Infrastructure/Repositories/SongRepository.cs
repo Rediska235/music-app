@@ -14,10 +14,10 @@ public class SongRepository : ISongRepository
         _db = db;
     }
     
-    public async Task<Song> GetSongByIdAsync(Guid id)
+    public async Task<Song> GetSongByIdAsync(Guid id, CancellationToken cancellationToken)
     {
         return await _db.Songs
             .Include(s => s.Artist)
-            .FirstOrDefaultAsync(s => s.Id == id);
+            .FirstOrDefaultAsync(s => s.Id == id, cancellationToken);
     }
 }
