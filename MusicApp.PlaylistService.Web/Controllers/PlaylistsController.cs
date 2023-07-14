@@ -17,9 +17,9 @@ public class PlaylistsController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetAllPlaylists()
+    public async Task<IActionResult> GetPlaylists()
     {
-        return Ok(await _service.GetAllPlaylists());
+        return Ok(await _service.GetPlaylists());
     }
 
     [HttpGet("{id:guid}")]

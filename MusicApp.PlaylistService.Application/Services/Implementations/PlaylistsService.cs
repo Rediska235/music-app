@@ -21,7 +21,7 @@ public class PlaylistsService : IPlaylistsService
         _userService = userService;
     }
 
-    public async Task<IEnumerable<Playlist>> GetAllPlaylists()
+    public async Task<IEnumerable<Playlist>> GetPlaylists()
     {
         var username = _userService.GetUsername();
 
