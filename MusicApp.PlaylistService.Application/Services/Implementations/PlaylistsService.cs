@@ -36,14 +36,14 @@ public class PlaylistsService : IPlaylistsService
         var username = _userService.GetUsername();
 
         var playlist = await _playlistRepository.GetPlaylistByIdAsync(id);
-        if(playlist == null)
+        if (playlist == null)
         {
-            throw CommonExceptions.playlistNotFound;
+            throw new PlaylistNotFoundException();
         }
 
-        if(playlist.IsPrivate && playlist.Creator.Username != username)
+        if (playlist.IsPrivate && playlist.Creator.Username != username)
         {
-            throw CommonExceptions.privatePlaylist;
+            throw new PrivatePlaylistException();
         }
 
         return playlist;
@@ -67,7 +67,7 @@ public class PlaylistsService : IPlaylistsService
         playlist = await _playlistRepository.GetPlaylistByIdAsync(playlist.Id);
         if (playlist == null)
         {
-            throw CommonExceptions.playlistNotFound;
+            throw new PlaylistNotFoundException();
         }
 
         _userService.ValidateOwner(playlist);
@@ -84,7 +84,7 @@ public class PlaylistsService : IPlaylistsService
         var playlist = await _playlistRepository.GetPlaylistByIdAsync(id);
         if (playlist == null)
         {
-            throw CommonExceptions.playlistNotFound;
+            throw new PlaylistNotFoundException();
         }
 
         _userService.ValidateOwner(playlist);
@@ -98,7 +98,7 @@ public class PlaylistsService : IPlaylistsService
         var playlist = await _playlistRepository.GetPlaylistByIdAsync(playlistId);
         if (playlist == null)
         {
-            throw CommonExceptions.playlistNotFound;
+            throw new PlaylistNotFoundException();
         }
 
         _userService.ValidateOwner(playlist);
@@ -106,7 +106,7 @@ public class PlaylistsService : IPlaylistsService
         var song = await _songRepository.GetSongByIdAsync(songId);
         if (song == null)
         {
-            throw CommonExceptions.songNotFound;
+            throw new SongNotFoundException();
         }
 
         playlist.Songs.Add(song);
@@ -120,7 +120,7 @@ public class PlaylistsService : IPlaylistsService
         var playlist = await _playlistRepository.GetPlaylistByIdAsync(playlistId);
         if (playlist == null)
         {
-            throw CommonExceptions.playlistNotFound;
+            throw new PlaylistNotFoundException();
         }
 
         _userService.ValidateOwner(playlist);
@@ -128,7 +128,7 @@ public class PlaylistsService : IPlaylistsService
         var song = await _songRepository.GetSongByIdAsync(songId);
         if (song == null)
         {
-            throw CommonExceptions.songNotFound;
+            throw new SongNotFoundException();
         }
 
         playlist.Songs.Remove(song);

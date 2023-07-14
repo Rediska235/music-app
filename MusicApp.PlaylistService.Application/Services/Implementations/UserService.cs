@@ -27,7 +27,7 @@ public class UserService
 
         if (playlist.Creator.Username != username)
         {
-            throw CommonExceptions.notYourPlaylist;
+            throw new NotYourPlaylistException();
         }
     }
 
