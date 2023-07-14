@@ -21,14 +21,14 @@ public class PlaylistsService : IPlaylistsService
         IPlaylistRepository playlistRepository,
         ISongRepository songRepository,
         UserService userService,
-        PlaylistInputDtoValidator playlistInputDtoValidator,
         IMapper mapper)
     {
         _playlistRepository = playlistRepository;
         _songRepository = songRepository;
         _userService = userService;
-        _playlistInputDtoValidator = playlistInputDtoValidator;
         _mapper = mapper;
+
+        _playlistInputDtoValidator = new();
     }
 
     public async Task<IEnumerable<Playlist>> GetPlaylists(CancellationToken cancellationToken)
@@ -85,8 +85,7 @@ public class PlaylistsService : IPlaylistsService
 
         _userService.ValidateOwner(playlist);
 
-        //Может измениться id (но не должен)
-        playlist = _mapper.Map<Playlist>(playlistInputDto);
+        _mapper.Map(playlistInputDto, playlist);
 
         _playlistRepository.UpdatePlaylist(playlist);
         await _playlistRepository.SaveChangesAsync(cancellationToken);

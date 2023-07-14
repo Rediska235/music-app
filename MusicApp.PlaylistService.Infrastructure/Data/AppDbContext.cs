@@ -21,6 +21,6 @@ public class AppDbContext : DbContext
         .WithMany(g => g.Songs)
         .UsingEntity<PlaylistSong>(
             j => j.HasOne<Playlist>().WithMany().OnDelete(DeleteBehavior.Cascade),
-            j => j.HasOne<Song>().WithMany().OnDelete(DeleteBehavior.Cascade));
+            j => j.HasOne<Song>().WithMany().OnDelete(DeleteBehavior.NoAction));
     }
 }
