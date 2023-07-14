@@ -4,7 +4,7 @@ namespace MusicApp.SongService.Application.Repositories;
 
 public interface ISongRepository
 {
-    Task<IEnumerable<Song>> GetAllSongsAsync();
+    Task<IEnumerable<Song>> GetSongsAsync();
     Task<Song> GetSongByIdAsync(Guid id);
     Task CreateSongAsync(Song song);
     void UpdateSong(Song song);

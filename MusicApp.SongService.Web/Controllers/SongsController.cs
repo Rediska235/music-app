@@ -5,7 +5,7 @@ using MusicApp.SongService.Application.CQRS.Commands.CreateSong;
 using MusicApp.SongService.Application.CQRS.Commands.DeleteSong;
 using MusicApp.SongService.Application.CQRS.Commands.EnsureArtistCreated;
 using MusicApp.SongService.Application.CQRS.Commands.UpdateSong;
-using MusicApp.SongService.Application.CQRS.Queries.GetAllSongs;
+using MusicApp.SongService.Application.CQRS.Queries.GetSongs;
 using MusicApp.SongService.Application.CQRS.Queries.GetSongById;
 using MusicApp.SongService.Application.DTOs;
 
@@ -23,9 +23,9 @@ public class SongsController : ControllerBase
     }
     
     [HttpGet]
-    public async Task<IActionResult> GetAllSongs()
+    public async Task<IActionResult> GetSongs()
     {
-        return Ok(await _mediator.Send(new GetAllSongsQuery()));
+        return Ok(await _mediator.Send(new GetSongsQuery()));
     }
     
     [HttpGet("{id:guid}")]

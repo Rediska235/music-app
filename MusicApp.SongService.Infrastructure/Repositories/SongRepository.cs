@@ -14,7 +14,7 @@ public class SongRepository : ISongRepository
         _db = db;
     }
 
-    public async Task<IEnumerable<Song>> GetAllSongsAsync()
+    public async Task<IEnumerable<Song>> GetSongsAsync()
     {
         return await _db.Songs
             .Include(s => s.Artist)
