@@ -22,9 +22,9 @@ public class UpdateSongCommandHandler : IRequestHandler<UpdateSongCommand, Song>
 
     public async Task<Song> Handle(UpdateSongCommand request, CancellationToken cancellationToken)
     {
-        await _validator.ValidateAndThrowAsync(request);
+        await _validator.ValidateAndThrowAsync(request, cancellationToken);
 
-        var song = await _repository.GetSongByIdAsync(request.Id);
+        var song = await _repository.GetSongByIdAsync(request.Id, cancellationToken);
         if (song == null)
         {
             throw new SongNotFoundException();
@@ -35,7 +35,7 @@ public class UpdateSongCommandHandler : IRequestHandler<UpdateSongCommand, Song>
         song.Title = request.Song.Title;
 
         _repository.UpdateSong(song);
-        await _repository.SaveChangesAsync();
+        await _repository.SaveChangesAsync(cancellationToken);
 
         return song;
     }

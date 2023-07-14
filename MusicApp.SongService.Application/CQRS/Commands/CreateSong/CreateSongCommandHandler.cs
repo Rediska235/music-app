@@ -18,7 +18,7 @@ public class CreateSongCommandHandler : IRequestHandler<CreateSongCommand, Song>
 
     public async Task<Song> Handle(CreateSongCommand request, CancellationToken cancellationToken)
     {
-        await _validator.ValidateAndThrowAsync(request);
+        await _validator.ValidateAndThrowAsync(request, cancellationToken);
 
         var song = new Song()
         {
@@ -27,8 +27,8 @@ public class CreateSongCommandHandler : IRequestHandler<CreateSongCommand, Song>
             Artist = request.Artist
         };
 
-        await _repository.CreateSongAsync(song);
-        await _repository.SaveChangesAsync();
+        await _repository.CreateSongAsync(song, cancellationToken);
+        await _repository.SaveChangesAsync(cancellationToken);
 
         return song;
     }

@@ -16,7 +16,7 @@ public class GetSongByIdQueryHandler : IRequestHandler<GetSongByIdQuery, Song>
 
     public async Task<Song> Handle(GetSongByIdQuery request, CancellationToken cancellationToken)
     {
-        var song = await _repository.GetSongByIdAsync(request.Id);
+        var song = await _repository.GetSongByIdAsync(request.Id, cancellationToken);
         if (song == null)
         {
             throw new SongNotFoundException();

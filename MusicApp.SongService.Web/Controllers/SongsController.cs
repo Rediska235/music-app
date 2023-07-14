@@ -23,39 +23,39 @@ public class SongsController : ControllerBase
     }
     
     [HttpGet]
-    public async Task<IActionResult> GetSongs()
+    public async Task<IActionResult> GetSongs(CancellationToken cancellationToken)
     {
-        return Ok(await _mediator.Send(new GetSongsQuery()));
+        return Ok(await _mediator.Send(new GetSongsQuery(), cancellationToken));
     }
     
     [HttpGet("{id:guid}")]
-    public async Task<IActionResult> GetSongById(Guid id)
+    public async Task<IActionResult> GetSongById(Guid id, CancellationToken cancellationToken)
     {
-        return Ok(await _mediator.Send(new GetSongByIdQuery(id)));
+        return Ok(await _mediator.Send(new GetSongByIdQuery(id), cancellationToken));
     }
     
     [HttpPost, Authorize(Roles = "artist")]
-    public async Task<IActionResult> CreateSong(SongInputDto song)
+    public async Task<IActionResult> CreateSong(SongInputDto song, CancellationToken cancellationToken)
     {
         var artist = await _mediator.Send(new EnsureArtistCreatedCommand());
 
-        await _mediator.Send(new CreateSongCommand(song, artist));
+        await _mediator.Send(new CreateSongCommand(song, artist), cancellationToken);
 
         return StatusCode(201);
     }
     
     [HttpPut("{id:guid}"), Authorize(Roles = "artist")]
-    public async Task<IActionResult> UpdateSong([FromRoute] Guid id, [FromBody] SongInputDto song)
+    public async Task<IActionResult> UpdateSong([FromRoute] Guid id, [FromBody] SongInputDto song, CancellationToken cancellationToken)
     {
-        await _mediator.Send(new UpdateSongCommand(id, song));
+        await _mediator.Send(new UpdateSongCommand(id, song), cancellationToken);
 
         return Ok();
     }
 
     [HttpDelete("{id:guid}"), Authorize(Roles = "artist")]
-    public async Task<IActionResult> DeleteSong(Guid id)
+    public async Task<IActionResult> DeleteSong(Guid id, CancellationToken cancellationToken)
     {
-        await _mediator.Send(new DeleteSongCommand(id));
+        await _mediator.Send(new DeleteSongCommand(id), cancellationToken);
 
         return StatusCode(204);
     }

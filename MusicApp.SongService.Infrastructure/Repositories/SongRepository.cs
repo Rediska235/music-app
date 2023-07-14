@@ -14,25 +14,25 @@ public class SongRepository : ISongRepository
         _db = db;
     }
 
-    public async Task<IEnumerable<Song>> GetSongsAsync()
+    public async Task<IEnumerable<Song>> GetSongsAsync(CancellationToken cancellationToken)
     {
         return await _db.Songs
             .Include(s => s.Artist)
             .AsNoTracking()
-            .ToListAsync();
+            .ToListAsync(cancellationToken);
     }
 
-    public async Task<Song> GetSongByIdAsync(Guid id)
+    public async Task<Song> GetSongByIdAsync(Guid id, CancellationToken cancellationToken)
     {
         return await _db.Songs
             .Include(s => s.Artist)
             .AsNoTracking()
-            .FirstOrDefaultAsync(t => t.Id == id);
+            .FirstOrDefaultAsync(t => t.Id == id, cancellationToken);
     }
 
-    public async Task CreateSongAsync(Song song)
+    public async Task CreateSongAsync(Song song, CancellationToken cancellationToken)
     {
-        await _db.AddAsync(song);
+        await _db.AddAsync(song, cancellationToken);
     }
 
     public void UpdateSong(Song song)
@@ -45,8 +45,8 @@ public class SongRepository : ISongRepository
         _db.Remove(song);
     }
 
-    public async Task SaveChangesAsync()
+    public async Task SaveChangesAsync(CancellationToken cancellationToken)
     {
-        await _db.SaveChangesAsync();
+        await _db.SaveChangesAsync(cancellationToken);
     }
 }

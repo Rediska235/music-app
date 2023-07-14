@@ -19,7 +19,7 @@ public class DeleteSongCommandHandler : IRequestHandler<DeleteSongCommand, Song>
 
     public async Task<Song> Handle(DeleteSongCommand request, CancellationToken cancellationToken)
     {
-        var song = await _repository.GetSongByIdAsync(request.Id);
+        var song = await _repository.GetSongByIdAsync(request.Id, cancellationToken);
         if (song == null)
         {
             throw new SongNotFoundException();
@@ -28,7 +28,7 @@ public class DeleteSongCommandHandler : IRequestHandler<DeleteSongCommand, Song>
         _artistService.ValidateArtistAndThrow(song);
 
         _repository.DeleteSong(song);
-        await _repository.SaveChangesAsync();
+        await _repository.SaveChangesAsync(cancellationToken);
 
         return song;
     }

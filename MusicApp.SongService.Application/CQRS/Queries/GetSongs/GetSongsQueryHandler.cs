@@ -15,6 +15,6 @@ public class GetSongsQueryHandler : IRequestHandler<GetSongsQuery, IEnumerable<S
 
     public async Task<IEnumerable<Song>> Handle(GetSongsQuery request, CancellationToken cancellationToken)
     {
-        return await _repository.GetSongsAsync();
+        return await _repository.GetSongsAsync(cancellationToken);
     }
 }

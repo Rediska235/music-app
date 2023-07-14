@@ -19,7 +19,7 @@ public class EnsureArtistCreatedCommandHandler : IRequestHandler<EnsureArtistCre
     public async Task<Artist> Handle(EnsureArtistCreatedCommand request, CancellationToken cancellationToken)
     {
         var username = _artistService.GetUsername();
-        var artist = await _repository.GetArtistByUsernameAsync(username);
+        var artist = await _repository.GetArtistByUsernameAsync(username, cancellationToken);
         if(artist != null)
         {
             return artist;
@@ -31,8 +31,8 @@ public class EnsureArtistCreatedCommandHandler : IRequestHandler<EnsureArtistCre
             Username = username
         };
 
-        await _repository.CreateArtistAsync(artist);
-        await _repository.SaveChangesAsync();
+        await _repository.CreateArtistAsync(artist, cancellationToken);
+        await _repository.SaveChangesAsync(cancellationToken);
 
         return artist;
     }
