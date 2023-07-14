@@ -19,19 +19,19 @@ public class PlaylistsController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetPlaylists(CancellationToken cancellationToken)
     {
-        return Ok(await _service.GetPlaylists(cancellationToken));
+        return Ok(await _service.GetPlaylistsAsync(cancellationToken));
     }
 
     [HttpGet("{id:guid}")]
     public async Task<IActionResult> GetPlaylistById(Guid id, CancellationToken cancellationToken)
     {
-        return Ok(await _service.GetPlaylistById(id, cancellationToken));
+        return Ok(await _service.GetPlaylistByIdAsync(id, cancellationToken));
     }
 
     [HttpPost, Authorize]
     public async Task<IActionResult> CreatePlaylist(PlaylistInputDto playlist, CancellationToken cancellationToken)
     {
-        await _service.CreatePlaylist(playlist, cancellationToken);
+        await _service.CreatePlaylistAsync(playlist, cancellationToken);
 
         return StatusCode(201);
     }
@@ -39,7 +39,7 @@ public class PlaylistsController : ControllerBase
     [HttpPut("{id:guid}"), Authorize]
     public async Task<IActionResult> UpdatePlaylist([FromRoute] Guid id, [FromBody] PlaylistInputDto playlist, CancellationToken cancellationToken)
     {
-        await _service.UpdatePlaylist(id, playlist, cancellationToken);
+        await _service.UpdatePlaylistAsync(id, playlist, cancellationToken);
 
         return Ok();
     }
@@ -47,7 +47,7 @@ public class PlaylistsController : ControllerBase
     [HttpDelete("{id:guid}"), Authorize]
     public async Task<IActionResult> DeletePlaylist(Guid id, CancellationToken cancellationToken)
     {
-        await _service.DeletePlaylist(id, cancellationToken);
+        await _service.DeletePlaylistAsync(id, cancellationToken);
 
         return StatusCode(204);
     }
@@ -55,7 +55,7 @@ public class PlaylistsController : ControllerBase
     [HttpPatch("{playlistId:guid}/add/{songId:guid}"), Authorize]
     public async Task<IActionResult> AddSong(Guid playlistId, Guid songId, CancellationToken cancellationToken)
     {
-        await _service.AddSong(playlistId, songId, cancellationToken);
+        await _service.AddSongAsync(playlistId, songId, cancellationToken);
 
         return Ok();
     }
@@ -63,7 +63,7 @@ public class PlaylistsController : ControllerBase
     [HttpPatch("{playlistId:guid}/remove/{songId:guid}"), Authorize]
     public async Task<IActionResult> RemoveSong(Guid playlistId, Guid songId, CancellationToken cancellationToken)
     {
-        await _service.RemoveSong(playlistId, songId, cancellationToken);
+        await _service.RemoveSongAsync(playlistId, songId, cancellationToken);
 
         return Ok();
     }

@@ -31,7 +31,7 @@ public class PlaylistsService : IPlaylistsService
         _playlistInputDtoValidator = new();
     }
 
-    public async Task<IEnumerable<Playlist>> GetPlaylists(CancellationToken cancellationToken)
+    public async Task<IEnumerable<Playlist>> GetPlaylistsAsync(CancellationToken cancellationToken)
     {
         var username = _userService.GetUsername();
 
@@ -41,7 +41,7 @@ public class PlaylistsService : IPlaylistsService
         return publicPlaylists.Concat(myPrivatePlaylists);
     }
 
-    public async Task<Playlist> GetPlaylistById(Guid id, CancellationToken cancellationToken)
+    public async Task<Playlist> GetPlaylistByIdAsync(Guid id, CancellationToken cancellationToken)
     {
         var username = _userService.GetUsername();
 
@@ -59,21 +59,20 @@ public class PlaylistsService : IPlaylistsService
         return playlist;
     }
 
-    public async Task CreatePlaylist(PlaylistInputDto playlistInputDto, CancellationToken cancellationToken)
+    public async Task CreatePlaylistAsync(PlaylistInputDto playlistInputDto, CancellationToken cancellationToken)
     {
         await _playlistInputDtoValidator.ValidateAndThrowAsync(playlistInputDto, cancellationToken);
 
-        var user = await _userService.GetOrCreateUser(cancellationToken);
-
         var playlist = _mapper.Map<Playlist>(playlistInputDto);
 
+        var user = await _userService.GetOrCreateUser(cancellationToken);
         playlist.Creator = user;
 
         await _playlistRepository.CreatePlaylistAsync(playlist, cancellationToken);
         await _playlistRepository.SaveChangesAsync(cancellationToken);
     }
 
-    public async Task UpdatePlaylist(Guid id, PlaylistInputDto playlistInputDto, CancellationToken cancellationToken)
+    public async Task UpdatePlaylistAsync(Guid id, PlaylistInputDto playlistInputDto, CancellationToken cancellationToken)
     {
         await _playlistInputDtoValidator.ValidateAndThrowAsync(playlistInputDto, cancellationToken);
 
@@ -83,7 +82,7 @@ public class PlaylistsService : IPlaylistsService
             throw new PlaylistNotFoundException();
         }
 
-        _userService.ValidateOwner(playlist);
+        _userService.ValidateOwnerAndThrow(playlist);
 
         _mapper.Map(playlistInputDto, playlist);
 
@@ -91,7 +90,7 @@ public class PlaylistsService : IPlaylistsService
         await _playlistRepository.SaveChangesAsync(cancellationToken);
     }
 
-    public async Task DeletePlaylist(Guid id, CancellationToken cancellationToken)
+    public async Task DeletePlaylistAsync(Guid id, CancellationToken cancellationToken)
     {
         var playlist = await _playlistRepository.GetPlaylistByIdAsync(id, cancellationToken);
         if (playlist == null)
@@ -99,13 +98,13 @@ public class PlaylistsService : IPlaylistsService
             throw new PlaylistNotFoundException();
         }
 
-        _userService.ValidateOwner(playlist);
+        _userService.ValidateOwnerAndThrow(playlist);
 
         _playlistRepository.DeletePlaylist(playlist);
         await _playlistRepository.SaveChangesAsync(cancellationToken);
     }
 
-    public async Task AddSong(Guid playlistId, Guid songId, CancellationToken cancellationToken)
+    public async Task AddSongAsync(Guid playlistId, Guid songId, CancellationToken cancellationToken)
     {
         var playlist = await _playlistRepository.GetPlaylistByIdAsync(playlistId, cancellationToken);
         if (playlist == null)
@@ -113,7 +112,7 @@ public class PlaylistsService : IPlaylistsService
             throw new PlaylistNotFoundException();
         }
 
-        _userService.ValidateOwner(playlist);
+        _userService.ValidateOwnerAndThrow(playlist);
 
         var song = await _songRepository.GetSongByIdAsync(songId, cancellationToken);
         if (song == null)
@@ -127,7 +126,7 @@ public class PlaylistsService : IPlaylistsService
         await _playlistRepository.SaveChangesAsync(cancellationToken);
     }
 
-    public async Task RemoveSong(Guid playlistId, Guid songId, CancellationToken cancellationToken)
+    public async Task RemoveSongAsync(Guid playlistId, Guid songId, CancellationToken cancellationToken)
     {
         var playlist = await _playlistRepository.GetPlaylistByIdAsync(playlistId, cancellationToken);
         if (playlist == null)
@@ -135,7 +134,7 @@ public class PlaylistsService : IPlaylistsService
             throw new PlaylistNotFoundException();
         }
 
-        _userService.ValidateOwner(playlist);
+        _userService.ValidateOwnerAndThrow(playlist);
 
         var song = await _songRepository.GetSongByIdAsync(songId, cancellationToken);
         if (song == null)

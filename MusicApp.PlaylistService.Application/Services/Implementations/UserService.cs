@@ -16,7 +16,7 @@ public class UserService
         _repository = repository;
     }
 
-    public void ValidateOwner(Playlist playlist)
+    public void ValidateOwnerAndThrow(Playlist playlist)
     {
         var username = GetUsername();
 
@@ -30,7 +30,7 @@ public class UserService
     {
         var username = GetUsername();
 
-        var user = await _repository.GetUserByUsername(username, cancellationToken);
+        var user = await _repository.GetUserByUsernameAsync(username, cancellationToken);
         if (user != null)
         {
             return user;
