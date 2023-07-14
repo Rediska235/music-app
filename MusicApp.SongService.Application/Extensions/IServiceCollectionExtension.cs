@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using MusicApp.SongService.Application.CQRS;
+using MusicApp.SongService.Application.Services;
 
 namespace MusicApp.SongService.Application.Extensions;
 

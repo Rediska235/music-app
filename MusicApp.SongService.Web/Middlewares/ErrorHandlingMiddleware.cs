@@ -29,11 +29,11 @@ public class ErrorHandlingMiddleware
     {
         var code = HttpStatusCode.InternalServerError;
 
-        if (exception is NotAllowedException)
+        if (exception is NotYourSongException)
         {
             code = HttpStatusCode.BadRequest;
         }
-        else if (exception is NotFoundException)
+        else if (exception is SongNotFoundException)
         {
             code = HttpStatusCode.NotFound;
         }
@@ -41,8 +41,7 @@ public class ErrorHandlingMiddleware
         context.Response.ContentType = "application/json";
         context.Response.StatusCode = (int)code;
 
-        var errors = exception.Message.Split(';');
-        var result = JsonSerializer.Serialize(new { errors = errors });
+        var result = JsonSerializer.Serialize(new { error = exception.Message });
 
         return context.Response.WriteAsync(result);
     }

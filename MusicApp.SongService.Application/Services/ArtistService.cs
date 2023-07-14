@@ -2,7 +2,8 @@
 using MusicApp.SongService.Domain.Entities;
 using MusicApp.SongService.Domain.Exceptions;
 
-namespace MusicApp.SongService.Application;
+namespace MusicApp.SongService.Application.Services;
+
 public class ArtistService
 {
     private readonly IHttpContextAccessor _httpContextAccessor;
@@ -12,13 +13,18 @@ public class ArtistService
         _httpContextAccessor = httpContextAccessor;
     }
 
-    public void ValidateArtist(Song song)
+    public void ValidateArtistAndThrow(Song song)
     {
-        var username = _httpContextAccessor.HttpContext.User.Identity.Name;
-        
+        var username = GetUsername();
+
         if (song.Artist.Username != username)
         {
-            throw CommonExceptions.notYourSong;
+            throw new NotYourSongException();
         }
+    }
+
+    public string GetUsername()
+    {
+        return _httpContextAccessor.HttpContext.User.Identity.Name;
     }
 }

@@ -29,7 +29,7 @@ public class ErrorHandlingMiddleware
     {
         var code = HttpStatusCode.InternalServerError;
 
-        if(exception is AlreadyExistsException)
+        if (exception is UsernameIsTakenException or InvalidUsernameOrPasswordException or InvalidRefreshTokenException)
         {
             code = HttpStatusCode.BadRequest;
         }

@@ -1,13 +1,14 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.IdentityModel.Tokens;
+using MusicApp.Identity.Application.Services.Interfaces;
 using MusicApp.Identity.Domain.Entities;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 
-namespace MusicApp.Identity.Application;
+namespace MusicApp.Identity.Application.Services.Implementations;
 
-public class JwtManager
+public class JwtService : IJwtService
 {
     public string CreateToken(User user, string secretKey)
     {
