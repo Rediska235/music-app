@@ -8,7 +8,8 @@ public class ArtistConfiguration : IEntityTypeConfiguration<Artist>
 {
     public void Configure(EntityTypeBuilder<Artist> builder)
     {
-        builder.HasKey(s => s.Id);
-        builder.Property(s => s.Username).IsRequired().HasMaxLength(32);
+        builder.HasKey(a => a.Id);
+        builder.Property(a => a.Username).IsRequired().HasMaxLength(32);
+        builder.HasMany(a => a.Songs).WithOne(s => s.Artist);
     }
 }
