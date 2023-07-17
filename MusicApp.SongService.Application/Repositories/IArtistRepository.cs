@@ -2,9 +2,7 @@
 
 namespace MusicApp.SongService.Application.Repositories;
 
-public interface IArtistRepository
+public interface IArtistRepository : IBaseRepository<Artist>
 {
     Task<Artist> GetArtistByUsernameAsync(string username, CancellationToken cancellationToken);
-    Task CreateArtistAsync(Artist artist, CancellationToken cancellationToken);
-    Task SaveChangesAsync(CancellationToken cancellationToken);
 }

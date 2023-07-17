@@ -1,35 +1,31 @@
-﻿using FluentValidation;
+﻿using AutoMapper;
+using FluentValidation;
 using MediatR;
 using MusicApp.SongService.Application.Repositories;
 using MusicApp.SongService.Domain.Entities;
 
 namespace MusicApp.SongService.Application.CQRS.Commands.CreateSong;
 
-public class CreateSongCommandHandler : IRequestHandler<CreateSongCommand, Song>
+public class CreateSongCommandHandler : IRequestHandler<CreateSongCommand>
 {
     private readonly ISongRepository _repository;
     private readonly CreateSongCommandValidator _validator;
-    
-    public CreateSongCommandHandler(ISongRepository repository)
+    private readonly IMapper _mapper;
+
+    public CreateSongCommandHandler(ISongRepository repository, IMapper mapper)
     {
         _repository = repository;
+        _mapper = mapper;
         _validator = new();
     }
 
-    public async Task<Song> Handle(CreateSongCommand request, CancellationToken cancellationToken)
+    public async Task Handle(CreateSongCommand request, CancellationToken cancellationToken)
     {
         await _validator.ValidateAndThrowAsync(request, cancellationToken);
 
-        var song = new Song()
-        {
-            Id = Guid.NewGuid(),
-            Title = request.Song.Title,
-            Artist = request.Artist
-        };
+        var song = _mapper.Map<Song>(request);
 
-        await _repository.CreateSongAsync(song, cancellationToken);
+        await _repository.CreateAsync(song, cancellationToken);
         await _repository.SaveChangesAsync(cancellationToken);
-
-        return song;
     }
 }
