@@ -5,8 +5,8 @@ using MusicApp.SongService.Application.CQRS.Commands.CreateSong;
 using MusicApp.SongService.Application.CQRS.Commands.DeleteSong;
 using MusicApp.SongService.Application.CQRS.Commands.EnsureArtistCreated;
 using MusicApp.SongService.Application.CQRS.Commands.UpdateSong;
-using MusicApp.SongService.Application.CQRS.Queries.GetSongs;
 using MusicApp.SongService.Application.CQRS.Queries.GetSongById;
+using MusicApp.SongService.Application.CQRS.Queries.GetSongs;
 using MusicApp.SongService.Application.DTOs;
 
 namespace MusicApp.SongService.Web.Controllers;
@@ -37,7 +37,7 @@ public class SongsController : ControllerBase
     [HttpPost, Authorize(Roles = "artist")]
     public async Task<IActionResult> CreateSong(SongInputDto song, CancellationToken cancellationToken)
     {
-        var artist = await _mediator.Send(new EnsureArtistCreatedCommand());
+        var artist = await _mediator.Send(new EnsureArtistCreatedCommand(), cancellationToken);
 
         await _mediator.Send(new CreateSongCommand(song, artist), cancellationToken);
 
