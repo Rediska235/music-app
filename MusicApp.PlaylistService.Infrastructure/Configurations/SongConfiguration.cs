@@ -11,10 +11,5 @@ public class SongConfiguration : IEntityTypeConfiguration<Song>
         builder.HasKey(s => s.Id);
         builder.Property(s => s.Title).IsRequired().HasMaxLength(32);
         builder.HasOne(s => s.Artist).WithMany(a => a.Songs);
-        builder.HasMany(s => s.Playlists)
-            .WithMany(p => p.Songs)
-            .UsingEntity<PlaylistSong>(
-                j => j.HasOne<Playlist>().WithMany().OnDelete(DeleteBehavior.Cascade),
-                j => j.HasOne<Song>().WithMany().OnDelete(DeleteBehavior.NoAction));
     }
 }

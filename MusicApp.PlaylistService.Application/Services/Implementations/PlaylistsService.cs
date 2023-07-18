@@ -14,7 +14,6 @@ public class PlaylistsService : IPlaylistsService
     private readonly IPlaylistRepository _playlistRepository;
     private readonly ISongRepository _songRepository;
     private readonly UserService _userService;
-    private readonly PlaylistInputDtoValidator _playlistInputDtoValidator;
     private readonly IMapper _mapper;
 
     public PlaylistsService(
@@ -27,8 +26,6 @@ public class PlaylistsService : IPlaylistsService
         _songRepository = songRepository;
         _userService = userService;
         _mapper = mapper;
-
-        _playlistInputDtoValidator = new();
     }
 
     public async Task<IEnumerable<Playlist>> GetPlaylistsAsync(CancellationToken cancellationToken)
@@ -61,8 +58,6 @@ public class PlaylistsService : IPlaylistsService
 
     public async Task CreatePlaylistAsync(PlaylistInputDto playlistInputDto, CancellationToken cancellationToken)
     {
-        await _playlistInputDtoValidator.ValidateAndThrowAsync(playlistInputDto, cancellationToken);
-
         var playlist = _mapper.Map<Playlist>(playlistInputDto);
 
         var user = await _userService.GetOrCreateUser(cancellationToken);
@@ -74,8 +69,6 @@ public class PlaylistsService : IPlaylistsService
 
     public async Task UpdatePlaylistAsync(Guid id, PlaylistInputDto playlistInputDto, CancellationToken cancellationToken)
     {
-        await _playlistInputDtoValidator.ValidateAndThrowAsync(playlistInputDto, cancellationToken);
-
         var playlist = await _playlistRepository.GetByIdAsync(id, cancellationToken);
         if (playlist == null)
         {

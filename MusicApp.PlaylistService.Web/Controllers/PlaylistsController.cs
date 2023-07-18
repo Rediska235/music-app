@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using MusicApp.PlaylistService.Application.DTOs;
 using MusicApp.PlaylistService.Application.Services.Interfaces;
+using MusicApp.PlaylistService.Web.Filters;
 
 namespace MusicApp.PlaylistService.Web.Controllers;
 
@@ -29,6 +30,7 @@ public class PlaylistsController : ControllerBase
     }
 
     [HttpPost, Authorize]
+    [ValidationFilter]
     public async Task<IActionResult> CreatePlaylist(PlaylistInputDto playlist, CancellationToken cancellationToken)
     {
         await _service.CreatePlaylistAsync(playlist, cancellationToken);
@@ -37,6 +39,7 @@ public class PlaylistsController : ControllerBase
     }
 
     [HttpPut("{id:guid}"), Authorize]
+    [ValidationFilter]
     public async Task<IActionResult> UpdatePlaylist([FromRoute] Guid id, [FromBody] PlaylistInputDto playlist, CancellationToken cancellationToken)
     {
         await _service.UpdatePlaylistAsync(id, playlist, cancellationToken);
