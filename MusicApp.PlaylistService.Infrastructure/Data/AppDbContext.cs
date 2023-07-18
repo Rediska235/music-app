@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MusicApp.PlaylistService.Domain.Entities;
+using MusicApp.PlaylistService.Infrastructure.Configurations;
 
 namespace MusicApp.PlaylistService.Infrastructure.Data;
 
@@ -14,13 +15,10 @@ public class AppDbContext : DbContext
         Database.EnsureCreated();
     }
 
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    protected override void OnModelCreating(ModelBuilder builder)
     {
-        modelBuilder.Entity<Song>()
-        .HasMany(f => f.Playlists)
-        .WithMany(g => g.Songs)
-        .UsingEntity<PlaylistSong>(
-            j => j.HasOne<Playlist>().WithMany().OnDelete(DeleteBehavior.Cascade),
-            j => j.HasOne<Song>().WithMany().OnDelete(DeleteBehavior.NoAction));
+        builder.ApplyConfiguration(new PlaylistConfiguration());
+        builder.ApplyConfiguration(new SongConfiguration());
+        builder.ApplyConfiguration(new UserConfiguration());
     }
 }
