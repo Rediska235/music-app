@@ -4,4 +4,4 @@ using MusicApp.SongService.Domain.Entities;
 
 namespace MusicApp.SongService.Application.CQRS.Commands.CreateSong;
 
-public record CreateSongCommand(SongInputDto Song, Artist Artist) : IRequest<Song>;
+public record CreateSongCommand(SongInputDto Song, Artist Artist) : IRequest;

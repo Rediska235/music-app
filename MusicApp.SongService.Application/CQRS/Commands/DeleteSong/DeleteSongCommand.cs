@@ -3,4 +3,4 @@ using MusicApp.SongService.Domain.Entities;
 
 namespace MusicApp.SongService.Application.CQRS.Commands.DeleteSong;
 
-public record DeleteSongCommand(Guid Id) : IRequest<Song>;
+public record DeleteSongCommand(Guid Id) : IRequest;

@@ -31,7 +31,7 @@ public class EnsureArtistCreatedCommandHandler : IRequestHandler<EnsureArtistCre
             Username = username
         };
 
-        await _repository.CreateArtistAsync(artist, cancellationToken);
+        await _repository.CreateAsync(artist, cancellationToken);
         await _repository.SaveChangesAsync(cancellationToken);
 
         return artist;
