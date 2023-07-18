@@ -41,7 +41,7 @@ public class UserService
             Username = username
         };
 
-        await _repository.CreateUserAsync(user, cancellationToken);
+        await _repository.CreateAsync(user, cancellationToken);
         await _repository.SaveChangesAsync(cancellationToken);
         
         return user;

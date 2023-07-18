@@ -14,7 +14,7 @@ public class SongRepository : ISongRepository
         _db = db;
     }
     
-    public async Task<Song> GetSongByIdAsync(Guid id, CancellationToken cancellationToken)
+    public async Task<Song> GetByIdAsync(Guid id, CancellationToken cancellationToken)
     {
         return await _db.Songs
             .Include(s => s.Artist)

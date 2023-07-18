@@ -5,11 +5,11 @@ using MusicApp.PlaylistService.Infrastructure.Data;
 
 namespace MusicApp.PlaylistService.Infrastructure.Repositories;
 
-public class PlaylistRepository : IPlaylistRepository
+public class PlaylistRepository : BaseRepository<Playlist>,  IPlaylistRepository
 {
     private readonly AppDbContext _db;
 
-    public PlaylistRepository(AppDbContext db)
+    public PlaylistRepository(AppDbContext db) : base(db)
     {
         _db = db;
     }
@@ -31,31 +31,11 @@ public class PlaylistRepository : IPlaylistRepository
             .ToListAsync(cancellationToken);
     }
 
-    public async Task<Playlist> GetPlaylistByIdAsync(Guid id, CancellationToken cancellationToken)
+    public override async Task<Playlist> GetByIdAsync(Guid id, CancellationToken cancellationToken)
     {
         return await _db.Playlists
             .Include(p => p.Songs)
             .Include(p => p.Creator)
             .FirstOrDefaultAsync(t => t.Id == id, cancellationToken);
-    }
-
-    public async Task CreatePlaylistAsync(Playlist playlist, CancellationToken cancellationToken)
-    {
-        await _db.AddAsync(playlist, cancellationToken);
-    }
-
-    public void UpdatePlaylist(Playlist playlist)
-    {
-        _db.Update(playlist);
-    }
-
-    public void DeletePlaylist(Playlist playlist)
-    {
-        _db.Remove(playlist);
-    }
-
-    public async Task SaveChangesAsync(CancellationToken cancellationToken)
-    {
-        await _db.SaveChangesAsync(cancellationToken);
     }
 }

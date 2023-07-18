@@ -5,11 +5,11 @@ using MusicApp.PlaylistService.Infrastructure.Data;
 
 namespace MusicApp.PlaylistService.Infrastructure.Repositories;
 
-public class UserRepository : IUserRepository
+public class UserRepository : BaseRepository<User>, IUserRepository
 {
     private readonly AppDbContext _db;
 
-    public UserRepository(AppDbContext db)
+    public UserRepository(AppDbContext db) : base(db)
     {
         _db = db;
     }
@@ -17,15 +17,5 @@ public class UserRepository : IUserRepository
     public async Task<User> GetUserByUsernameAsync(string username, CancellationToken cancellationToken)
     {
         return await _db.Users.FirstOrDefaultAsync(a => a.Username == username, cancellationToken);
-    }
-
-    public async Task CreateUserAsync(User user, CancellationToken cancellationToken)
-    {
-        await _db.AddAsync(user, cancellationToken);
-    }
-
-    public async Task SaveChangesAsync(CancellationToken cancellationToken)
-    {
-        await _db.SaveChangesAsync(cancellationToken);
     }
 }

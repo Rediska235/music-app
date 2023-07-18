@@ -2,9 +2,7 @@
 
 namespace MusicApp.PlaylistService.Application.Repositories;
 
-public interface IUserRepository
+public interface IUserRepository : IBaseRepository<User>
 {
     Task<User> GetUserByUsernameAsync(string username, CancellationToken cancellationToken);
-    Task CreateUserAsync(User user, CancellationToken cancellationToken);
-    Task SaveChangesAsync(CancellationToken cancellationToken);
 }

@@ -4,5 +4,5 @@ namespace MusicApp.PlaylistService.Application.Repositories;
 
 public interface ISongRepository
 {
-    Task<Song> GetSongByIdAsync(Guid id, CancellationToken cancellationToken);
+    Task<Song> GetByIdAsync(Guid id, CancellationToken cancellationToken);
 }

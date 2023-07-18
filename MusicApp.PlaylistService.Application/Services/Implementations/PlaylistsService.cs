@@ -45,7 +45,7 @@ public class PlaylistsService : IPlaylistsService
     {
         var username = _userService.GetUsername();
 
-        var playlist = await _playlistRepository.GetPlaylistByIdAsync(id, cancellationToken);
+        var playlist = await _playlistRepository.GetByIdAsync(id, cancellationToken);
         if (playlist == null)
         {
             throw new PlaylistNotFoundException();
@@ -68,7 +68,7 @@ public class PlaylistsService : IPlaylistsService
         var user = await _userService.GetOrCreateUser(cancellationToken);
         playlist.Creator = user;
 
-        await _playlistRepository.CreatePlaylistAsync(playlist, cancellationToken);
+        await _playlistRepository.CreateAsync(playlist, cancellationToken);
         await _playlistRepository.SaveChangesAsync(cancellationToken);
     }
 
@@ -76,7 +76,7 @@ public class PlaylistsService : IPlaylistsService
     {
         await _playlistInputDtoValidator.ValidateAndThrowAsync(playlistInputDto, cancellationToken);
 
-        var playlist = await _playlistRepository.GetPlaylistByIdAsync(id, cancellationToken);
+        var playlist = await _playlistRepository.GetByIdAsync(id, cancellationToken);
         if (playlist == null)
         {
             throw new PlaylistNotFoundException();
@@ -86,13 +86,13 @@ public class PlaylistsService : IPlaylistsService
 
         _mapper.Map(playlistInputDto, playlist);
 
-        _playlistRepository.UpdatePlaylist(playlist);
+        _playlistRepository.Update(playlist);
         await _playlistRepository.SaveChangesAsync(cancellationToken);
     }
 
     public async Task DeletePlaylistAsync(Guid id, CancellationToken cancellationToken)
     {
-        var playlist = await _playlistRepository.GetPlaylistByIdAsync(id, cancellationToken);
+        var playlist = await _playlistRepository.GetByIdAsync(id, cancellationToken);
         if (playlist == null)
         {
             throw new PlaylistNotFoundException();
@@ -100,13 +100,13 @@ public class PlaylistsService : IPlaylistsService
 
         _userService.ValidateOwnerAndThrow(playlist);
 
-        _playlistRepository.DeletePlaylist(playlist);
+        _playlistRepository.Delete(playlist);
         await _playlistRepository.SaveChangesAsync(cancellationToken);
     }
 
     public async Task AddSongAsync(Guid playlistId, Guid songId, CancellationToken cancellationToken)
     {
-        var playlist = await _playlistRepository.GetPlaylistByIdAsync(playlistId, cancellationToken);
+        var playlist = await _playlistRepository.GetByIdAsync(playlistId, cancellationToken);
         if (playlist == null)
         {
             throw new PlaylistNotFoundException();
@@ -114,7 +114,7 @@ public class PlaylistsService : IPlaylistsService
 
         _userService.ValidateOwnerAndThrow(playlist);
 
-        var song = await _songRepository.GetSongByIdAsync(songId, cancellationToken);
+        var song = await _songRepository.GetByIdAsync(songId, cancellationToken);
         if (song == null)
         {
             throw new SongNotFoundException();
@@ -122,13 +122,13 @@ public class PlaylistsService : IPlaylistsService
 
         playlist.Songs.Add(song);
 
-        _playlistRepository.UpdatePlaylist(playlist);
+        _playlistRepository.Update(playlist);
         await _playlistRepository.SaveChangesAsync(cancellationToken);
     }
 
     public async Task RemoveSongAsync(Guid playlistId, Guid songId, CancellationToken cancellationToken)
     {
-        var playlist = await _playlistRepository.GetPlaylistByIdAsync(playlistId, cancellationToken);
+        var playlist = await _playlistRepository.GetByIdAsync(playlistId, cancellationToken);
         if (playlist == null)
         {
             throw new PlaylistNotFoundException();
@@ -136,7 +136,7 @@ public class PlaylistsService : IPlaylistsService
 
         _userService.ValidateOwnerAndThrow(playlist);
 
-        var song = await _songRepository.GetSongByIdAsync(songId, cancellationToken);
+        var song = await _songRepository.GetByIdAsync(songId, cancellationToken);
         if (song == null)
         {
             throw new SongNotFoundException();
@@ -144,7 +144,7 @@ public class PlaylistsService : IPlaylistsService
 
         playlist.Songs.Remove(song);
 
-        _playlistRepository.UpdatePlaylist(playlist);
+        _playlistRepository.Update(playlist);
         await _playlistRepository.SaveChangesAsync(cancellationToken);
     }
 }
