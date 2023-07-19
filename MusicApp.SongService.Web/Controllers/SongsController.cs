@@ -25,7 +25,8 @@ public class SongsController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetSongs(CancellationToken cancellationToken)
     {
-        var songs = await _mediator.Send(new GetSongsQuery(), cancellationToken);
+        var getQuery = new GetSongsQuery();
+        var songs = await _mediator.Send(getQuery, cancellationToken);
 
         return Ok(songs);
     }
@@ -33,7 +34,8 @@ public class SongsController : ControllerBase
     [HttpGet("{id:guid}")]
     public async Task<IActionResult> GetSongById(Guid id, CancellationToken cancellationToken)
     {
-        var song = await _mediator.Send(new GetSongByIdQuery(id), cancellationToken);
+        var getByIdQuery = new GetSongByIdQuery(id);
+        var song = await _mediator.Send(getByIdQuery, cancellationToken);
 
         return Ok(song);
     }
@@ -42,9 +44,11 @@ public class SongsController : ControllerBase
     [Authorize(Roles = "artist")]
     public async Task<IActionResult> CreateSong(SongInputDto songInputDto, CancellationToken cancellationToken)
     {
-        var artist = await _mediator.Send(new EnsureArtistCreatedCommand(), cancellationToken);
+        var artistCreatedCommand = new EnsureArtistCreatedCommand();
+        var artist = await _mediator.Send(artistCreatedCommand, cancellationToken);
 
-        var song = await _mediator.Send(new CreateSongCommand(songInputDto, artist), cancellationToken);
+        var createCommand = new CreateSongCommand(songInputDto, artist);
+        var song = await _mediator.Send(createCommand, cancellationToken);
 
         return Created($"/api/songs/{song.Id}", song);
     }
@@ -53,7 +57,8 @@ public class SongsController : ControllerBase
     [Authorize(Roles = "artist")]
     public async Task<IActionResult> UpdateSong([FromRoute] Guid id, [FromBody] SongInputDto songInputDto, CancellationToken cancellationToken)
     {
-        var song = await _mediator.Send(new UpdateSongCommand(id, songInputDto), cancellationToken);
+        var updateCommand = new UpdateSongCommand(id, songInputDto);
+        var song = await _mediator.Send(updateCommand, cancellationToken);
 
         return Ok(song);
     }
@@ -62,7 +67,8 @@ public class SongsController : ControllerBase
     [Authorize(Roles = "artist")]
     public async Task<IActionResult> DeleteSong(Guid id, CancellationToken cancellationToken)
     {
-        await _mediator.Send(new DeleteSongCommand(id), cancellationToken);
+        var deleteCommand = new DeleteSongCommand(id);
+        await _mediator.Send(deleteCommand, cancellationToken);
 
         return NoContent();
     }
