@@ -7,16 +7,16 @@ namespace MusicApp.PlaylistService.Infrastructure.Repositories;
 
 public class SongRepository : ISongRepository
 {
-    private readonly AppDbContext _db;
+    private readonly AppDbContext _appContext;
 
-    public SongRepository(AppDbContext db)
+    public SongRepository(AppDbContext appContext)
     {
-        _db = db;
+        _appContext = appContext;
     }
     
     public async Task<Song> GetByIdAsync(Guid id, CancellationToken cancellationToken)
     {
-        return await _db.Songs
+        return await _appContext.Songs
             .Include(s => s.Artist)
             .FirstOrDefaultAsync(s => s.Id == id, cancellationToken);
     }

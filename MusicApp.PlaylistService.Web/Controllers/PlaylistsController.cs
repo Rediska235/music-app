@@ -20,42 +20,51 @@ public class PlaylistsController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetPlaylists(CancellationToken cancellationToken)
     {
-        return Ok(await _service.GetPlaylistsAsync(cancellationToken));
+        var playlists = await _service.GetPlaylistsAsync(cancellationToken);
+
+        return Ok(playlists);
     }
 
     [HttpGet("{id:guid}")]
     public async Task<IActionResult> GetPlaylistById(Guid id, CancellationToken cancellationToken)
     {
-        return Ok(await _service.GetPlaylistByIdAsync(id, cancellationToken));
+
+        var playlists = await _service.GetPlaylistByIdAsync(id, cancellationToken);
+
+        return Ok(playlists);
     }
 
-    [HttpPost, Authorize]
+    [HttpPost]
+    [Authorize]
     [ValidationFilter]
-    public async Task<IActionResult> CreatePlaylist(PlaylistInputDto playlist, CancellationToken cancellationToken)
+    public async Task<IActionResult> CreatePlaylist(PlaylistInputDto playlistInputDto, CancellationToken cancellationToken)
     {
-        await _service.CreatePlaylistAsync(playlist, cancellationToken);
+        var playlist = await _service.CreatePlaylistAsync(playlistInputDto, cancellationToken);
 
-        return StatusCode(201);
+        return Created($"/api/playlists{playlist.Id}", playlist);
     }
 
-    [HttpPut("{id:guid}"), Authorize]
+    [HttpPut("{id:guid}")]
+    [Authorize]
     [ValidationFilter]
-    public async Task<IActionResult> UpdatePlaylist([FromRoute] Guid id, [FromBody] PlaylistInputDto playlist, CancellationToken cancellationToken)
+    public async Task<IActionResult> UpdatePlaylist([FromRoute] Guid id, [FromBody] PlaylistInputDto playlistInputDto, CancellationToken cancellationToken)
     {
-        await _service.UpdatePlaylistAsync(id, playlist, cancellationToken);
+        var playlist = await _service.UpdatePlaylistAsync(id, playlistInputDto, cancellationToken);
 
-        return Ok();
+        return Ok(playlist);
     }
 
-    [HttpDelete("{id:guid}"), Authorize]
+    [HttpDelete("{id:guid}")]
+    [Authorize]
     public async Task<IActionResult> DeletePlaylist(Guid id, CancellationToken cancellationToken)
     {
         await _service.DeletePlaylistAsync(id, cancellationToken);
 
-        return StatusCode(204);
+        return NoContent();
     }
 
-    [HttpPatch("{playlistId:guid}/add/{songId:guid}"), Authorize]
+    [HttpPatch("{playlistId:guid}/add/{songId:guid}")]
+    [Authorize]
     public async Task<IActionResult> AddSong(Guid playlistId, Guid songId, CancellationToken cancellationToken)
     {
         await _service.AddSongAsync(playlistId, songId, cancellationToken);
@@ -63,7 +72,8 @@ public class PlaylistsController : ControllerBase
         return Ok();
     }
 
-    [HttpPatch("{playlistId:guid}/remove/{songId:guid}"), Authorize]
+    [HttpPatch("{playlistId:guid}/remove/{songId:guid}")]
+    [Authorize]
     public async Task<IActionResult> RemoveSong(Guid playlistId, Guid songId, CancellationToken cancellationToken)
     {
         await _service.RemoveSongAsync(playlistId, songId, cancellationToken);

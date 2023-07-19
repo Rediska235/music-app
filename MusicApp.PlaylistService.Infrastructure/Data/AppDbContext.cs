@@ -17,8 +17,6 @@ public class AppDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
-        builder.ApplyConfiguration(new PlaylistConfiguration());
-        builder.ApplyConfiguration(new SongConfiguration());
-        builder.ApplyConfiguration(new UserConfiguration());
+        builder.ApplyConfigurationsFromAssembly(typeof(SongConfiguration).Assembly);
     }
 }

@@ -1,9 +1,7 @@
 ﻿using AutoMapper;
-using FluentValidation;
 using MusicApp.PlaylistService.Application.DTOs;
 using MusicApp.PlaylistService.Application.Repositories;
 using MusicApp.PlaylistService.Application.Services.Interfaces;
-using MusicApp.PlaylistService.Application.Validators;
 using MusicApp.PlaylistService.Domain.Entities;
 using MusicApp.PlaylistService.Domain.Exceptions;
 
@@ -56,7 +54,7 @@ public class PlaylistsService : IPlaylistsService
         return playlist;
     }
 
-    public async Task CreatePlaylistAsync(PlaylistInputDto playlistInputDto, CancellationToken cancellationToken)
+    public async Task<Playlist> CreatePlaylistAsync(PlaylistInputDto playlistInputDto, CancellationToken cancellationToken)
     {
         var playlist = _mapper.Map<Playlist>(playlistInputDto);
 
@@ -65,9 +63,11 @@ public class PlaylistsService : IPlaylistsService
 
         await _playlistRepository.CreateAsync(playlist, cancellationToken);
         await _playlistRepository.SaveChangesAsync(cancellationToken);
+
+        return playlist;
     }
 
-    public async Task UpdatePlaylistAsync(Guid id, PlaylistInputDto playlistInputDto, CancellationToken cancellationToken)
+    public async Task<Playlist> UpdatePlaylistAsync(Guid id, PlaylistInputDto playlistInputDto, CancellationToken cancellationToken)
     {
         var playlist = await _playlistRepository.GetByIdAsync(id, cancellationToken);
         if (playlist == null)
@@ -81,6 +81,8 @@ public class PlaylistsService : IPlaylistsService
 
         _playlistRepository.Update(playlist);
         await _playlistRepository.SaveChangesAsync(cancellationToken);
+
+        return playlist;
     }
 
     public async Task DeletePlaylistAsync(Guid id, CancellationToken cancellationToken)

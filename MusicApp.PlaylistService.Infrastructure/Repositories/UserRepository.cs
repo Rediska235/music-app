@@ -7,15 +7,15 @@ namespace MusicApp.PlaylistService.Infrastructure.Repositories;
 
 public class UserRepository : BaseRepository<User>, IUserRepository
 {
-    private readonly AppDbContext _db;
+    private readonly AppDbContext _appContext;
 
-    public UserRepository(AppDbContext db) : base(db)
+    public UserRepository(AppDbContext appContext) : base(appContext)
     {
-        _db = db;
+        _appContext = appContext;
     }
 
     public async Task<User> GetUserByUsernameAsync(string username, CancellationToken cancellationToken)
     {
-        return await _db.Users.FirstOrDefaultAsync(a => a.Username == username, cancellationToken);
+        return await _appContext.Users.FirstOrDefaultAsync(a => a.Username == username, cancellationToken);
     }
 }

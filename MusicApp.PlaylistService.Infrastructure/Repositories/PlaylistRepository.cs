@@ -7,16 +7,16 @@ namespace MusicApp.PlaylistService.Infrastructure.Repositories;
 
 public class PlaylistRepository : BaseRepository<Playlist>,  IPlaylistRepository
 {
-    private readonly AppDbContext _db;
+    private readonly AppDbContext _appContext;
 
-    public PlaylistRepository(AppDbContext db) : base(db)
+    public PlaylistRepository(AppDbContext appContext) : base(appContext)
     {
-        _db = db;
+        _appContext = appContext;
     }
 
     public async Task<IEnumerable<Playlist>> GetPublicPlaylistsAsync(CancellationToken cancellationToken)
     {
-        return await _db.Playlists
+        return await _appContext.Playlists
             .Include(p => p.Songs)
             .Include(p => p.Creator)
             .Where(p => !p.IsPrivate)
@@ -24,7 +24,7 @@ public class PlaylistRepository : BaseRepository<Playlist>,  IPlaylistRepository
     }
     public async Task<IEnumerable<Playlist>> GetMyPrivatePlaylistsAsync(string username, CancellationToken cancellationToken)
     {
-        return await _db.Playlists
+        return await _appContext.Playlists
             .Include(p => p.Songs)
             .Include(p => p.Creator)
             .Where(p => p.IsPrivate && p.Creator.Username == username)
@@ -33,7 +33,7 @@ public class PlaylistRepository : BaseRepository<Playlist>,  IPlaylistRepository
 
     public override async Task<Playlist> GetByIdAsync(Guid id, CancellationToken cancellationToken)
     {
-        return await _db.Playlists
+        return await _appContext.Playlists
             .Include(p => p.Songs)
             .Include(p => p.Creator)
             .FirstOrDefaultAsync(t => t.Id == id, cancellationToken);

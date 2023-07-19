@@ -6,13 +6,13 @@ namespace MusicApp.PlaylistService.Infrastructure.Repositories;
 
 public abstract class BaseRepository<T> : IBaseRepository<T> where T : class
 {
-    private readonly AppDbContext _db;
+    private readonly AppDbContext _appContext;
     private readonly DbSet<T> _dbSet;
 
-    public BaseRepository(AppDbContext db)
+    public BaseRepository(AppDbContext appContext)
     {
-        _db = db;
-        _dbSet = _db.Set<T>();
+        _appContext = appContext;
+        _dbSet = _appContext.Set<T>();
     }
 
     public virtual async Task<IEnumerable<T>> GetAsync(CancellationToken cancellationToken)
@@ -42,6 +42,6 @@ public abstract class BaseRepository<T> : IBaseRepository<T> where T : class
 
     public virtual async Task SaveChangesAsync(CancellationToken cancellationToken)
     {
-        await _db.SaveChangesAsync(cancellationToken);
+        await _appContext.SaveChangesAsync(cancellationToken);
     }
 }
