@@ -5,7 +5,7 @@ using MusicApp.SongService.Domain.Entities;
 
 namespace MusicApp.SongService.Application.CQRS.Commands.CreateSong;
 
-public class CreateSongCommandHandler : IRequestHandler<CreateSongCommand>
+public class CreateSongCommandHandler : IRequestHandler<CreateSongCommand, Song>
 {
     private readonly ISongRepository _repository;
     private readonly IMapper _mapper;
@@ -16,11 +16,13 @@ public class CreateSongCommandHandler : IRequestHandler<CreateSongCommand>
         _mapper = mapper;
     }
 
-    public async Task Handle(CreateSongCommand request, CancellationToken cancellationToken)
+    public async Task<Song> Handle(CreateSongCommand request, CancellationToken cancellationToken)
     {
         var song = _mapper.Map<Song>(request);
 
         await _repository.CreateAsync(song, cancellationToken);
         await _repository.SaveChangesAsync(cancellationToken);
+
+        return song;
     }
 }

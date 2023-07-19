@@ -25,38 +25,45 @@ public class SongsController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetSongs(CancellationToken cancellationToken)
     {
-        return Ok(await _mediator.Send(new GetSongsQuery(), cancellationToken));
+        var songs = await _mediator.Send(new GetSongsQuery(), cancellationToken);
+
+        return Ok(songs);
     }
     
     [HttpGet("{id:guid}")]
     public async Task<IActionResult> GetSongById(Guid id, CancellationToken cancellationToken)
     {
-        return Ok(await _mediator.Send(new GetSongByIdQuery(id), cancellationToken));
+        var song = await _mediator.Send(new GetSongByIdQuery(id), cancellationToken);
+
+        return Ok(song);
     }
-    
-    [HttpPost, Authorize(Roles = "artist")]
-    public async Task<IActionResult> CreateSong(SongInputDto song, CancellationToken cancellationToken)
+        
+    [HttpPost]
+    [Authorize(Roles = "artist")]
+    public async Task<IActionResult> CreateSong(SongInputDto songInputDto, CancellationToken cancellationToken)
     {
         var artist = await _mediator.Send(new EnsureArtistCreatedCommand(), cancellationToken);
 
-        await _mediator.Send(new CreateSongCommand(song, artist), cancellationToken);
+        var song = await _mediator.Send(new CreateSongCommand(songInputDto, artist), cancellationToken);
 
-        return StatusCode(201);
+        return Created($"/api/songs/{song.Id}", song);
     }
     
-    [HttpPut("{id:guid}"), Authorize(Roles = "artist")]
-    public async Task<IActionResult> UpdateSong([FromRoute] Guid id, [FromBody] SongInputDto song, CancellationToken cancellationToken)
+    [HttpPut("{id:guid}")]
+    [Authorize(Roles = "artist")]
+    public async Task<IActionResult> UpdateSong([FromRoute] Guid id, [FromBody] SongInputDto songInputDto, CancellationToken cancellationToken)
     {
-        await _mediator.Send(new UpdateSongCommand(id, song), cancellationToken);
+        var song = await _mediator.Send(new UpdateSongCommand(id, songInputDto), cancellationToken);
 
-        return Ok();
+        return Ok(song);
     }
 
-    [HttpDelete("{id:guid}"), Authorize(Roles = "artist")]
+    [HttpDelete("{id:guid}")]
+    [Authorize(Roles = "artist")]
     public async Task<IActionResult> DeleteSong(Guid id, CancellationToken cancellationToken)
     {
         await _mediator.Send(new DeleteSongCommand(id), cancellationToken);
 
-        return StatusCode(204);
+        return NoContent();
     }
 }

@@ -7,15 +7,15 @@ namespace MusicApp.SongService.Infrastructure.Repositories;
 
 public class ArtistRepository : BaseRepository<Artist>, IArtistRepository
 {
-    private readonly AppDbContext _db;
+    private readonly AppDbContext _appContext;
 
-    public ArtistRepository(AppDbContext db) : base(db)
+    public ArtistRepository(AppDbContext appContext) : base(appContext)
     {
-        _db = db;
+        _appContext = appContext;
     }
 
     public async Task<Artist> GetArtistByUsernameAsync(string username, CancellationToken cancellationToken)
     {
-        return await _db.Artists.FirstOrDefaultAsync(a => a.Username == username, cancellationToken);
+        return await _appContext.Artists.FirstOrDefaultAsync(a => a.Username == username, cancellationToken);
     }
 }

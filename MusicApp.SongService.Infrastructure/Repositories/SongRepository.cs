@@ -7,16 +7,16 @@ namespace MusicApp.SongService.Infrastructure.Repositories;
 
 public class SongRepository : BaseRepository<Song>, ISongRepository
 {
-    private readonly AppDbContext _db;
+    private readonly AppDbContext _appContext;
 
-    public SongRepository(AppDbContext db) : base(db)
+    public SongRepository(AppDbContext appContext) : base(appContext)
     {
-        _db = db;
+        _appContext = appContext;
     }
 
     public override async Task<IEnumerable<Song>> GetAsync(CancellationToken cancellationToken)
     {
-        return await _db.Songs
+        return await _appContext.Songs
             .Include(s => s.Artist)
             .AsNoTracking()
             .ToListAsync(cancellationToken);
@@ -24,7 +24,7 @@ public class SongRepository : BaseRepository<Song>, ISongRepository
 
     public override async Task<Song> GetByIdAsync(Guid id, CancellationToken cancellationToken)
     {
-        return await _db.Songs
+        return await _appContext.Songs
             .Include(s => s.Artist)
             .AsNoTracking()
             .FirstOrDefaultAsync(s => s.Id == id, cancellationToken);

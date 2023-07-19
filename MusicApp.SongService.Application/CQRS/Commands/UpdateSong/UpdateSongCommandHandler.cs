@@ -2,11 +2,12 @@
 using MediatR;
 using MusicApp.SongService.Application.Repositories;
 using MusicApp.SongService.Application.Services;
+using MusicApp.SongService.Domain.Entities;
 using MusicApp.SongService.Domain.Exceptions;
 
 namespace MusicApp.SongService.Application.CQRS.Commands.UpdateSong;
 
-public class UpdateSongCommandHandler : IRequestHandler<UpdateSongCommand>
+public class UpdateSongCommandHandler : IRequestHandler<UpdateSongCommand, Song>
 {
     private readonly ISongRepository _repository;
     private readonly ArtistService _artistService;
@@ -19,7 +20,7 @@ public class UpdateSongCommandHandler : IRequestHandler<UpdateSongCommand>
         _validator = new();
     }
 
-    public async Task Handle(UpdateSongCommand request, CancellationToken cancellationToken)
+    public async Task<Song> Handle(UpdateSongCommand request, CancellationToken cancellationToken)
     {
         await _validator.ValidateAndThrowAsync(request, cancellationToken);
 
@@ -35,5 +36,7 @@ public class UpdateSongCommandHandler : IRequestHandler<UpdateSongCommand>
 
         _repository.Update(song);
         await _repository.SaveChangesAsync(cancellationToken);
+
+        return song;
     }
 }
