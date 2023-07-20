@@ -9,7 +9,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MusicApp.Identity.Domain", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MusicApp.Identity.Application", "MusicApp.Identity.Application\MusicApp.Identity.Application.csproj", "{AEE7C015-FF58-4ACB-BD03-9823E43A9F88}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicApp.Identity.Infrastructure", "MusicApp.Identity.Infrastructure\MusicApp.Identity.Infrastructure.csproj", "{B85E7CF1-7926-42F8-B658-24718E24DAB6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MusicApp.Identity.Infrastructure", "MusicApp.Identity.Infrastructure\MusicApp.Identity.Infrastructure.csproj", "{B85E7CF1-7926-42F8-B658-24718E24DAB6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Identity", "Identity", "{2BC5A7F6-0AF5-42EC-A5CE-6AB6CD20BAC5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ApiGateway", "ApiGateway", "{ECF39132-6421-4727-B8BF-CC59AB48583A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicApp.ApiGateway", "MusicApp.ApiGateway\MusicApp.ApiGateway.csproj", "{739162B1-0762-4DF9-B7BB-7BA8B76B7073}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,9 +39,20 @@ Global
 		{B85E7CF1-7926-42F8-B658-24718E24DAB6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B85E7CF1-7926-42F8-B658-24718E24DAB6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B85E7CF1-7926-42F8-B658-24718E24DAB6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{739162B1-0762-4DF9-B7BB-7BA8B76B7073}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{739162B1-0762-4DF9-B7BB-7BA8B76B7073}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{739162B1-0762-4DF9-B7BB-7BA8B76B7073}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{739162B1-0762-4DF9-B7BB-7BA8B76B7073}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{D72AF130-2802-4BD9-87E7-0ABFA11B8789} = {2BC5A7F6-0AF5-42EC-A5CE-6AB6CD20BAC5}
+		{45871ACF-A736-4DD2-9236-9ECBDB2FD0F4} = {2BC5A7F6-0AF5-42EC-A5CE-6AB6CD20BAC5}
+		{AEE7C015-FF58-4ACB-BD03-9823E43A9F88} = {2BC5A7F6-0AF5-42EC-A5CE-6AB6CD20BAC5}
+		{B85E7CF1-7926-42F8-B658-24718E24DAB6} = {2BC5A7F6-0AF5-42EC-A5CE-6AB6CD20BAC5}
+		{739162B1-0762-4DF9-B7BB-7BA8B76B7073} = {ECF39132-6421-4727-B8BF-CC59AB48583A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {199BBEE3-32AF-401E-B3F8-9ED03D4631F4}
