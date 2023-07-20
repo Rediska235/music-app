@@ -1,22 +1,25 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using MediatR;
+using MusicApp.SongService.Application.DTOs;
 using MusicApp.SongService.Application.Repositories;
-using MusicApp.SongService.Domain.Entities;
 
 namespace MusicApp.SongService.Application.CQRS.Queries.GetSongs;
 
-public class GetSongsQueryHandler : IRequestHandler<GetSongsQuery, IEnumerable<Song>>
+public class GetSongsQueryHandler : IRequestHandler<GetSongsQuery, IEnumerable<SongOutputDto>>
 {
     private readonly ISongRepository _repository;
+    private readonly IMapper _mapper;
 
-    public GetSongsQueryHandler(ISongRepository repository)
+    public GetSongsQueryHandler(ISongRepository repository, IMapper mapper)
     {
         _repository = repository;
+        _mapper = mapper;
     }
 
-    public async Task<IEnumerable<Song>> Handle(GetSongsQuery request, CancellationToken cancellationToken)
+    public async Task<IEnumerable<SongOutputDto>> Handle(GetSongsQuery request, CancellationToken cancellationToken)
     {
         var songs = await _repository.GetAsync(cancellationToken);
 
-        return songs;
+        return _mapper.Map<IEnumerable<SongOutputDto>>(songs);
     }
 }
