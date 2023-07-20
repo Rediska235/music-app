@@ -2,9 +2,8 @@
 
 namespace MusicApp.PlaylistService.Domain.Entities;
 
-public class Song
+public class Song : Base
 {
-    public Guid Id { get; set; }
     public string Title { get; set; } = string.Empty;
     public User Artist { get; set; } = new();
     [JsonIgnore]

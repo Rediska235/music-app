@@ -1,8 +1,7 @@
 ﻿namespace MusicApp.PlaylistService.Domain.Entities;
 
-public class Playlist
+public class Playlist : Base
 {
-    public Guid Id { get; set; }
     public string Name { get; set; } = string.Empty;
     public bool IsPrivate { get; set; }
     public User Creator { get; set; } = new();
