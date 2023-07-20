@@ -4,12 +4,10 @@ using MusicApp.PlaylistService.Domain.Entities;
 
 namespace MusicApp.PlaylistService.Application.AutoMapper;
 
-public class PlaylistMapperProfile : Profile
+public class SongMapperProfile : Profile
 {
-    public PlaylistMapperProfile()
+    public SongMapperProfile()
     {
-        CreateMap<PlaylistInputDto, Playlist>();
-
-        CreateMap<Playlist, PlaylistOutputDto>();
+        CreateMap<Song, SongOutputDto>();
     }
 }

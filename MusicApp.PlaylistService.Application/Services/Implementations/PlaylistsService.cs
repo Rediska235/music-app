@@ -26,17 +26,19 @@ public class PlaylistsService : IPlaylistsService
         _mapper = mapper;
     }
 
-    public async Task<IEnumerable<Playlist>> GetPlaylistsAsync(CancellationToken cancellationToken)
+    public async Task<IEnumerable<PlaylistOutputDto>> GetPlaylistsAsync(CancellationToken cancellationToken)
     {
         var username = _userService.GetUsername();
 
         var publicPlaylists = await _playlistRepository.GetPublicPlaylistsAsync(cancellationToken);
         var myPrivatePlaylists = await _playlistRepository.GetMyPrivatePlaylistsAsync(username, cancellationToken);
 
-        return publicPlaylists.Concat(myPrivatePlaylists);
+        var playlists = publicPlaylists.Concat(myPrivatePlaylists);
+
+        return _mapper.Map<IEnumerable<PlaylistOutputDto>>(playlists);
     }
 
-    public async Task<Playlist> GetPlaylistByIdAsync(Guid id, CancellationToken cancellationToken)
+    public async Task<PlaylistOutputDto> GetPlaylistByIdAsync(Guid id, CancellationToken cancellationToken)
     {
         var username = _userService.GetUsername();
 
@@ -51,10 +53,10 @@ public class PlaylistsService : IPlaylistsService
             throw new PrivatePlaylistException();
         }
 
-        return playlist;
+        return _mapper.Map<PlaylistOutputDto>(playlist);
     }
 
-    public async Task<Playlist> CreatePlaylistAsync(PlaylistInputDto playlistInputDto, CancellationToken cancellationToken)
+    public async Task<PlaylistOutputDto> CreatePlaylistAsync(PlaylistInputDto playlistInputDto, CancellationToken cancellationToken)
     {
         var playlist = _mapper.Map<Playlist>(playlistInputDto);
 
@@ -64,10 +66,10 @@ public class PlaylistsService : IPlaylistsService
         await _playlistRepository.CreateAsync(playlist, cancellationToken);
         await _playlistRepository.SaveChangesAsync(cancellationToken);
 
-        return playlist;
+        return _mapper.Map<PlaylistOutputDto>(playlist);
     }
 
-    public async Task<Playlist> UpdatePlaylistAsync(Guid id, PlaylistInputDto playlistInputDto, CancellationToken cancellationToken)
+    public async Task<PlaylistOutputDto> UpdatePlaylistAsync(Guid id, PlaylistInputDto playlistInputDto, CancellationToken cancellationToken)
     {
         var playlist = await _playlistRepository.GetByIdAsync(id, cancellationToken);
         if (playlist == null)
@@ -82,7 +84,7 @@ public class PlaylistsService : IPlaylistsService
         _playlistRepository.Update(playlist);
         await _playlistRepository.SaveChangesAsync(cancellationToken);
 
-        return playlist;
+        return _mapper.Map<PlaylistOutputDto>(playlist);
     }
 
     public async Task DeletePlaylistAsync(Guid id, CancellationToken cancellationToken)

@@ -17,7 +17,7 @@ public class ValidationFilterAttribute : ActionFilterAttribute
     public override void OnActionExecuting(ActionExecutingContext actionContext)
     {
         object playlistObj;
-        actionContext.ActionArguments.TryGetValue("playlist", out playlistObj);
+        actionContext.ActionArguments.TryGetValue("playlistInputDto", out playlistObj);
         var playlist = (PlaylistInputDto)playlistObj;
 
         _validator.ValidateAndThrow(playlist);
