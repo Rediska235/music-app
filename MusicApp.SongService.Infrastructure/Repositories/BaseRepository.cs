@@ -1,10 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MusicApp.SongService.Application.Repositories;
+using MusicApp.SongService.Domain.Entities;
 using MusicApp.SongService.Infrastructure.Data;
 
 namespace MusicApp.SongService.Infrastructure.Repositories;
 
-public abstract class BaseRepository<T> : IBaseRepository<T> where T : class
+public abstract class BaseRepository<T> : IBaseRepository<T> where T : Base
 {
     private readonly AppDbContext _appContext;
     private readonly DbSet<T> _dbSet;
@@ -22,7 +23,7 @@ public abstract class BaseRepository<T> : IBaseRepository<T> where T : class
 
     public virtual async Task<T> GetByIdAsync(Guid id, CancellationToken cancellationToken)
     {
-        return await _dbSet.FindAsync(new object[] { id }, cancellationToken);
+        return await _dbSet.FirstOrDefaultAsync(e => e.Id == id, cancellationToken);
     }
 
     public virtual async Task CreateAsync(T model, CancellationToken cancellationToken)
