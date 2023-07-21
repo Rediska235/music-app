@@ -50,7 +50,9 @@ public class SongsController : ControllerBase
         var createCommand = new CreateSongCommand(songInputDto, artist);
         var song = await _mediator.Send(createCommand, cancellationToken);
 
-        return Created($"/api/songs/{song.Id}", song);
+        var actionName = nameof(GetSongById);
+
+        return CreatedAtAction(actionName, song);
     }
     
     [HttpPut("{id:guid}")]
