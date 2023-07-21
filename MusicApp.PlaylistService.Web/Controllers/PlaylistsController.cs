@@ -41,7 +41,10 @@ public class PlaylistsController : ControllerBase
     {
         var playlist = await _service.CreatePlaylistAsync(playlistInputDto, cancellationToken);
 
-        return Created($"/api/playlists{playlist.Id}", playlist);
+        var actionName = nameof(GetPlaylistById); 
+        var routeValues = new { id = playlist.Id};
+
+        return CreatedAtAction(actionName, routeValues, playlist);
     }
 
     [HttpPut("{id:guid}")]
