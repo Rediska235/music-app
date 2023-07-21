@@ -23,7 +23,7 @@ public abstract class BaseRepository<T> : IBaseRepository<T> where T : Entity
 
     public virtual async Task<T> GetByIdAsync(Guid id, CancellationToken cancellationToken)
     {
-        return await _dbSet.FirstOrDefaultAsync(e => e.Id == id, cancellationToken);
+        return await _dbSet.FirstOrDefaultAsync(entity => entity.Id == id, cancellationToken);
     }
 
     public virtual async Task CreateAsync(T model, CancellationToken cancellationToken)

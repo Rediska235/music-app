@@ -6,7 +6,7 @@ public class CreateSongCommandValidator : AbstractValidator<CreateSongCommand>
 {
     public CreateSongCommandValidator()
     {
-        RuleFor(c => c.Song.Title)
+        RuleFor(command => command.Song.Title)
             .NotEmpty().WithMessage("The field 'Title' is required.")
             .Length(2, 32).WithMessage("The field 'Title' must be [2, 32] characters long.");
     }

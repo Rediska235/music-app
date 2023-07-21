@@ -10,7 +10,7 @@ public class SongMapperProfile : Profile
     public SongMapperProfile()
     {
         CreateMap<CreateSongCommand, Song>()
-            .ForMember(s => s.Title, opt => opt.MapFrom(src => src.Song.Title));
+            .ForMember(song => song.Title, options => options.MapFrom(src => src.Song.Title));
 
         CreateMap<Song, SongOutputDto>();
     }

@@ -16,6 +16,6 @@ public class ArtistRepository : BaseRepository<Artist>, IArtistRepository
 
     public async Task<Artist> GetArtistByUsernameAsync(string username, CancellationToken cancellationToken)
     {
-        return await _appContext.Artists.FirstOrDefaultAsync(a => a.Username == username, cancellationToken);
+        return await _appContext.Artists.FirstOrDefaultAsync(artist => artist.Username == username, cancellationToken);
     }
 }

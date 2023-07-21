@@ -17,7 +17,7 @@ public class SongRepository : BaseRepository<Song>, ISongRepository
     public override async Task<IEnumerable<Song>> GetAsync(CancellationToken cancellationToken)
     {
         return await _appContext.Songs
-            .Include(s => s.Artist)
+            .Include(song => song.Artist)
             .AsNoTracking()
             .ToListAsync(cancellationToken);
     }
@@ -25,8 +25,8 @@ public class SongRepository : BaseRepository<Song>, ISongRepository
     public override async Task<Song> GetByIdAsync(Guid id, CancellationToken cancellationToken)
     {
         return await _appContext.Songs
-            .Include(s => s.Artist)
+            .Include(song => song.Artist)
             .AsNoTracking()
-            .FirstOrDefaultAsync(s => s.Id == id, cancellationToken);
+            .FirstOrDefaultAsync(song => song.Id == id, cancellationToken);
     }
 }
