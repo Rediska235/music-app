@@ -1,6 +1,6 @@
 ﻿namespace MusicApp.SongService.Domain.Entities;
 
-public abstract class Base
+public abstract class Entity
 {
     public Guid Id { get; set; }
 }

@@ -5,7 +5,7 @@ using MusicApp.SongService.Infrastructure.Data;
 
 namespace MusicApp.SongService.Infrastructure.Repositories;
 
-public abstract class BaseRepository<T> : IBaseRepository<T> where T : Base
+public abstract class BaseRepository<T> : IBaseRepository<T> where T : Entity
 {
     private readonly AppDbContext _appContext;
     private readonly DbSet<T> _dbSet;
