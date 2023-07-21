@@ -1,6 +1,6 @@
 ﻿namespace MusicApp.PlaylistService.Domain.Entities;
 
-public class Playlist : Base
+public class Playlist : Entity
 {
     public string Name { get; set; } = string.Empty;
     public bool IsPrivate { get; set; }
