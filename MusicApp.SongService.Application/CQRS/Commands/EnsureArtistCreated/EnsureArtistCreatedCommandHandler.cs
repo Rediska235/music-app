@@ -20,7 +20,7 @@ public class EnsureArtistCreatedCommandHandler : IRequestHandler<EnsureArtistCre
     {
         var username = _artistService.GetUsername();
         var artist = await _repository.GetArtistByUsernameAsync(username, cancellationToken);
-        if(artist != null)
+        if (artist != null)
         {
             return artist;
         }
