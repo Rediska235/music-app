@@ -17,7 +17,7 @@ public class SongRepository : ISongRepository
     public async Task<Song> GetByIdAsync(Guid id, CancellationToken cancellationToken)
     {
         return await _appContext.Songs
-            .Include(s => s.Artist)
-            .FirstOrDefaultAsync(s => s.Id == id, cancellationToken);
+            .Include(song => song.Artist)
+            .FirstOrDefaultAsync(song => song.Id == id, cancellationToken);
     }
 }

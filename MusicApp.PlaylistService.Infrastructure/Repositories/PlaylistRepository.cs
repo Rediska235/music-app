@@ -17,25 +17,25 @@ public class PlaylistRepository : BaseRepository<Playlist>,  IPlaylistRepository
     public async Task<IEnumerable<Playlist>> GetPublicPlaylistsAsync(CancellationToken cancellationToken)
     {
         return await _appContext.Playlists
-            .Include(p => p.Songs)
-            .Include(p => p.Creator)
-            .Where(p => !p.IsPrivate)
+            .Include(playlist => playlist.Songs)
+            .Include(playlist => playlist.Creator)
+            .Where(playlist => !playlist.IsPrivate)
             .ToListAsync(cancellationToken);
     }
     public async Task<IEnumerable<Playlist>> GetMyPrivatePlaylistsAsync(string username, CancellationToken cancellationToken)
     {
         return await _appContext.Playlists
-            .Include(p => p.Songs)
-            .Include(p => p.Creator)
-            .Where(p => p.IsPrivate && p.Creator.Username == username)
+            .Include(playlist => playlist.Songs)
+            .Include(playlist => playlist.Creator)
+            .Where(playlist => playlist.IsPrivate && playlist.Creator.Username == username)
             .ToListAsync(cancellationToken);
     }
 
     public override async Task<Playlist> GetByIdAsync(Guid id, CancellationToken cancellationToken)
     {
         return await _appContext.Playlists
-            .Include(p => p.Songs)
-            .Include(p => p.Creator)
-            .FirstOrDefaultAsync(t => t.Id == id, cancellationToken);
+            .Include(playlist => playlist.Songs)
+            .Include(playlist => playlist.Creator)
+            .FirstOrDefaultAsync(playlist => playlist.Id == id, cancellationToken);
     }
 }

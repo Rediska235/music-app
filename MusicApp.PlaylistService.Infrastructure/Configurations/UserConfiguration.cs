@@ -8,9 +8,9 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
 {
     public void Configure(EntityTypeBuilder<User> builder)
     {
-        builder.HasKey(a => a.Id);
-        builder.Property(a => a.Username).IsRequired().HasMaxLength(32);
-        builder.HasMany(a => a.Songs).WithOne(s => s.Artist);
-        builder.HasMany(a => a.Playlists).WithOne(p => p.Creator);
+        builder.HasKey(user => user.Id);
+        builder.Property(user => user.Username).IsRequired().HasMaxLength(32);
+        builder.HasMany(user => user.Songs).WithOne(song => song.Artist);
+        builder.HasMany(user => user.Playlists).WithOne(playlist => playlist.Creator);
     }
 }
