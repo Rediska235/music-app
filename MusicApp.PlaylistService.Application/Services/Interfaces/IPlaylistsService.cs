@@ -1,5 +1,4 @@
 ﻿using MusicApp.PlaylistService.Application.DTOs;
-using MusicApp.PlaylistService.Domain.Entities;
 
 namespace MusicApp.PlaylistService.Application.Services.Interfaces;
 

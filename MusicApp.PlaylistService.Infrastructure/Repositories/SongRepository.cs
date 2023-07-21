@@ -5,16 +5,16 @@ using MusicApp.PlaylistService.Infrastructure.Data;
 
 namespace MusicApp.PlaylistService.Infrastructure.Repositories;
 
-public class SongRepository : ISongRepository
+public class SongRepository : BaseRepository<Song>, ISongRepository
 {
     private readonly AppDbContext _appContext;
 
-    public SongRepository(AppDbContext appContext)
+    public SongRepository(AppDbContext appContext) : base(appContext)
     {
         _appContext = appContext;
     }
     
-    public async Task<Song> GetByIdAsync(Guid id, CancellationToken cancellationToken)
+    public override async Task<Song> GetByIdAsync(Guid id, CancellationToken cancellationToken)
     {
         return await _appContext.Songs
             .Include(song => song.Artist)

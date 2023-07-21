@@ -40,14 +40,13 @@ public class PlaylistsService : IPlaylistsService
 
     public async Task<PlaylistOutputDto> GetPlaylistByIdAsync(Guid id, CancellationToken cancellationToken)
     {
-        var username = _userService.GetUsername();
-
         var playlist = await _playlistRepository.GetByIdAsync(id, cancellationToken);
         if (playlist == null)
         {
             throw new PlaylistNotFoundException();
         }
 
+        var username = _userService.GetUsername();
         if (playlist.IsPrivate && playlist.Creator.Username != username)
         {
             throw new PrivatePlaylistException();
