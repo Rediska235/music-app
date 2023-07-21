@@ -51,8 +51,9 @@ public class SongsController : ControllerBase
         var song = await _mediator.Send(createCommand, cancellationToken);
 
         var actionName = nameof(GetSongById);
+        var routeValues = new { id = song.Id };
 
-        return CreatedAtAction(actionName, song);
+        return CreatedAtAction(actionName, routeValues, song);
     }
     
     [HttpPut("{id:guid}")]
