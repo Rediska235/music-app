@@ -13,3 +13,29 @@ services:
     environment:
       - ACCEPT_EULA=y
       - SA_PASSWORD=Strong_Password0
+  songservice:
+    image: songservice
+    container_name: songservice
+    ports:
+      - "5001:80"
+  songservice_db:
+    image: "mcr.microsoft.com/mssql/server:2022-latest"
+    container_name: songservice_db
+    ports:
+      - "1434:1433" 
+    environment:
+      - ACCEPT_EULA=y
+      - SA_PASSWORD=Strong_Password0
+  playlistservice:
+    image: playlistservice
+    container_name: playlistservice
+    ports:
+      - "5002:80"
+  playlistservice_db:
+    image: "mcr.microsoft.com/mssql/server:2022-latest"
+    container_name: playlistservice_db
+    ports:
+      - "1435:1433" 
+    environment:
+      - ACCEPT_EULA=y
+      - SA_PASSWORD=Strong_Password0
