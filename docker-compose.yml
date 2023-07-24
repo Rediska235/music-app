@@ -39,3 +39,8 @@ services:
     environment:
       - ACCEPT_EULA=y
       - SA_PASSWORD=Strong_Password0
+  apigateway:
+    image: apigateway
+    container_name: apigateway
+    ports:
+      - "5003:80"

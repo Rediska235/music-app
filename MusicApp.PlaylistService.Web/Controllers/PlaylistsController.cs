@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using MusicApp.PlaylistService.Application.DTOs;
 using MusicApp.PlaylistService.Application.Services.Interfaces;
 using MusicApp.PlaylistService.Web.Filters;
@@ -34,7 +33,6 @@ public class PlaylistsController : ControllerBase
     }
 
     [HttpPost]
-    [Authorize]
     [ValidationFilter]
     public async Task<IActionResult> CreatePlaylist(PlaylistInputDto playlistInputDto, CancellationToken cancellationToken)
     {
@@ -47,7 +45,6 @@ public class PlaylistsController : ControllerBase
     }
 
     [HttpPut("{id:guid}")]
-    [Authorize]
     [ValidationFilter]
     public async Task<IActionResult> UpdatePlaylist([FromRoute] Guid id, [FromBody] PlaylistInputDto playlistInputDto, CancellationToken cancellationToken)
     {
@@ -57,7 +54,6 @@ public class PlaylistsController : ControllerBase
     }
 
     [HttpDelete("{id:guid}")]
-    [Authorize]
     public async Task<IActionResult> DeletePlaylist(Guid id, CancellationToken cancellationToken)
     {
         await _service.DeletePlaylistAsync(id, cancellationToken);
@@ -66,7 +62,6 @@ public class PlaylistsController : ControllerBase
     }
 
     [HttpPatch("{playlistId:guid}/add/{songId:guid}")]
-    [Authorize]
     public async Task<IActionResult> AddSong(Guid playlistId, Guid songId, CancellationToken cancellationToken)
     {
         await _service.AddSongAsync(playlistId, songId, cancellationToken);
@@ -75,7 +70,6 @@ public class PlaylistsController : ControllerBase
     }
 
     [HttpPatch("{playlistId:guid}/remove/{songId:guid}")]
-    [Authorize]
     public async Task<IActionResult> RemoveSong(Guid playlistId, Guid songId, CancellationToken cancellationToken)
     {
         await _service.RemoveSongAsync(playlistId, songId, cancellationToken);

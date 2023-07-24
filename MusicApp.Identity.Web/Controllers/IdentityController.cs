@@ -1,7 +1,6 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using MusicApp.Identity.Application.Services.Interfaces;
+﻿using Microsoft.AspNetCore.Mvc;
 using MusicApp.Identity.Application.DTOs;
+using MusicApp.Identity.Application.Services.Interfaces;
 
 namespace MusicApp.Identity.Web.Controllers;
 
@@ -32,7 +31,7 @@ public class IdentityController : ControllerBase
         return Ok(token);
     }
 
-    [HttpGet("refresh-token"), Authorize(AuthenticationSchemes = "ExpiredTokenAllowed")]
+    [HttpGet("refresh-token")]
     public async Task<IActionResult> RefreshToken()
     {
         var username = User.Identity.Name;

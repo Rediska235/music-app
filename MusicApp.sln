@@ -25,13 +25,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MusicApp.SongService.Web", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PlaylistService", "PlaylistService", "{0DFF27BA-99A4-4503-A1EC-54072A4D1863}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicApp.PlaylistService.Domain", "MusicApp.PlaylistService.Domain\MusicApp.PlaylistService.Domain.csproj", "{8FDBD7BD-9C8B-4426-9E12-C9D23A923703}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MusicApp.PlaylistService.Domain", "MusicApp.PlaylistService.Domain\MusicApp.PlaylistService.Domain.csproj", "{8FDBD7BD-9C8B-4426-9E12-C9D23A923703}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicApp.PlaylistService.Application", "MusicApp.PlaylistService.Application\MusicApp.PlaylistService.Application.csproj", "{B716590A-9270-4CD9-9609-FF0CF28D1DBE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MusicApp.PlaylistService.Application", "MusicApp.PlaylistService.Application\MusicApp.PlaylistService.Application.csproj", "{B716590A-9270-4CD9-9609-FF0CF28D1DBE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicApp.PlaylistService.Infrastructure", "MusicApp.PlaylistService.Infrastructure\MusicApp.PlaylistService.Infrastructure.csproj", "{8C7436B5-1A3C-4FC5-B8C0-E28323009214}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MusicApp.PlaylistService.Infrastructure", "MusicApp.PlaylistService.Infrastructure\MusicApp.PlaylistService.Infrastructure.csproj", "{8C7436B5-1A3C-4FC5-B8C0-E28323009214}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicApp.PlaylistService.Web", "MusicApp.PlaylistService.Web\MusicApp.PlaylistService.Web.csproj", "{E21248F0-B6FD-46AE-9C9A-E3CE62C803AB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MusicApp.PlaylistService.Web", "MusicApp.PlaylistService.Web\MusicApp.PlaylistService.Web.csproj", "{E21248F0-B6FD-46AE-9C9A-E3CE62C803AB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MusicApp.ApiGateway", "MusicApp.ApiGateway\MusicApp.ApiGateway.csproj", "{31222BCA-6D39-4869-BD89-431857FE4CC9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ApiGateway", "ApiGateway", "{4D6E5ABB-880E-44F6-B162-983518B06CAB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -87,6 +91,10 @@ Global
 		{E21248F0-B6FD-46AE-9C9A-E3CE62C803AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E21248F0-B6FD-46AE-9C9A-E3CE62C803AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E21248F0-B6FD-46AE-9C9A-E3CE62C803AB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{31222BCA-6D39-4869-BD89-431857FE4CC9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{31222BCA-6D39-4869-BD89-431857FE4CC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{31222BCA-6D39-4869-BD89-431857FE4CC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{31222BCA-6D39-4869-BD89-431857FE4CC9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -104,6 +112,7 @@ Global
 		{B716590A-9270-4CD9-9609-FF0CF28D1DBE} = {0DFF27BA-99A4-4503-A1EC-54072A4D1863}
 		{8C7436B5-1A3C-4FC5-B8C0-E28323009214} = {0DFF27BA-99A4-4503-A1EC-54072A4D1863}
 		{E21248F0-B6FD-46AE-9C9A-E3CE62C803AB} = {0DFF27BA-99A4-4503-A1EC-54072A4D1863}
+		{31222BCA-6D39-4869-BD89-431857FE4CC9} = {4D6E5ABB-880E-44F6-B162-983518B06CAB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {199BBEE3-32AF-401E-B3F8-9ED03D4631F4}

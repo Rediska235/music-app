@@ -1,8 +1,9 @@
 {
   "GlobalConfiguration": {
-    "BaseUrl": "https://localhost:5003"
+    "BaseUrl": "apigateway,80"
   },
   "Routes": [
+    //identity
     {
       "UpstreamPathTemplate": "/register",
       "UpstreamHttpMethod": [ "Post" ],
@@ -10,8 +11,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5000
+          "Host": "identity",
+          "Port": 80
         }
       ]
     },
@@ -22,8 +23,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5000
+          "Host": "identity",
+          "Port": 80
         }
       ]
     },
@@ -34,11 +35,17 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5000
+          "Host": "identity",
+          "Port": 80
         }
-      ]
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "ExpiredTokenAllowed",
+        "AllowedScopes": []
+      }
     },
+
+    //song service
     {
       "UpstreamPathTemplate": "/songs",
       "UpstreamHttpMethod": [ "Get" ],
@@ -46,8 +53,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5001
+          "Host": "songservice",
+          "Port": 80
         }
       ]
     },
@@ -58,8 +65,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5001
+          "Host": "songservice",
+          "Port": 80
         }
       ]
     },
@@ -70,10 +77,17 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5001
+          "Host": "songservice",
+          "Port": 80
         }
-      ]
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "MyJwtKey",
+        "AllowedScopes": []
+      },
+      "RouteClaimsRequirement": {
+        "Role": "artist"
+      }
     },
     {
       "UpstreamPathTemplate": "/songs/{id}",
@@ -82,10 +96,17 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5001
+          "Host": "songservice",
+          "Port": 80
         }
-      ]
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "MyJwtKey",
+        "AllowedScopes": []
+      },
+      "RouteClaimsRequirement": {
+        "Role": "artist"
+      }
     },
     {
       "UpstreamPathTemplate": "/songs/{id}",
@@ -94,11 +115,20 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5001
+          "Host": "songservice",
+          "Port": 80
         }
-      ]
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "MyJwtKey",
+        "AllowedScopes": []
+      },
+      "RouteClaimsRequirement": {
+        "Role": "artist"
+      }
     },
+
+    //playlist service
     {
       "UpstreamPathTemplate": "/playlists",
       "UpstreamHttpMethod": [ "Get" ],
@@ -106,8 +136,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5002
+          "Host": "playlistservice",
+          "Port": 80
         }
       ]
     },
@@ -118,8 +148,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5002
+          "Host": "playlistservice",
+          "Port": 80
         }
       ]
     },
@@ -130,10 +160,14 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5002
+          "Host": "playlistservice",
+          "Port": 80
         }
-      ]
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "MyJwtKey",
+        "AllowedScopes": []
+      }
     },
     {
       "UpstreamPathTemplate": "/playlists/{id}",
@@ -142,10 +176,14 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5002
+          "Host": "playlistservice",
+          "Port": 80
         }
-      ]
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "MyJwtKey",
+        "AllowedScopes": []
+      }
     },
     {
       "UpstreamPathTemplate": "/playlists/{id}",
@@ -154,10 +192,14 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5002
+          "Host": "playlistservice",
+          "Port": 80
         }
-      ]
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "MyJwtKey",
+        "AllowedScopes": []
+      }
     },
     {
       "UpstreamPathTemplate": "/playlists/{playlistId}/add/{songId}",
@@ -166,10 +208,14 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5002
+          "Host": "playlistservice",
+          "Port": 80
         }
-      ]
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "MyJwtKey",
+        "AllowedScopes": []
+      }
     },
     {
       "UpstreamPathTemplate": "/playlists/{playlistId}/remove/{songId}",
@@ -178,10 +224,14 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5002
+          "Host": "playlistservice",
+          "Port": 80
         }
-      ]
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "MyJwtKey",
+        "AllowedScopes": []
+      }
     }
   ]
 }
