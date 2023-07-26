@@ -12,7 +12,7 @@ public static class IServiceCollectionExtension
 {
     public static IServiceCollection AddApplication(this IServiceCollection services)
     {
-        services.AddMediatR(configuration => configuration.RegisterServicesFromAssemblyContaining<CreateSongCommand>());
+        services.AddMediatR(config => config.RegisterServicesFromAssemblyContaining<CreateSongCommand>());
 
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
         services.AddValidatorsFromAssembly(typeof(CreateSongCommandValidator).Assembly);

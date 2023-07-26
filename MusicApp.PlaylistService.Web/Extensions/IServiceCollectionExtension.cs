@@ -33,17 +33,17 @@ public static class IServiceCollectionExtension
 
     public static IServiceCollection AddMassTransitForRabbitMQ(this IServiceCollection services)
     {
-        services.AddMassTransit(o =>
+        services.AddMassTransit(config =>
         {
-            o.SetEndpointNameFormatter(
+            config.SetEndpointNameFormatter(
                 new KebabCaseEndpointNameFormatter(prefix: "playlist", includeNamespace: false));
 
-            o.AddConsumers(typeof(UserConsumer).Assembly);
+            config.AddConsumers(typeof(UserConsumer).Assembly);
 
-            o.UsingRabbitMq((context, cfg) =>
+            config.UsingRabbitMq((context, config) =>
             {
-                cfg.Host("rabbitmq", "/");
-                cfg.ConfigureEndpoints(context);
+                config.Host("rabbitmq", "/");
+                config.ConfigureEndpoints(context);
             });
         });
 

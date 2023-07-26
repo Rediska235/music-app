@@ -7,15 +7,15 @@ namespace MusicApp.Identity.Infrastructure.Repositories;
 
 public class RoleRepository : IRoleRepository
 {
-    private readonly AppDbContext _db;
+    private readonly AppDbContext _appContext;
 
-    public RoleRepository(AppDbContext db)
+    public RoleRepository(AppDbContext appContext)
     {
-        _db = db;
+        _appContext = appContext;
     }
 
     public async Task<Role> GetRoleByTitleAsync(string title)
     {
-        return await _db.Roles.FirstOrDefaultAsync(r => r.Title == title);
+        return await _appContext.Roles.FirstOrDefaultAsync(role => role.Title == title);
     }
 }

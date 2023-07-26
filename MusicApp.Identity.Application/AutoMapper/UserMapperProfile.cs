@@ -10,7 +10,7 @@ public class UserMapperProfile : Profile
     public UserMapperProfile()
     {
         CreateMap<UserRegisterDto, User>()
-            .ForMember(u => u.PasswordHash, opt => opt.MapFrom(src => BCrypt.Net.BCrypt.HashPassword(src.Password)));
+            .ForMember(user => user.PasswordHash, options => options.MapFrom(src => BCrypt.Net.BCrypt.HashPassword(src.Password)));
 
         CreateMap<User, UserPublishedDto>();
     }

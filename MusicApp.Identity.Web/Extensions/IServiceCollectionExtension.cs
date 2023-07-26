@@ -47,9 +47,9 @@ public static class IServiceCollectionExtension
 
     public static IServiceCollection AddMassTransitForRabbitMQ(this IServiceCollection services)
     {
-        services.AddMassTransit(cfg =>
+        services.AddMassTransit(config =>
         {
-            cfg.UsingRabbitMq();
+            config.UsingRabbitMq();
         });
 
         return services;
