@@ -13,6 +13,7 @@ public static class IServiceCollectionExtension
 
         services.AddScoped<IPlaylistsService, PlaylistsService>();
         services.AddScoped<IUserService, UserService>();
+        services.AddScoped<ISongService, SongService>();
 
         return services;
     }
