@@ -30,4 +30,26 @@ public class SongService : ISongService
 
         return song;
     }
+
+    public async Task<Song> UpdateSongAsync(SongPublishedDto songPublishedDto, CancellationToken cancellationToken)
+    {
+        var song = _mapper.Map<Song>(songPublishedDto);
+        var artist = await _userRepository.GetUserByUsernameAsync(song.Artist.Username, cancellationToken);
+        song.Artist = artist;
+
+        _songRepository.Update(song);
+        await _songRepository.SaveChangesAsync(cancellationToken);
+
+        return song;
+    }
+
+    public async Task RemoveSongAsync(SongPublishedDto songPublishedDto, CancellationToken cancellationToken)
+    {
+        var song = _mapper.Map<Song>(songPublishedDto);
+        var artist = await _userRepository.GetUserByUsernameAsync(song.Artist.Username, cancellationToken);
+        song.Artist = artist;
+
+        _songRepository.Delete(song);
+        await _songRepository.SaveChangesAsync(cancellationToken);
+    }
 }

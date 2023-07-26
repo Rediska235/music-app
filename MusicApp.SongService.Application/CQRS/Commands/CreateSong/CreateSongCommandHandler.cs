@@ -11,14 +11,14 @@ namespace MusicApp.SongService.Application.CQRS.Commands.CreateSong;
 public class CreateSongCommandHandler : IRequestHandler<CreateSongCommand, SongOutputDto>
 {
     private readonly ISongRepository _repository;
-    private readonly IMapper _mapper;
     private readonly IPublishEndpoint _publishEndpoint;
+    private readonly IMapper _mapper;
 
-    public CreateSongCommandHandler(ISongRepository repository, IMapper mapper, IPublishEndpoint publishEndpoint)
+    public CreateSongCommandHandler(ISongRepository repository, IPublishEndpoint publishEndpoint, IMapper mapper)
     {
         _repository = repository;
-        _mapper = mapper;
         _publishEndpoint = publishEndpoint;
+        _mapper = mapper;
     }
 
     public async Task<SongOutputDto> Handle(CreateSongCommand request, CancellationToken cancellationToken)
@@ -29,7 +29,12 @@ public class CreateSongCommandHandler : IRequestHandler<CreateSongCommand, SongO
         await _repository.SaveChangesAsync(cancellationToken);
 
         var songPublishedDto = _mapper.Map<SongPublishedDto>(song);
-        await _publishEndpoint.Publish(songPublishedDto);
+        var songMessage = new SongMessage()
+        {
+            Song = songPublishedDto,
+            Operation = Operation.Created
+        };
+        await _publishEndpoint.Publish(songMessage);
 
         return _mapper.Map<SongOutputDto>(song);
     }

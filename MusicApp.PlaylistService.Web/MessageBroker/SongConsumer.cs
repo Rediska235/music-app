@@ -4,7 +4,7 @@ using MusicApp.Shared;
 
 namespace MusicApp.PlaylistService.Web.MessageBroker;
 
-public class SongConsumer : IConsumer<SongPublishedDto>
+public class SongConsumer : IConsumer<SongMessage>
 {
     private readonly ISongService _service;
 
@@ -13,8 +13,22 @@ public class SongConsumer : IConsumer<SongPublishedDto>
         _service = service;
     }
 
-    public async Task Consume(ConsumeContext<SongPublishedDto> context)
+    public async Task Consume(ConsumeContext<SongMessage> context)
     {
-        await _service.AddSongAsync(context.Message, new CancellationToken());
+        switch(context.Message.Operation)
+        {
+            case Operation.Created:
+                await _service.AddSongAsync(context.Message.Song, new CancellationToken());
+                break;
+
+            case Operation.Updated:
+                await _service.UpdateSongAsync(context.Message.Song, new CancellationToken());
+                break;
+
+            case Operation.Deleted:
+                await _service.RemoveSongAsync(context.Message.Song, new CancellationToken());
+                break;
+        }
+
     }
 }
