@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using MassTransit;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using MusicApp.PlaylistService.Web.MessageBroker;
 using System.Text;
 
 namespace MusicApp.PlaylistService.Web.Extensions;
@@ -25,6 +27,25 @@ public static class IServiceCollectionExtension
                     ClockSkew = TimeSpan.Zero
                 };
             });
+
+        return services;
+    }
+
+    public static IServiceCollection AddMassTransitForRabbitMQ(this IServiceCollection services)
+    {
+        services.AddMassTransit(o =>
+        {
+            o.SetEndpointNameFormatter(
+                new KebabCaseEndpointNameFormatter(prefix: "playlist", includeNamespace: false));
+
+            o.AddConsumers(typeof(UserConsumer).Assembly);
+
+            o.UsingRabbitMq((context, cfg) =>
+            {
+                cfg.Host("rabbitmq", "/");
+                cfg.ConfigureEndpoints(context);
+            });
+        });
 
         return services;
     }

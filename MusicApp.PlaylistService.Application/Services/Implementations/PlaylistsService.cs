@@ -11,13 +11,13 @@ public class PlaylistsService : IPlaylistsService
 {
     private readonly IPlaylistRepository _playlistRepository;
     private readonly ISongRepository _songRepository;
-    private readonly UserService _userService;
+    private readonly IUserService _userService;
     private readonly IMapper _mapper;
 
     public PlaylistsService(
         IPlaylistRepository playlistRepository,
         ISongRepository songRepository,
-        UserService userService,
+        IUserService userService,
         IMapper mapper)
     {
         _playlistRepository = playlistRepository;
@@ -59,7 +59,7 @@ public class PlaylistsService : IPlaylistsService
     {
         var playlist = _mapper.Map<Playlist>(playlistInputDto);
 
-        var user = await _userService.GetOrCreateUser(cancellationToken);
+        var user = await _userService.GetUserAsync(cancellationToken);
         playlist.Creator = user;
 
         await _playlistRepository.CreateAsync(playlist, cancellationToken);

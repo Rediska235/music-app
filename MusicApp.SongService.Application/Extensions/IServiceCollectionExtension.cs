@@ -3,7 +3,8 @@ using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using MusicApp.SongService.Application.AutoMapper;
 using MusicApp.SongService.Application.CQRS.Commands.CreateSong;
-using MusicApp.SongService.Application.Services;
+using MusicApp.SongService.Application.Services.Implementations;
+using MusicApp.SongService.Application.Services.Interfaces;
 
 namespace MusicApp.SongService.Application.Extensions;
 
@@ -18,7 +19,7 @@ public static class IServiceCollectionExtension
 
         services.AddAutoMapper(typeof(SongMapperProfile));
 
-        services.AddScoped<ArtistService>();
+        services.AddScoped<IArtistService, ArtistService>();
 
         return services;
     }
