@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using MassTransit.Serialization;
 using Microsoft.AspNetCore.Mvc.Filters;
 using MusicApp.Identity.Application.DTOs;
 using MusicApp.Identity.Application.Validators;
@@ -16,10 +17,10 @@ public class RegisterValidationFilterAttribute : ActionFilterAttribute
     
     public override void OnActionExecuting(ActionExecutingContext actionContext)
     {
-        object playlistObj;
-        actionContext.ActionArguments.TryGetValue("userRegisterDto", out playlistObj);
-        var playlist = (UserRegisterDto)playlistObj;
-
-        _validator.ValidateAndThrow(playlist);
+        actionContext.ActionArguments.TryGetValue("userRegisterDto", out UserRegisterDto? userRegisterDto);
+        if(userRegisterDto != null)
+        {
+            _validator.ValidateAndThrow(userRegisterDto);
+        }
     }
 }

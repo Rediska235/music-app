@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using MassTransit.Serialization;
 using Microsoft.AspNetCore.Mvc.Filters;
 using MusicApp.Identity.Application.DTOs;
 using MusicApp.Identity.Application.Validators;
@@ -16,10 +17,10 @@ public class LoginValidationFilterAttribute : ActionFilterAttribute
     
     public override void OnActionExecuting(ActionExecutingContext actionContext)
     {
-        object playlistObj;
-        actionContext.ActionArguments.TryGetValue("userLoginDto", out playlistObj);
-        var playlist = (UserLoginDto)playlistObj;
-
-        _validator.ValidateAndThrow(playlist);
+        actionContext.ActionArguments.TryGetValue("userLoginDto", out UserLoginDto? userLoginDto);
+        if (userLoginDto != null)
+        {
+            _validator.ValidateAndThrow(userLoginDto);
+        }
     }
 }
