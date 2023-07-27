@@ -14,7 +14,7 @@ public class RoleRepository : IRoleRepository
         _appContext = appContext;
     }
 
-    public async Task<Role> GetRoleByTitleAsync(string title)
+    public async Task<Role?> GetRoleByTitleAsync(string title)
     {
         return await _appContext.Roles.FirstOrDefaultAsync(role => role.Title == title);
     }

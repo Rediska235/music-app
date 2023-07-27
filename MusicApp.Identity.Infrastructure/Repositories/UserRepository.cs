@@ -14,12 +14,12 @@ public class UserRepository : IUserRepository
         _appContext = appContext;
     }
 
-    public async Task<User> GetUserByUsernameAsync(string username)
+    public async Task<User?> GetUserByUsernameAsync(string username)
     {
         return await _appContext.Users.Include(user => user.Roles).FirstOrDefaultAsync(user => user.Username == username);
     }
 
-    public async Task<User> GetUserByRefreshTokenAsync(string refreshToken)
+    public async Task<User?> GetUserByRefreshTokenAsync(string refreshToken)
     {
         return await _appContext.Users.Include(user => user.Roles).FirstOrDefaultAsync(user => user.RefreshToken == refreshToken);
     }

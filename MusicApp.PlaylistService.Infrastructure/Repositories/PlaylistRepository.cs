@@ -31,7 +31,7 @@ public class PlaylistRepository : BaseRepository<Playlist>,  IPlaylistRepository
             .ToListAsync(cancellationToken);
     }
 
-    public override async Task<Playlist> GetByIdAsync(Guid id, CancellationToken cancellationToken)
+    public override async Task<Playlist?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
     {
         return await _appContext.Playlists
             .Include(playlist => playlist.Songs)
