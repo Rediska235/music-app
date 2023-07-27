@@ -1,7 +1,5 @@
 ﻿using AutoMapper;
-using MassTransit;
 using MediatR;
-using MusicApp.Shared;
 using MusicApp.SongService.Application.DTOs;
 using MusicApp.SongService.Application.Repositories;
 using MusicApp.SongService.Application.Services.Interfaces;
@@ -13,18 +11,12 @@ public class UpdateSongCommandHandler : IRequestHandler<UpdateSongCommand, SongO
 {
     private readonly ISongRepository _repository;
     private readonly IArtistService _artistService;
-    private readonly IPublishEndpoint _publishEndpoint;
     private readonly IMapper _mapper;
 
-    public UpdateSongCommandHandler(
-        ISongRepository repository, 
-        IArtistService artistService, 
-        IPublishEndpoint publishEndpoint, 
-        IMapper mapper)
+    public UpdateSongCommandHandler(ISongRepository repository, IArtistService artistService, IMapper mapper)
     {
         _repository = repository;
         _artistService = artistService;
-        _publishEndpoint = publishEndpoint;
         _mapper = mapper;
     }
 
@@ -42,14 +34,6 @@ public class UpdateSongCommandHandler : IRequestHandler<UpdateSongCommand, SongO
 
         _repository.Update(song);
         await _repository.SaveChangesAsync(cancellationToken);
-
-        var songPublishedDto = _mapper.Map<SongPublishedDto>(song);
-        var songMessage = new SongMessage()
-        {
-            Song = songPublishedDto,
-            Operation = Operation.Updated
-        };
-        await _publishEndpoint.Publish(songMessage);
 
         return _mapper.Map<SongOutputDto>(song);
     }

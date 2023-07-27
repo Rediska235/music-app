@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using MusicApp.Shared;
 using MusicApp.SongService.Application.CQRS.Commands.CreateSong;
 using MusicApp.SongService.Application.DTOs;
 using MusicApp.SongService.Domain.Entities;
@@ -14,7 +13,5 @@ public class SongMapperProfile : Profile
             .ForMember(song => song.Title, options => options.MapFrom(src => src.Song.Title));
 
         CreateMap<Song, SongOutputDto>();
-
-        CreateMap<Song, SongPublishedDto>();
     }
 }

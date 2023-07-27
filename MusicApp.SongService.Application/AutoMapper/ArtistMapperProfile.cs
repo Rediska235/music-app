@@ -12,7 +12,5 @@ public class ArtistMapperProfile : Profile
         CreateMap<Artist, ArtistOutputDto>();
 
         CreateMap<UserPublishedDto, Artist>();
-
-        CreateMap<Artist, UserPublishedDto>();
     }
 }
