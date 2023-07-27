@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using MusicApp.PlaylistService.Web.Automapper;
+using MusicApp.PlaylistService.Web.Grpc;
 using System.Text;
 
 namespace MusicApp.PlaylistService.Web.Extensions;
@@ -25,6 +27,14 @@ public static class IServiceCollectionExtension
                     ClockSkew = TimeSpan.Zero
                 };
             });
+
+        return services;
+    }
+
+    public static IServiceCollection AddGrpcService(this IServiceCollection services)
+    {
+        services.AddScoped<GrpcSongClient>();
+        services.AddAutoMapper(typeof(GrpcModelsMapperProfile));
 
         return services;
     }

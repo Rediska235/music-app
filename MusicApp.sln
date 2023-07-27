@@ -25,13 +25,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MusicApp.SongService.Web", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PlaylistService", "PlaylistService", "{0DFF27BA-99A4-4503-A1EC-54072A4D1863}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicApp.PlaylistService.Domain", "MusicApp.PlaylistService.Domain\MusicApp.PlaylistService.Domain.csproj", "{8FDBD7BD-9C8B-4426-9E12-C9D23A923703}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MusicApp.PlaylistService.Domain", "MusicApp.PlaylistService.Domain\MusicApp.PlaylistService.Domain.csproj", "{8FDBD7BD-9C8B-4426-9E12-C9D23A923703}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicApp.PlaylistService.Application", "MusicApp.PlaylistService.Application\MusicApp.PlaylistService.Application.csproj", "{B716590A-9270-4CD9-9609-FF0CF28D1DBE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MusicApp.PlaylistService.Application", "MusicApp.PlaylistService.Application\MusicApp.PlaylistService.Application.csproj", "{B716590A-9270-4CD9-9609-FF0CF28D1DBE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicApp.PlaylistService.Infrastructure", "MusicApp.PlaylistService.Infrastructure\MusicApp.PlaylistService.Infrastructure.csproj", "{8C7436B5-1A3C-4FC5-B8C0-E28323009214}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MusicApp.PlaylistService.Infrastructure", "MusicApp.PlaylistService.Infrastructure\MusicApp.PlaylistService.Infrastructure.csproj", "{8C7436B5-1A3C-4FC5-B8C0-E28323009214}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicApp.PlaylistService.Web", "MusicApp.PlaylistService.Web\MusicApp.PlaylistService.Web.csproj", "{E21248F0-B6FD-46AE-9C9A-E3CE62C803AB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MusicApp.PlaylistService.Web", "MusicApp.PlaylistService.Web\MusicApp.PlaylistService.Web.csproj", "{E21248F0-B6FD-46AE-9C9A-E3CE62C803AB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

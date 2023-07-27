@@ -1,7 +1,7 @@
+using MusicApp.PlaylistService.Application.Extensions;
+using MusicApp.PlaylistService.Infrastructure.Extensions;
 using MusicApp.PlaylistService.Web.Extensions;
 using MusicApp.PlaylistService.Web.Middlewares;
-using MusicApp.PlaylistService.Infrastructure.Extensions;
-using MusicApp.PlaylistService.Application.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,12 +14,12 @@ var configuration = builder.Configuration;
 builder.Services.AddJwtAuthentication(configuration);
 builder.Services.AddInfrastructure(configuration);
 builder.Services.AddApplication();
+builder.Services.AddGrpcService();
 
 var app = builder.Build();
 
 app.UseMiddleware<ErrorHandlingMiddleware>();
 
-app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();

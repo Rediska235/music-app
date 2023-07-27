@@ -18,6 +18,7 @@ services:
     container_name: songservice
     ports:
       - "5001:80"
+      - "5005:5005"
   songservice_db:
     image: "mcr.microsoft.com/mssql/server:2022-latest"
     container_name: songservice_db
