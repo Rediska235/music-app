@@ -2,6 +2,7 @@
 using Microsoft.IdentityModel.Tokens;
 using MusicApp.PlaylistService.Web.Automapper;
 using MusicApp.PlaylistService.Web.Grpc;
+using MusicApp.PlaylistService.Web.Grpc.Protos;
 using System.Text;
 
 namespace MusicApp.PlaylistService.Web.Extensions;
@@ -31,10 +32,15 @@ public static class IServiceCollectionExtension
         return services;
     }
 
-    public static IServiceCollection AddGrpcService(this IServiceCollection services)
+    public static IServiceCollection AddGrpcService(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddScoped<GrpcSongClient>();
         services.AddAutoMapper(typeof(GrpcModelsMapperProfile));
+
+        services.AddGrpcClient<GrpcSong.GrpcSongClient>(config =>
+        {
+            config.Address = new Uri(configuration["GrpcHost"]);
+        });
 
         return services;
     }

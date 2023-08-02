@@ -12,9 +12,9 @@ builder.Services.AddHttpContextAccessor();
 
 var configuration = builder.Configuration;
 builder.Services.AddJwtAuthentication(configuration);
+builder.AddGrpcService();
 builder.Services.AddInfrastructure(configuration);
 builder.Services.AddApplication();
-builder.AddGrpcService();
 
 var app = builder.Build();
 

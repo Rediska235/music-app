@@ -21,10 +21,7 @@ public class GrpcSongService : GrpcSong.GrpcSongBase
         var response = new SongResponse();
         var songs = await _repository.GetAsync(new CancellationToken());
 
-        foreach (var song in songs)
-        {
-            response.Songs.Add(_mapper.Map<GrpcSongModel>(song));
-        }
+        songs.ToList().ForEach(song => response.Songs.Add(_mapper.Map<GrpcSongModel>(song)));
 
         return response;
     }

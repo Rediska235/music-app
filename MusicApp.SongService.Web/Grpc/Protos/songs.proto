@@ -2,23 +2,30 @@ syntax = "proto3";
 
 option csharp_namespace = "MusicApp.SongService.Web.Grpc.Protos";
 
-service GrpcSong {
+service GrpcSong 
+{
     rpc GetSongs (GetSongsRequest) returns (SongResponse);
 }
 
-message GetSongsRequest {}
+message GetSongsRequest 
+{
 
-message GrpcArtistModel{
+}
+
+message GrpcArtistModel
+{
     string id = 1;
     string username = 2;
 }
 
-message GrpcSongModel{
+message GrpcSongModel
+{
     string id = 1;
     string title = 2;
     GrpcArtistModel artist = 3;
 }
 
-message SongResponse {
+message SongResponse 
+{
     repeated GrpcSongModel songs = 1;
 }

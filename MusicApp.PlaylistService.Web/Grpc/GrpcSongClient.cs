@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Grpc.Net.Client;
 using MusicApp.PlaylistService.Domain.Entities;
 using MusicApp.PlaylistService.Web.Grpc.Protos;
 
@@ -8,22 +7,19 @@ namespace MusicApp.PlaylistService.Web.Grpc;
 public class GrpcSongClient
 {
     private readonly IMapper _mapper;
-    private readonly IConfiguration _configuration;
+    private readonly GrpcSong.GrpcSongClient _client;
 
-    public GrpcSongClient(IMapper mapper, IConfiguration configuration)
+    public GrpcSongClient(IMapper mapper, GrpcSong.GrpcSongClient client)
     {
         _mapper = mapper;
-        _configuration = configuration;
+        _client = client;
     }
 
     public IEnumerable<Song> GetSongsFromSongService()
     {
-        var channel = GrpcChannel.ForAddress(_configuration["GrpcHost"]);
-        
-        var client = new GrpcSong.GrpcSongClient(channel);
         var request = new GetSongsRequest();
 
-        var response = client.GetSongs(request);
+        var response = _client.GetSongs(request);
 
         return _mapper.Map<IEnumerable<Song>>(response.Songs);
     }
