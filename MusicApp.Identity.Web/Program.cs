@@ -14,6 +14,7 @@ builder.Services.AddAutoMapper(typeof(UserMapperProfile));
 
 var configuration = builder.Configuration;
 builder.Services.AddJwtAuthentication(configuration);
+builder.Services.AddCorsPolicy(configuration);
 builder.Services.AddInfrastructure(configuration);
 builder.Services.AddApplication();
 
@@ -25,5 +26,7 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
+
+app.UseCors("CorsPolicy");
 
 app.Run();

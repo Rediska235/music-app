@@ -39,3 +39,8 @@ services:
     environment:
       - ACCEPT_EULA=y
       - SA_PASSWORD=Strong_Password0
+  reactclient:
+    image: reactclient
+    container_name: reactclient
+    ports:
+      - "3000:3000"
