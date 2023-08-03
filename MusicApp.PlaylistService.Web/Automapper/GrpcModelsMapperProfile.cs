@@ -2,7 +2,7 @@
 using MusicApp.PlaylistService.Domain.Entities;
 using MusicApp.PlaylistService.Web.Grpc.Protos;
 
-namespace MusicApp.PlaylistService.Web.Automapper;
+namespace MusicApp.PlaylistService.Web.AutoMapper;
 
 public class GrpcModelsMapperProfile : Profile
 {

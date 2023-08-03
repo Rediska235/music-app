@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using MusicApp.PlaylistService.Application.DTOs;
 using MusicApp.PlaylistService.Application.Services.Interfaces;
 using MusicApp.PlaylistService.Web.Filters;
-using MusicApp.PlaylistService.Web.Grpc;
 
 namespace MusicApp.PlaylistService.Web.Controllers;
 
@@ -13,13 +12,11 @@ public class PlaylistsController : ControllerBase
 {
     private readonly IPlaylistsService _playlistService;
     private readonly ISongService _songService;
-    private readonly GrpcSongClient _grpcClient;
 
-    public PlaylistsController(IPlaylistsService playlistService, ISongService songService, GrpcSongClient grpcClient)
+    public PlaylistsController(IPlaylistsService playlistService, ISongService songService)
     {
         _playlistService = playlistService;
         _songService = songService;
-        _grpcClient = grpcClient;
     }
 
     [HttpGet]
@@ -86,15 +83,5 @@ public class PlaylistsController : ControllerBase
         await _playlistService.RemoveSongAsync(playlistId, songId, cancellationToken);
         
         return Ok();
-    }
-    
-    [HttpGet("updateSongs")]
-    public async Task<IActionResult> UpdateSongs(CancellationToken cancellationToken)
-    {
-        var songs = _grpcClient.GetSongsFromSongService();
-        
-        var result = await _songService.UpdateSongs(songs, cancellationToken);
-
-        return Ok(result);
     }
 }

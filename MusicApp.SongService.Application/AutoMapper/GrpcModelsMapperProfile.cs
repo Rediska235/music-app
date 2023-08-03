@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using MusicApp.SongService.Domain.Entities;
-using MusicApp.SongService.Web.Grpc.Protos;
+using MusicApp.SongService.Application.Grpc.Protos;
 
-namespace MusicApp.SongService.Web.Automapper;
+namespace MusicApp.SongService.Application.AutoMapper;
 
 public class GrpcModelsMapperProfile : Profile
 {

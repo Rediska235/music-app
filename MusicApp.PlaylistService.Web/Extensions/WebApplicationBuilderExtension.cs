@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Server.Kestrel.Core;
-using MusicApp.SongService.Web.Automapper;
+using MusicApp.PlaylistService.Web.AutoMapper;
 using System.Net;
 
-namespace MusicApp.SongService.Web.Extensions;
+namespace MusicApp.PlaylistService.Web.Extensions;
 
 public static class WebApplicationBuilderExtension
 {

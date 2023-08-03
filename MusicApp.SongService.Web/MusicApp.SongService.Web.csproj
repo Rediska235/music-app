@@ -9,7 +9,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Grpc.AspNetCore" Version="2.55.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.8" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.17.2" />
   </ItemGroup>
@@ -17,10 +16,6 @@
   <ItemGroup>
     <ProjectReference Include="..\MusicApp.SongService.Application\MusicApp.SongService.Application.csproj" />
     <ProjectReference Include="..\MusicApp.SongService.Infrastructure\MusicApp.SongService.Infrastructure.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Protobuf Include="Grpc\Protos\songs.proto" GrpcServices="Server" />
   </ItemGroup>
 	
 </Project>

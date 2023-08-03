@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using MediatR;
 using MusicApp.SongService.Application.DTOs;
+using MusicApp.SongService.Application.Grpc;
+using MusicApp.SongService.Application.Grpc.Protos;
 using MusicApp.SongService.Application.Repositories;
 using MusicApp.SongService.Application.Services;
 using MusicApp.SongService.Domain.Exceptions;
@@ -12,12 +14,14 @@ public class UpdateSongCommandHandler : IRequestHandler<UpdateSongCommand, SongO
     private readonly ISongRepository _repository;
     private readonly ArtistService _artistService;
     private readonly IMapper _mapper;
+    private readonly GrpcSongClient _client;
 
-    public UpdateSongCommandHandler(ISongRepository repository, ArtistService artistService, IMapper mapper)
+    public UpdateSongCommandHandler(ISongRepository repository, ArtistService artistService, IMapper mapper, GrpcSongClient client)
     {
         _repository = repository;
         _artistService = artistService;
         _mapper = mapper;
+        _client = client;
     }
 
     public async Task<SongOutputDto> Handle(UpdateSongCommand request, CancellationToken cancellationToken)
@@ -34,6 +38,8 @@ public class UpdateSongCommandHandler : IRequestHandler<UpdateSongCommand, SongO
 
         _repository.Update(song);
         await _repository.SaveChangesAsync(cancellationToken);
+
+        _client.SendSongOperation(song, Operation.Updated);
 
         return _mapper.Map<SongOutputDto>(song);
     }
