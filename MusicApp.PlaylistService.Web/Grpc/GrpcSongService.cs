@@ -3,7 +3,6 @@ using Grpc.Core;
 using MusicApp.PlaylistService.Application.Repositories;
 using MusicApp.PlaylistService.Domain.Entities;
 using MusicApp.PlaylistService.Web.Grpc.Protos;
-using System.Text.Json;
 
 namespace MusicApp.PlaylistService.Web.Grpc;
 
@@ -12,13 +11,11 @@ public class GrpcSongService : GrpcSong.GrpcSongBase
     private readonly IMapper _mapper;
     private readonly ISongRepository _songRepository;
     private readonly IUserRepository _userRepository;
-    private readonly ILogger<GrpcSongService> _logger;
 
-    public GrpcSongService(IMapper mapper, ISongRepository songRepository, ILogger<GrpcSongService> logger, IUserRepository userRepository)
+    public GrpcSongService(IMapper mapper, ISongRepository songRepository, IUserRepository userRepository)
     {
         _mapper = mapper;
         _songRepository = songRepository;
-        _logger = logger;
         _userRepository = userRepository;
     }
 
@@ -26,7 +23,11 @@ public class GrpcSongService : GrpcSong.GrpcSongBase
     {
         var song = _mapper.Map<Song>(request.SongOperation.Song);
 
-        _logger.LogCritical(JsonSerializer.Serialize(song));
+        var artist = await _userRepository.GetUserByUsernameAsync(song.Artist.Username, context.CancellationToken);
+        if(artist != null)
+        {
+            song.Artist = artist;
+        }
 
         switch (request.SongOperation.Operation)
         {
@@ -37,13 +38,11 @@ public class GrpcSongService : GrpcSong.GrpcSongBase
                 _songRepository.Update(song);
                 break;
             case Operation.Removed:
-                _logger.LogCritical("Delete");
-                _songRepository.Delete(song);                                    //в логах ничего не показывается
-                _logger.LogCritical("Get");
-                await _songRepository.GetAsync(context.CancellationToken);       //в логах есть гет запрос
+                _songRepository.Delete(song);
                 break;
         }
-        _logger.LogCritical("return");
+
+        await _songRepository.SaveChangesAsync(context.CancellationToken);
 
         return new Response();
     }

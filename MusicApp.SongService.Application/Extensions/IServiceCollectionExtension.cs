@@ -28,13 +28,14 @@ public static class IServiceCollectionExtension
 
     public static IServiceCollection AddGrpcService(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddScoped<GrpcSongClient>();
         services.AddAutoMapper(typeof(GrpcModelsMapperProfile));
 
         services.AddGrpcClient<GrpcSong.GrpcSongClient>(config =>
         {
             config.Address = new Uri(configuration["GrpcHost"]);
         });
+
+        services.AddScoped<GrpcSongClient>();
 
         return services;
     }
