@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MusicApp.PlaylistService.Domain\MusicApp.PlaylistService.Domain.csproj" />
+    <ProjectReference Include="..\MusicApp.Shared\MusicApp.Shared.csproj" />
   </ItemGroup>
 
   <ItemGroup>

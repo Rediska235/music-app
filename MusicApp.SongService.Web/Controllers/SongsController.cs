@@ -3,8 +3,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MusicApp.SongService.Application.CQRS.Commands.CreateSong;
 using MusicApp.SongService.Application.CQRS.Commands.DeleteSong;
-using MusicApp.SongService.Application.CQRS.Commands.EnsureArtistCreated;
 using MusicApp.SongService.Application.CQRS.Commands.UpdateSong;
+using MusicApp.SongService.Application.CQRS.Queries.GetArtist;
 using MusicApp.SongService.Application.CQRS.Queries.GetSongById;
 using MusicApp.SongService.Application.CQRS.Queries.GetSongs;
 using MusicApp.SongService.Application.DTOs;
@@ -44,8 +44,8 @@ public class SongsController : ControllerBase
     [Authorize(Roles = "artist")]
     public async Task<IActionResult> CreateSong(SongInputDto songInputDto, CancellationToken cancellationToken)
     {
-        var artistCreatedCommand = new EnsureArtistCreatedCommand();
-        var artist = await _mediator.Send(artistCreatedCommand, cancellationToken);
+        var getArtistQuery = new GetArtistQuery();
+        var artist = await _mediator.Send(getArtistQuery, cancellationToken);
 
         var createCommand = new CreateSongCommand(songInputDto, artist);
         var song = await _mediator.Send(createCommand, cancellationToken);

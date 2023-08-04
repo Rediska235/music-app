@@ -4,7 +4,7 @@ using MusicApp.SongService.Application.DTOs;
 using MusicApp.SongService.Application.Grpc;
 using MusicApp.SongService.Application.Grpc.Protos;
 using MusicApp.SongService.Application.Repositories;
-using MusicApp.SongService.Application.Services;
+using MusicApp.SongService.Application.Services.Interfaces;
 using MusicApp.SongService.Domain.Exceptions;
 
 namespace MusicApp.SongService.Application.CQRS.Commands.UpdateSong;
@@ -12,7 +12,7 @@ namespace MusicApp.SongService.Application.CQRS.Commands.UpdateSong;
 public class UpdateSongCommandHandler : IRequestHandler<UpdateSongCommand, SongOutputDto>
 {
     private readonly ISongRepository _repository;
-    private readonly ArtistService _artistService;
+    private readonly IArtistService _artistService;
     private readonly IMapper _mapper;
     private readonly GrpcSongClient _client;
 

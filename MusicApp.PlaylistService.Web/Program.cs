@@ -16,6 +16,7 @@ builder.Services.AddJwtAuthentication(configuration);
 builder.Services.AddInfrastructure(configuration);
 builder.Services.AddApplication(); 
 builder.AddGrpcService();
+builder.Services.AddMassTransitForRabbitMQ();
 
 var app = builder.Build();
 

@@ -2,7 +2,7 @@
 using MusicApp.SongService.Application.Grpc;
 using MusicApp.SongService.Application.Grpc.Protos;
 using MusicApp.SongService.Application.Repositories;
-using MusicApp.SongService.Application.Services;
+using MusicApp.SongService.Application.Services.Interfaces;
 using MusicApp.SongService.Domain.Exceptions;
 
 namespace MusicApp.SongService.Application.CQRS.Commands.DeleteSong;

@@ -23,6 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\MusicApp.Shared\MusicApp.Shared.csproj" />
     <ProjectReference Include="..\MusicApp.SongService.Domain\MusicApp.SongService.Domain.csproj" />
   </ItemGroup>
 

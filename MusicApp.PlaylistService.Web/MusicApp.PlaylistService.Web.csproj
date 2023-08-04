@@ -14,13 +14,17 @@
 
   <ItemGroup>
     <PackageReference Include="Grpc.AspNetCore" Version="2.55.0" />
+    <PackageReference Include="MassTransit" Version="8.0.16" />
+    <PackageReference Include="MassTransit.RabbitMQ" Version="8.0.16" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.8" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.18.1" />
+    <PackageReference Include="RabbitMQ.Client" Version="6.5.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\MusicApp.PlaylistService.Application\MusicApp.PlaylistService.Application.csproj" />
     <ProjectReference Include="..\MusicApp.PlaylistService.Infrastructure\MusicApp.PlaylistService.Infrastructure.csproj" />
+    <ProjectReference Include="..\MusicApp.Shared\MusicApp.Shared.csproj" />
   </ItemGroup>
 
   <ItemGroup>

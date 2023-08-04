@@ -7,6 +7,8 @@ using MusicApp.SongService.Application.Services;
 using MusicApp.SongService.Application.Grpc;
 using Microsoft.Extensions.Configuration;
 using MusicApp.SongService.Application.Grpc.Protos;
+using MusicApp.SongService.Application.Services.Implementations;
+using MusicApp.SongService.Application.Services.Interfaces;
 
 namespace MusicApp.SongService.Application.Extensions;
 
@@ -14,14 +16,14 @@ public static class IServiceCollectionExtension
 {
     public static IServiceCollection AddApplication(this IServiceCollection services)
     {
-        services.AddMediatR(configuration => configuration.RegisterServicesFromAssemblyContaining<CreateSongCommand>());
+        services.AddMediatR(config => config.RegisterServicesFromAssemblyContaining<CreateSongCommand>());
 
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
         services.AddValidatorsFromAssembly(typeof(CreateSongCommandValidator).Assembly);
 
         services.AddAutoMapper(typeof(SongMapperProfile));
 
-        services.AddScoped<ArtistService>();
+        services.AddScoped<IArtistService, ArtistService>();
 
         return services;
     }
