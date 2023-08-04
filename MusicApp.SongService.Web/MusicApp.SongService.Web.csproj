@@ -9,11 +9,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="MassTransit.RabbitMQ" Version="8.0.16" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.8" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.17.2" />
+    <PackageReference Include="RabbitMQ.Client" Version="6.5.0" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\MusicApp.Shared\MusicApp.Shared.csproj" />
     <ProjectReference Include="..\MusicApp.SongService.Application\MusicApp.SongService.Application.csproj" />
     <ProjectReference Include="..\MusicApp.SongService.Infrastructure\MusicApp.SongService.Infrastructure.csproj" />
   </ItemGroup>

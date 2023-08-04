@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using MusicApp.SongService.Application.Repositories;
-using MusicApp.SongService.Application.Services;
+using MusicApp.SongService.Application.Services.Interfaces;
 using MusicApp.SongService.Domain.Exceptions;
 
 namespace MusicApp.SongService.Application.CQRS.Commands.DeleteSong;
@@ -8,9 +8,9 @@ namespace MusicApp.SongService.Application.CQRS.Commands.DeleteSong;
 public class DeleteSongCommandHandler : IRequestHandler<DeleteSongCommand>
 {
     private readonly ISongRepository _repository;
-    private readonly ArtistService _artistService;
+    private readonly IArtistService _artistService;
 
-    public DeleteSongCommandHandler(ISongRepository repository, ArtistService artistService)
+    public DeleteSongCommandHandler(ISongRepository repository, IArtistService artistService)
     {
         _repository = repository;
         _artistService = artistService;

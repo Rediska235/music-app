@@ -22,7 +22,7 @@ public class SongRepository : BaseRepository<Song>, ISongRepository
             .ToListAsync(cancellationToken);
     }
 
-    public override async Task<Song> GetByIdAsync(Guid id, CancellationToken cancellationToken)
+    public override async Task<Song?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
     {
         return await _appContext.Songs
             .Include(song => song.Artist)
