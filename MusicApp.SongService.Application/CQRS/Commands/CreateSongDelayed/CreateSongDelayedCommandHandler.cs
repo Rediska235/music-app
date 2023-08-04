@@ -27,7 +27,7 @@ public class CreateSongDelayedCommandHandler : IRequestHandler<CreateSongDelayed
 
         var job = (Expression<Func<Task>>)(() => AddToDatabase(song, artistName, cancellationToken));
 
-        var delay = request.delayedSongInputDto.PublishTime - DateTime.Now - TimeSpan.FromHours(3);
+        var delay = request.delayedSongInputDto.PublishTime - DateTime.Now;
 
         BackgroundJob.Schedule(job, delay);
     }
