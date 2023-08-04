@@ -12,7 +12,6 @@ public static class IServiceCollectionExtension
         services.AddAutoMapper(typeof(PlaylistMapperProfile));
 
         services.AddScoped<IPlaylistsService, PlaylistsService>();
-        services.AddScoped<ISongService, SongService>();
         services.AddScoped<UserService>();
 
         return services;

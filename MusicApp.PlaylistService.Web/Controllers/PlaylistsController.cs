@@ -11,12 +11,10 @@ namespace MusicApp.PlaylistService.Web.Controllers;
 public class PlaylistsController : ControllerBase
 {
     private readonly IPlaylistsService _playlistService;
-    private readonly ISongService _songService;
 
-    public PlaylistsController(IPlaylistsService playlistService, ISongService songService)
+    public PlaylistsController(IPlaylistsService playlistService)
     {
         _playlistService = playlistService;
-        _songService = songService;
     }
 
     [HttpGet]
