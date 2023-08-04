@@ -10,11 +10,7 @@ public class PlaylistConfiguration : IEntityTypeConfiguration<Playlist>
     {
         builder.HasKey(playlist => playlist.Id);
         builder.Property(playlist => playlist.Name).IsRequired().HasMaxLength(32);
-        builder.HasOne(playlist => playlist.Creator).WithMany(creator => creator.Playlists);
-        builder.HasMany(playlist => playlist.Songs)
-            .WithMany(song => song.Playlists)
-            .UsingEntity<PlaylistSong>(
-                playlist => playlist.HasOne<Song>().WithMany().OnDelete(DeleteBehavior.NoAction),
-                song => song.HasOne<Playlist>().WithMany().OnDelete(DeleteBehavior.Cascade));
+        builder.HasOne(playlist => playlist.Creator).WithMany();
+        builder.HasMany(playlist => playlist.Songs).WithMany(song => song.Playlists);
     }
 }

@@ -14,7 +14,7 @@ public class UserRepository : BaseRepository<User>, IUserRepository
         _appContext = appContext;
     }
 
-    public async Task<User> GetUserByUsernameAsync(string username, CancellationToken cancellationToken)
+    public async Task<User?> GetUserByUsernameAsync(string username, CancellationToken cancellationToken)
     {
         return await _appContext.Users.FirstOrDefaultAsync(user => user.Username == username, cancellationToken);
     }

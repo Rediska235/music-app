@@ -21,7 +21,7 @@ public abstract class BaseRepository<T> : IBaseRepository<T> where T : Entity
         return await _dbSet.AsNoTracking().ToListAsync(cancellationToken);
     }
 
-    public virtual async Task<T> GetByIdAsync(Guid id, CancellationToken cancellationToken)
+    public virtual async Task<T?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
     {
         return await _dbSet.FirstOrDefaultAsync(entity => entity.Id == id, cancellationToken);
     }
