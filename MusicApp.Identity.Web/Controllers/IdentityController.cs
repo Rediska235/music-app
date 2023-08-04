@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using MusicApp.Identity.Application.Services.Interfaces;
 using MusicApp.Identity.Application.DTOs;
+using MusicApp.Identity.Web.Filters;
 
 namespace MusicApp.Identity.Web.Controllers;
 
@@ -17,17 +18,19 @@ public class IdentityController : ControllerBase
     }
 
     [HttpPost("register")]
-    public async Task<IActionResult> Register(UserRegisterDto request)
+    [RegisterValidationFilter]
+    public async Task<IActionResult> Register(UserRegisterDto userRegisterDto)
     {
-        var user = await _identityService.Register(request);
+        var user = await _identityService.Register(userRegisterDto);
 
         return Ok(user);
     }
 
     [HttpPost("login")]
-    public async Task<IActionResult> Login(UserLoginDto request)
+    [LoginValidationFilter]
+    public async Task<IActionResult> Login(UserLoginDto userLoginDto)
     {
-        var token = await _identityService.Login(request);
+        var token = await _identityService.Login(userLoginDto);
 
         return Ok(token);
     }

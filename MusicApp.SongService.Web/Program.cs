@@ -16,6 +16,7 @@ builder.Services.AddCorsPolicy(configuration);
 builder.Services.AddInfrastructure(configuration);
 builder.Services.AddApplication();
 builder.Services.AddSignalR();
+builder.Services.AddMassTransitForRabbitMQ();
 
 var app = builder.Build();
 

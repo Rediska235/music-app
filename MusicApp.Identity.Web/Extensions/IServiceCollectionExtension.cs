@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using MassTransit;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
@@ -52,7 +53,17 @@ public static class IServiceCollectionExtension
                 .AllowAnyHeader()
                 .AllowAnyMethod()
                 .AllowCredentials()
-                .SetIsOriginAllowed((host) => true));
+                .SetIsOriginAllowed((host) => true));        
+        });
+      
+        return services;
+    }
+
+    public static IServiceCollection AddMassTransitForRabbitMQ(this IServiceCollection services)
+    {
+        services.AddMassTransit(config =>
+        {
+            config.UsingRabbitMq();
         });
 
         return services;

@@ -10,6 +10,6 @@ public class SongConfiguration : IEntityTypeConfiguration<Song>
     {
         builder.HasKey(song => song.Id);
         builder.Property(song => song.Title).IsRequired().HasMaxLength(32);
-        builder.HasOne(song => song.Artist).WithMany(artist => artist.Songs);
+        builder.HasOne(song => song.Artist).WithMany();
     }
 }
