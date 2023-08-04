@@ -4,10 +4,11 @@ using Ocelot.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var configuration = builder.Configuration;
-builder.Configuration.AddJsonFile("ocelot.json", optional: false, reloadOnChange: true);
-builder.Services.AddOcelot(configuration);
+var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+builder.Configuration.AddJsonFile($"ocelot.{environment}.json", optional: false, reloadOnChange: true);
 
+var configuration = builder.Configuration;
+builder.Services.AddOcelot(configuration);
 builder.Services.AddJwtAuthentication(configuration);
 
 var app = builder.Build();

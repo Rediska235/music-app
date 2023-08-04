@@ -44,3 +44,5 @@ services:
     container_name: apigateway
     ports:
       - "5003:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
