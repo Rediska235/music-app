@@ -1,13 +1,13 @@
 ﻿using AutoMapper;
+using MassTransit;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
+using MusicApp.Identity.Application.DTOs;
 using MusicApp.Identity.Application.Repositories;
 using MusicApp.Identity.Application.Services.Interfaces;
-using MusicApp.Identity.Application.Validators;
-using MusicApp.Identity.Application.DTOs;
 using MusicApp.Identity.Domain.Entities;
 using MusicApp.Identity.Domain.Exceptions;
-using Microsoft.Extensions.Configuration;
-using FluentValidation;
+using MusicApp.Shared;
 
 namespace MusicApp.Identity.Application.Services.Implementations;
 
@@ -17,10 +17,9 @@ public class IdentityService : IIdentityService
     private readonly IUserRepository _userRepository;
     private readonly IRoleRepository _roleRepository;
     private readonly IMapper _mapper;
-    private readonly UserRegisterDtoValidator _userRegisterDtoValidator;
-    private readonly UserLoginDtoValidator _userLoginDtoValidator;
     private readonly IConfiguration _configuration;
     private readonly IJwtService _jwtManager;
+    private readonly IPublishEndpoint _publishEndpoint;
 
     public IdentityService(
         IHttpContextAccessor httpContextAccessor,
@@ -28,24 +27,21 @@ public class IdentityService : IIdentityService
         IRoleRepository roleRepository,
         IConfiguration configuration,
         IJwtService jwtManager,
-        IMapper mapper)
+        IMapper mapper,
+        IPublishEndpoint publishEndpoint)
     {
         _userRepository = userRepository;
         _roleRepository = roleRepository;
         _configuration = configuration;
         _jwtManager = jwtManager;
         _mapper = mapper;
+        _publishEndpoint = publishEndpoint;
 
         _httpContext = httpContextAccessor.HttpContext;
-
-        _userRegisterDtoValidator = new UserRegisterDtoValidator();
-        _userLoginDtoValidator = new UserLoginDtoValidator();
     }
 
     public async Task<User> Register(UserRegisterDto request)
     {
-        await _userRegisterDtoValidator.ValidateAndThrowAsync(request);
-
         var user = await _userRepository.GetUserByUsernameAsync(request.Username);
         if(user != null)
         {
@@ -63,13 +59,14 @@ public class IdentityService : IIdentityService
         await _userRepository.InsertUserAsync(user);
         await _userRepository.SaveChangesAsync();
 
+        var userPublishedDto = _mapper.Map<UserPublishedDto>(user);
+        await _publishEndpoint.Publish(userPublishedDto);
+
         return user;
     }
 
     public async Task<string> Login(UserLoginDto request)
     {
-        await _userLoginDtoValidator.ValidateAndThrowAsync(request);
-
         var user = await _userRepository.GetUserByUsernameAsync(request.Username);
         if(user == null)
         {

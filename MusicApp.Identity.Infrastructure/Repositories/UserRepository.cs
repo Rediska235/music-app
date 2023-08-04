@@ -7,30 +7,30 @@ namespace MusicApp.Identity.Infrastructure.Repositories;
 
 public class UserRepository : IUserRepository
 {
-    private readonly AppDbContext _db;
+    private readonly AppDbContext _appContext;
 
-    public UserRepository(AppDbContext db)
+    public UserRepository(AppDbContext appContext)
     {
-        _db = db;
+        _appContext = appContext;
     }
 
-    public async Task<User> GetUserByUsernameAsync(string username)
+    public async Task<User?> GetUserByUsernameAsync(string username)
     {
-        return await _db.Users.Include(u => u.Roles).FirstOrDefaultAsync(u => u.Username == username);
+        return await _appContext.Users.Include(user => user.Roles).FirstOrDefaultAsync(user => user.Username == username);
     }
 
-    public async Task<User> GetUserByRefreshTokenAsync(string refreshToken)
+    public async Task<User?> GetUserByRefreshTokenAsync(string refreshToken)
     {
-        return await _db.Users.Include(u => u.Roles).FirstOrDefaultAsync(u => u.RefreshToken == refreshToken);
+        return await _appContext.Users.Include(user => user.Roles).FirstOrDefaultAsync(user => user.RefreshToken == refreshToken);
     }
 
     public async Task InsertUserAsync(User user)
     {
-        await _db.AddAsync(user);
+        await _appContext.AddAsync(user);
     }
 
     public async Task SaveChangesAsync()
     {
-        await _db.SaveChangesAsync();
+        await _appContext.SaveChangesAsync();
     }
 }

@@ -7,11 +7,11 @@ public class UserLoginDtoValidator : AbstractValidator<UserLoginDto>
 {
     public UserLoginDtoValidator()
     {
-        RuleFor(c => c.Username)
+        RuleFor(user => user.Username)
             .NotEmpty().WithMessage("The field 'Username' is required.")
             .Length(5, 32).WithMessage("The field 'Username' must be [5, 32] characters long.");
 
-        RuleFor(x => x.Password)
+        RuleFor(user => user.Password)
             .NotEmpty().WithMessage("The field 'Password' is required.")
             .Length(8, 32).WithMessage("The field 'Password' must be [8, 32] characters long.");
     }

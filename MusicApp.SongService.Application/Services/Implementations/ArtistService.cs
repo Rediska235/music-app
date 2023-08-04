@@ -1,10 +1,11 @@
 ﻿using Microsoft.AspNetCore.Http;
+using MusicApp.SongService.Application.Services.Interfaces;
 using MusicApp.SongService.Domain.Entities;
 using MusicApp.SongService.Domain.Exceptions;
 
-namespace MusicApp.SongService.Application.Services;
+namespace MusicApp.SongService.Application.Services.Implementations;
 
-public class ArtistService
+public class ArtistService : IArtistService
 {
     private readonly IHttpContextAccessor _httpContextAccessor;
 

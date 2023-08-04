@@ -46,3 +46,14 @@ services:
       - "5003:80"
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
+  rabbitmq:
+    image: rabbitmq:3.12-management
+    container_name: 'rabbitmq'
+    ports:
+        - 5672:5672
+        - 15672:15672
+  reactclient:
+    image: reactclient
+    container_name: reactclient
+    ports:
+      - "3000:3000"

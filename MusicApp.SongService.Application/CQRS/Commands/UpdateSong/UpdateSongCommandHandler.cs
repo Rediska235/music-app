@@ -2,7 +2,7 @@
 using MediatR;
 using MusicApp.SongService.Application.DTOs;
 using MusicApp.SongService.Application.Repositories;
-using MusicApp.SongService.Application.Services;
+using MusicApp.SongService.Application.Services.Interfaces;
 using MusicApp.SongService.Domain.Exceptions;
 
 namespace MusicApp.SongService.Application.CQRS.Commands.UpdateSong;
@@ -10,10 +10,10 @@ namespace MusicApp.SongService.Application.CQRS.Commands.UpdateSong;
 public class UpdateSongCommandHandler : IRequestHandler<UpdateSongCommand, SongOutputDto>
 {
     private readonly ISongRepository _repository;
-    private readonly ArtistService _artistService;
+    private readonly IArtistService _artistService;
     private readonly IMapper _mapper;
 
-    public UpdateSongCommandHandler(ISongRepository repository, ArtistService artistService, IMapper mapper)
+    public UpdateSongCommandHandler(ISongRepository repository, IArtistService artistService, IMapper mapper)
     {
         _repository = repository;
         _artistService = artistService;
