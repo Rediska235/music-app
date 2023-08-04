@@ -31,6 +31,20 @@ public static class IServiceCollectionExtension
         return services;
     }
 
+    public static IServiceCollection AddCorsPolicy(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.AddCors(options =>
+        {
+            options.AddPolicy("CorsPolicy", builder => builder.WithOrigins(configuration["SignalRClientHost"])
+                .AllowAnyHeader()
+                .AllowAnyMethod()
+                .AllowCredentials()
+                .SetIsOriginAllowed((host) => true));
+        });
+
+        return services;
+    }
+          
     public static IServiceCollection AddMassTransitForRabbitMQ(this IServiceCollection services)
     {
         services.AddMassTransit(config =>

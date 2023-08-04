@@ -32,7 +32,7 @@ public static class IServiceCollectionExtension
                 options.SaveToken = true;
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
-                    
+
                     IssuerSigningKey = new SymmetricSecurityKey(key),
                     ValidateIssuerSigningKey = true,
                     ValidateLifetime = false,
@@ -42,6 +42,20 @@ public static class IServiceCollectionExtension
                 };
             });
 
+        return services;
+    }
+
+    public static IServiceCollection AddCorsPolicy(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.AddCors(options =>
+        {
+            options.AddPolicy("CorsPolicy", builder => builder.WithOrigins(configuration["SignalRClientHost"])
+                .AllowAnyHeader()
+                .AllowAnyMethod()
+                .AllowCredentials()
+                .SetIsOriginAllowed((host) => true));        
+        });
+      
         return services;
     }
 
