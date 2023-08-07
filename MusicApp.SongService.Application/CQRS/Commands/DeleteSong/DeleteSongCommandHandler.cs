@@ -10,10 +10,10 @@ namespace MusicApp.SongService.Application.CQRS.Commands.DeleteSong;
 public class DeleteSongCommandHandler : IRequestHandler<DeleteSongCommand>
 {
     private readonly ISongRepository _repository;
-    private readonly ArtistService _artistService;
+    private readonly IArtistService _artistService;
     private readonly GrpcSongClient _client;
 
-    public DeleteSongCommandHandler(ISongRepository repository, ArtistService artistService, GrpcSongClient client)
+    public DeleteSongCommandHandler(ISongRepository repository, IArtistService artistService, GrpcSongClient client)
     {
         _repository = repository;
         _artistService = artistService;

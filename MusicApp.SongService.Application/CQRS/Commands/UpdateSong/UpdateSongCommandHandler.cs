@@ -16,7 +16,7 @@ public class UpdateSongCommandHandler : IRequestHandler<UpdateSongCommand, SongO
     private readonly IMapper _mapper;
     private readonly GrpcSongClient _client;
 
-    public UpdateSongCommandHandler(ISongRepository repository, ArtistService artistService, IMapper mapper, GrpcSongClient client)
+    public UpdateSongCommandHandler(ISongRepository repository, IArtistService artistService, IMapper mapper, GrpcSongClient client)
     {
         _repository = repository;
         _artistService = artistService;
