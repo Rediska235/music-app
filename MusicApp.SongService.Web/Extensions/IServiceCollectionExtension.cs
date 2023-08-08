@@ -10,7 +10,7 @@ public static class IServiceCollectionExtension
 {
     public static IServiceCollection AddJwtAuthentication(this IServiceCollection services, IConfiguration configuration)
     {
-        var key = Encoding.UTF8.GetBytes(configuration.GetSection("JWT:Key").Value);
+        var key = Encoding.UTF8.GetBytes(configuration.GetSection("JWT:Key").Value!);
 
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
@@ -35,7 +35,7 @@ public static class IServiceCollectionExtension
     {
         services.AddCors(options =>
         {
-            options.AddPolicy("CorsPolicy", builder => builder.WithOrigins(configuration["SignalRClientHost"])
+            options.AddPolicy("CorsPolicy", builder => builder.WithOrigins(configuration["SignalRClientHost"]!)
                 .AllowAnyHeader()
                 .AllowAnyMethod()
                 .AllowCredentials()

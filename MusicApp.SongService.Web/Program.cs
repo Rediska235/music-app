@@ -3,12 +3,16 @@ using MusicApp.SongService.Infrastructure.Extensions;
 using MusicApp.SongService.Web.Extensions;
 using MusicApp.SongService.Web.Hubs;
 using MusicApp.SongService.Web.Middlewares;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddHttpContextAccessor();
+
+Configure.ConfigureLogging();
+builder.Host.UseSerilog();
 
 var configuration = builder.Configuration;
 builder.Services.AddJwtAuthentication(configuration);
