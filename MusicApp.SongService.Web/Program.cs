@@ -15,6 +15,7 @@ builder.Services.AddHttpContextAccessor();
 var configuration = builder.Configuration;
 builder.Services.AddJwtAuthentication(configuration);
 builder.Services.AddHangfireSupport(configuration);
+builder.Services.AddGrpcService(configuration);
 builder.Services.AddCorsPolicy(configuration);
 builder.Services.AddInfrastructure(configuration);
 builder.Services.AddApplication();
@@ -25,7 +26,6 @@ var app = builder.Build();
 
 app.UseMiddleware<ErrorHandlingMiddleware>();
 
-app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();

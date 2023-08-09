@@ -33,6 +33,7 @@ services:
     container_name: playlistservice
     ports:
       - "5002:80"
+      - "5005:5005"
   playlistservice_db:
     image: "mcr.microsoft.com/mssql/server:2022-latest"
     container_name: playlistservice_db
@@ -41,6 +42,13 @@ services:
     environment:
       - ACCEPT_EULA=y
       - SA_PASSWORD=Strong_Password0
+  apigateway:
+    image: apigateway
+    container_name: apigateway
+    ports:
+      - "5003:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
   rabbitmq:
     image: rabbitmq:3.12-management
     container_name: 'rabbitmq'

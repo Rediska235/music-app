@@ -1,5 +1,4 @@
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MusicApp.SongService.Application.CQRS.Commands.CreateSong;
 using MusicApp.SongService.Application.CQRS.Commands.CreateSongDelayed;
@@ -42,7 +41,6 @@ public class SongsController : ControllerBase
     }
         
     [HttpPost]
-    [Authorize(Roles = "artist")]
     public async Task<IActionResult> CreateSong(SongInputDto songInputDto, CancellationToken cancellationToken)
     {
         var getArtistQuery = new GetArtistQuery();
@@ -71,7 +69,6 @@ public class SongsController : ControllerBase
     }
 
     [HttpPut("{id:guid}")]
-    [Authorize(Roles = "artist")]
     public async Task<IActionResult> UpdateSong([FromRoute] Guid id, [FromBody] SongInputDto songInputDto, CancellationToken cancellationToken)
     {
         var updateCommand = new UpdateSongCommand(id, songInputDto);
@@ -81,7 +78,6 @@ public class SongsController : ControllerBase
     }
 
     [HttpDelete("{id:guid}")]
-    [Authorize(Roles = "artist")]
     public async Task<IActionResult> DeleteSong(Guid id, CancellationToken cancellationToken)
     {
         var deleteCommand = new DeleteSongCommand(id);

@@ -19,7 +19,7 @@ public class JwtService : IJwtService
 
         foreach (var role in user.Roles)
         {
-            claims.Add(new Claim(ClaimTypes.Role, role.Title));
+            claims.Add(new Claim("Role", role.Title));
         }
 
         var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(secretKey));

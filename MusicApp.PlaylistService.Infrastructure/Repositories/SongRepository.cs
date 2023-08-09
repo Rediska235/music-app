@@ -20,4 +20,9 @@ public class SongRepository : BaseRepository<Song>, ISongRepository
             .Include(song => song.Artist)
             .FirstOrDefaultAsync(song => song.Id == id, cancellationToken);
     }
+
+    public async Task DeleteAllSongs(CancellationToken cancellationToken)
+    {
+        await _appContext.Songs.ExecuteDeleteAsync(cancellationToken);
+    }
 }
