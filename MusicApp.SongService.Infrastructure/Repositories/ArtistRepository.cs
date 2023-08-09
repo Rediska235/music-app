@@ -23,6 +23,8 @@ public class ArtistRepository : BaseRepository<Artist>, IArtistRepository
         var artist = await _cache.GetEntityAsync<Artist>(username, cancellationToken);
         if (artist != null)
         {
+            _appContext.Entry(artist).State = EntityState.Unchanged;
+
             return artist;
         }
 
@@ -33,6 +35,8 @@ public class ArtistRepository : BaseRepository<Artist>, IArtistRepository
         {
             await _cache.SetEntityAsync(username, artist, cancellationToken);
         }
+
+        _appContext.Entry(artist).State = EntityState.Unchanged;
 
         return artist;
     }
