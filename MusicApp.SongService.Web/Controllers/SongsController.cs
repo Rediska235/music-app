@@ -56,11 +56,10 @@ public class SongsController : ControllerBase
     }
 
     [HttpPost("delayed")]
-    [Authorize(Roles = "artist")]
     public async Task<IActionResult> CreateSongDelayed(DelayedSongInputDto delayedSongInputDto, CancellationToken cancellationToken)
     {
-        var artistCreatedCommand = new EnsureArtistCreatedCommand();
-        var artist = await _mediator.Send(artistCreatedCommand, cancellationToken);
+        var getArtistQuery = new GetArtistQuery();
+        var artist = await _mediator.Send(getArtistQuery, cancellationToken);
 
         var createCommand = new CreateSongDelayedCommand(delayedSongInputDto, artist);
         await _mediator.Send(createCommand, cancellationToken);
