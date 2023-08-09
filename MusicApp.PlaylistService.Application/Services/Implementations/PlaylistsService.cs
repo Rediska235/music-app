@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
+using Microsoft.Extensions.Logging;
 using MusicApp.PlaylistService.Application.DTOs;
 using MusicApp.PlaylistService.Application.Repositories;
 using MusicApp.PlaylistService.Application.Services.Interfaces;
 using MusicApp.PlaylistService.Domain.Entities;
 using MusicApp.PlaylistService.Domain.Exceptions;
+using System.Text.Json;
 
 namespace MusicApp.PlaylistService.Application.Services.Implementations;
 
@@ -13,17 +15,20 @@ public class PlaylistsService : IPlaylistsService
     private readonly ISongRepository _songRepository;
     private readonly IUserService _userService;
     private readonly IMapper _mapper;
+    private readonly ILogger<PlaylistsService> _logger;
 
     public PlaylistsService(
         IPlaylistRepository playlistRepository,
         ISongRepository songRepository,
         IUserService userService,
-        IMapper mapper)
+        IMapper mapper,
+        ILogger<PlaylistsService> logger)
     {
         _playlistRepository = playlistRepository;
         _songRepository = songRepository;
         _userService = userService;
         _mapper = mapper;
+        _logger = logger;
     }
 
     public async Task<IEnumerable<PlaylistOutputDto>> GetPlaylistsAsync(CancellationToken cancellationToken)
@@ -34,6 +39,8 @@ public class PlaylistsService : IPlaylistsService
         var myPrivatePlaylists = await _playlistRepository.GetMyPrivatePlaylistsAsync(username, cancellationToken);
 
         var playlists = publicPlaylists.Concat(myPrivatePlaylists);
+
+        _logger.LogInformation("GetPlaylistsAsync{}");
 
         return _mapper.Map<IEnumerable<PlaylistOutputDto>>(playlists);
     }
@@ -52,6 +59,8 @@ public class PlaylistsService : IPlaylistsService
             throw new PrivatePlaylistException();
         }
 
+        _logger.LogInformation($"GetPlaylistByIdAsync{{\"id\": {id}}}");
+
         return _mapper.Map<PlaylistOutputDto>(playlist);
     }
 
@@ -64,6 +73,8 @@ public class PlaylistsService : IPlaylistsService
 
         await _playlistRepository.CreateAsync(playlist, cancellationToken);
         await _playlistRepository.SaveChangesAsync(cancellationToken);
+
+        _logger.LogInformation($"CreatePlaylistAsync{{\"playlistInputDto\": {JsonSerializer.Serialize(playlistInputDto)}}}");
 
         return _mapper.Map<PlaylistOutputDto>(playlist);
     }
@@ -83,6 +94,8 @@ public class PlaylistsService : IPlaylistsService
         _playlistRepository.Update(playlist);
         await _playlistRepository.SaveChangesAsync(cancellationToken);
 
+        _logger.LogInformation($"UpdatePlaylistAsync{{\"id\": {id}, \"playlistInputDto\": {JsonSerializer.Serialize(playlistInputDto)}}}");
+
         return _mapper.Map<PlaylistOutputDto>(playlist);
     }
 
@@ -98,6 +111,8 @@ public class PlaylistsService : IPlaylistsService
 
         _playlistRepository.Delete(playlist);
         await _playlistRepository.SaveChangesAsync(cancellationToken);
+
+        _logger.LogInformation($"DeletePlaylistAsync{{\"id\": {id}}}");
     }
 
     public async Task AddSongAsync(Guid playlistId, Guid songId, CancellationToken cancellationToken)
@@ -120,6 +135,8 @@ public class PlaylistsService : IPlaylistsService
 
         _playlistRepository.Update(playlist);
         await _playlistRepository.SaveChangesAsync(cancellationToken);
+
+        _logger.LogInformation($"AddSongAsync{{\"playlistId\": {playlistId}, \"songId\": {songId}}}");
     }
 
     public async Task RemoveSongAsync(Guid playlistId, Guid songId, CancellationToken cancellationToken)
@@ -142,5 +159,7 @@ public class PlaylistsService : IPlaylistsService
 
         _playlistRepository.Update(playlist);
         await _playlistRepository.SaveChangesAsync(cancellationToken);
+
+        _logger.LogInformation($"RemoveSongAsync{{\"playlistId\": {playlistId}, \"songId\": {songId}}}");
     }
 }

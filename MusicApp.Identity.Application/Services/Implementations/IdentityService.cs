@@ -2,12 +2,14 @@
 using MassTransit;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using MusicApp.Identity.Application.DTOs;
 using MusicApp.Identity.Application.Repositories;
 using MusicApp.Identity.Application.Services.Interfaces;
 using MusicApp.Identity.Domain.Entities;
 using MusicApp.Identity.Domain.Exceptions;
 using MusicApp.Shared;
+using System.Text.Json;
 
 namespace MusicApp.Identity.Application.Services.Implementations;
 
@@ -20,6 +22,7 @@ public class IdentityService : IIdentityService
     private readonly IConfiguration _configuration;
     private readonly IJwtService _jwtManager;
     private readonly IPublishEndpoint _publishEndpoint;
+    private readonly ILogger<IdentityService> _logger;
 
     public IdentityService(
         IHttpContextAccessor httpContextAccessor,
@@ -28,7 +31,8 @@ public class IdentityService : IIdentityService
         IConfiguration configuration,
         IJwtService jwtManager,
         IMapper mapper,
-        IPublishEndpoint publishEndpoint)
+        IPublishEndpoint publishEndpoint,
+        ILogger<IdentityService> logger)
     {
         _userRepository = userRepository;
         _roleRepository = roleRepository;
@@ -36,6 +40,7 @@ public class IdentityService : IIdentityService
         _jwtManager = jwtManager;
         _mapper = mapper;
         _publishEndpoint = publishEndpoint;
+        _logger = logger;
 
         _httpContext = httpContextAccessor.HttpContext;
     }
@@ -61,6 +66,8 @@ public class IdentityService : IIdentityService
 
         var userPublishedDto = _mapper.Map<UserPublishedDto>(user);
         await _publishEndpoint.Publish(userPublishedDto);
+        
+        _logger.LogInformation($"Register{{\"userRegisterDto\": {JsonSerializer.Serialize(request)}}}");
 
         return user;
     }
@@ -86,6 +93,8 @@ public class IdentityService : IIdentityService
 
         await _userRepository.SaveChangesAsync();
 
+        _logger.LogInformation($"Login{{\"userLoginDto\": {JsonSerializer.Serialize(request)}}}");
+
         return token;
     }
 
@@ -105,6 +114,8 @@ public class IdentityService : IIdentityService
         _jwtManager.SetRefreshToken(newRefreshToken, _httpContext, user);
 
         await _userRepository.SaveChangesAsync();
+
+        _logger.LogInformation($"RefreshToken{{\"username\": {username}");
 
         return token;
     }

@@ -4,6 +4,7 @@ using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MusicApp.SongService.Application.AutoMapper;
+using MusicApp.SongService.Application.BehaviourPipelines;
 using MusicApp.SongService.Application.CQRS.Commands.CreateSong;
 using MusicApp.SongService.Application.Services;
 using MusicApp.SongService.Application.Grpc;
@@ -21,6 +22,7 @@ public static class IServiceCollectionExtension
         services.AddMediatR(config => config.RegisterServicesFromAssemblyContaining<CreateSongCommand>());
 
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
+        services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
         services.AddValidatorsFromAssembly(typeof(CreateSongCommandValidator).Assembly);
 
         services.AddAutoMapper(typeof(SongMapperProfile));
