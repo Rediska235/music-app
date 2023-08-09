@@ -1,6 +1,8 @@
+using Hangfire;
 using MusicApp.SongService.Application.Extensions;
 using MusicApp.SongService.Infrastructure.Extensions;
 using MusicApp.SongService.Web.Extensions;
+using MusicApp.SongService.Web.Hangfire;
 using MusicApp.SongService.Web.Hubs;
 using MusicApp.SongService.Web.Middlewares;
 using Serilog;
@@ -16,6 +18,8 @@ builder.Host.UseSerilog();
 
 var configuration = builder.Configuration;
 builder.Services.AddJwtAuthentication(configuration);
+builder.Services.AddHangfireSupport(configuration);
+builder.Services.AddGrpcService(configuration);
 builder.Services.AddCorsPolicy(configuration);
 builder.Services.AddInfrastructure(configuration);
 builder.Services.AddApplication();
@@ -26,10 +30,15 @@ var app = builder.Build();
 
 app.UseMiddleware<ErrorHandlingMiddleware>();
 
-app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
+
+var options = new DashboardOptions()
+{
+    Authorization = new[] { new HangfireAuthorizationFilter() }
+};
+app.UseHangfireDashboard("/hangfire", options);
 
 app.UseCors("CorsPolicy");
 app.MapHub<SongHub>("/song");
