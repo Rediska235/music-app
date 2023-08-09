@@ -3,6 +3,10 @@ using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using MusicApp.SongService.Application.AutoMapper;
 using MusicApp.SongService.Application.CQRS.Commands.CreateSong;
+using MusicApp.SongService.Application.Services;
+using MusicApp.SongService.Application.Grpc;
+using Microsoft.Extensions.Configuration;
+using MusicApp.SongService.Application.Grpc.Protos;
 using MusicApp.SongService.Application.Services.Implementations;
 using MusicApp.SongService.Application.Services.Interfaces;
 
@@ -20,6 +24,20 @@ public static class IServiceCollectionExtension
         services.AddAutoMapper(typeof(SongMapperProfile));
 
         services.AddScoped<IArtistService, ArtistService>();
+
+        return services;
+    }
+
+    public static IServiceCollection AddGrpcService(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.AddAutoMapper(typeof(GrpcModelsMapperProfile));
+
+        services.AddGrpcClient<GrpcSong.GrpcSongClient>(config =>
+        {
+            config.Address = new Uri(configuration["GrpcHost"]);
+        });
+
+        services.AddScoped<GrpcSongClient>();
 
         return services;
     }

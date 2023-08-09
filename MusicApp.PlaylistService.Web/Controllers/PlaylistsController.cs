@@ -9,17 +9,17 @@ namespace MusicApp.PlaylistService.Web.Controllers;
 [Route("api/[controller]")]
 public class PlaylistsController : ControllerBase
 {
-    private readonly IPlaylistsService _service;
+    private readonly IPlaylistsService _playlistService;
 
-    public PlaylistsController(IPlaylistsService service)
+    public PlaylistsController(IPlaylistsService playlistService)
     {
-        _service = service;
+        _playlistService = playlistService;
     }
 
     [HttpGet]
     public async Task<IActionResult> GetPlaylists(CancellationToken cancellationToken)
     {
-        var playlists = await _service.GetPlaylistsAsync(cancellationToken);
+        var playlists = await _playlistService.GetPlaylistsAsync(cancellationToken);
 
         return Ok(playlists);
     }
@@ -27,7 +27,7 @@ public class PlaylistsController : ControllerBase
     [HttpGet("{id:guid}")]
     public async Task<IActionResult> GetPlaylistById(Guid id, CancellationToken cancellationToken)
     {
-        var playlists = await _service.GetPlaylistByIdAsync(id, cancellationToken);
+        var playlists = await _playlistService.GetPlaylistByIdAsync(id, cancellationToken);
 
         return Ok(playlists);
     }
@@ -36,7 +36,7 @@ public class PlaylistsController : ControllerBase
     [ValidationFilter]
     public async Task<IActionResult> CreatePlaylist(PlaylistInputDto playlistInputDto, CancellationToken cancellationToken)
     {
-        var playlist = await _service.CreatePlaylistAsync(playlistInputDto, cancellationToken);
+        var playlist = await _playlistService.CreatePlaylistAsync(playlistInputDto, cancellationToken);
 
         var actionName = nameof(GetPlaylistById); 
         var routeValues = new { id = playlist.Id};
@@ -48,7 +48,7 @@ public class PlaylistsController : ControllerBase
     [ValidationFilter]
     public async Task<IActionResult> UpdatePlaylist([FromRoute] Guid id, [FromBody] PlaylistInputDto playlistInputDto, CancellationToken cancellationToken)
     {
-        var playlist = await _service.UpdatePlaylistAsync(id, playlistInputDto, cancellationToken);
+        var playlist = await _playlistService.UpdatePlaylistAsync(id, playlistInputDto, cancellationToken);
 
         return Ok(playlist);
     }
@@ -56,7 +56,7 @@ public class PlaylistsController : ControllerBase
     [HttpDelete("{id:guid}")]
     public async Task<IActionResult> DeletePlaylist(Guid id, CancellationToken cancellationToken)
     {
-        await _service.DeletePlaylistAsync(id, cancellationToken);
+        await _playlistService.DeletePlaylistAsync(id, cancellationToken);
 
         return NoContent();
     }
@@ -64,7 +64,7 @@ public class PlaylistsController : ControllerBase
     [HttpPatch("{playlistId:guid}/add/{songId:guid}")]
     public async Task<IActionResult> AddSong(Guid playlistId, Guid songId, CancellationToken cancellationToken)
     {
-        await _service.AddSongAsync(playlistId, songId, cancellationToken);
+        await _playlistService.AddSongAsync(playlistId, songId, cancellationToken);
 
         return Ok();
     }
@@ -72,8 +72,8 @@ public class PlaylistsController : ControllerBase
     [HttpPatch("{playlistId:guid}/remove/{songId:guid}")]
     public async Task<IActionResult> RemoveSong(Guid playlistId, Guid songId, CancellationToken cancellationToken)
     {
-        await _service.RemoveSongAsync(playlistId, songId, cancellationToken);
-
+        await _playlistService.RemoveSongAsync(playlistId, songId, cancellationToken);
+        
         return Ok();
     }
 }

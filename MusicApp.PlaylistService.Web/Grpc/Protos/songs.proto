@@ -1,0 +1,44 @@
+syntax = "proto3";
+
+option csharp_namespace = "MusicApp.PlaylistService.Web.Grpc.Protos";
+
+service GrpcSong 
+{
+    rpc SendSongOperation (Request) returns (Response);
+}
+
+message GrpcArtistModel
+{
+    string id = 1;
+    string username = 2;
+}
+
+message GrpcSongModel
+{
+    string id = 1;
+    string title = 2;
+    GrpcArtistModel artist = 3;
+}
+
+enum Operation
+{
+    Added = 0;
+    Updated = 1;
+    Removed = 2;
+}
+
+message GrpcSongOperationModel
+{
+    GrpcSongModel song = 1;
+    Operation operation = 2;
+}
+
+message Request 
+{
+    GrpcSongOperationModel songOperation = 1;
+}
+
+message Response 
+{
+
+}
