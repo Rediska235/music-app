@@ -1,6 +1,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using MusicApp.SongService.Application.CQRS.Commands.CreateSong;
+using MusicApp.SongService.Application.CQRS.Commands.CreateSongDelayed;
 using MusicApp.SongService.Application.CQRS.Commands.DeleteSong;
 using MusicApp.SongService.Application.CQRS.Commands.UpdateSong;
 using MusicApp.SongService.Application.CQRS.Queries.GetArtist;
@@ -20,7 +21,7 @@ public class SongsController : ControllerBase
     {
         _mediator = mediator;
     }
-    
+
     [HttpGet]
     public async Task<IActionResult> GetSongs(CancellationToken cancellationToken)
     {
@@ -53,7 +54,20 @@ public class SongsController : ControllerBase
 
         return CreatedAtAction(actionName, routeValues, song);
     }
-    
+
+    [HttpPost("delayed")]
+    [Authorize(Roles = "artist")]
+    public async Task<IActionResult> CreateSongDelayed(DelayedSongInputDto delayedSongInputDto, CancellationToken cancellationToken)
+    {
+        var artistCreatedCommand = new EnsureArtistCreatedCommand();
+        var artist = await _mediator.Send(artistCreatedCommand, cancellationToken);
+
+        var createCommand = new CreateSongDelayedCommand(delayedSongInputDto, artist);
+        await _mediator.Send(createCommand, cancellationToken);
+
+        return Ok($"{delayedSongInputDto.Title} will be published at {delayedSongInputDto.PublishTime.ToString("HH:mm:ss")}");
+    }
+
     [HttpPut("{id:guid}")]
     public async Task<IActionResult> UpdateSong([FromRoute] Guid id, [FromBody] SongInputDto songInputDto, CancellationToken cancellationToken)
     {

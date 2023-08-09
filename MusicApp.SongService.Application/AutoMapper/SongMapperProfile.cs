@@ -13,5 +13,7 @@ public class SongMapperProfile : Profile
             .ForMember(song => song.Title, options => options.MapFrom(src => src.Song.Title));
 
         CreateMap<Song, SongOutputDto>();
+
+        CreateMap<DelayedSongInputDto, Song>();
     }
 }

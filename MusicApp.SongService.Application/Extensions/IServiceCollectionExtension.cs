@@ -1,5 +1,7 @@
 ﻿using FluentValidation;
+using Hangfire;
 using MediatR;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MusicApp.SongService.Application.AutoMapper;
 using MusicApp.SongService.Application.CQRS.Commands.CreateSong;
@@ -28,6 +30,20 @@ public static class IServiceCollectionExtension
         return services;
     }
 
+    public static IServiceCollection AddHangfireSupport(this IServiceCollection services, IConfiguration configuration)
+    {
+        var connectionString = configuration.GetConnectionString("HangfireDb");
+
+        services.AddHangfire(config =>
+        {
+            config.UseSqlServerStorage(connectionString);
+        });
+
+        services.AddHangfireServer();
+  
+        return services;
+    }
+  
     public static IServiceCollection AddGrpcService(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddAutoMapper(typeof(GrpcModelsMapperProfile));
