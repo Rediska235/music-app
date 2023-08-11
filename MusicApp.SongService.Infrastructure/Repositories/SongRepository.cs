@@ -9,9 +9,6 @@ namespace MusicApp.SongService.Infrastructure.Repositories;
 
 public class SongRepository : BaseRepository<Song>, ISongRepository
 {
-    private readonly AppDbContext _appContext;
-    private readonly IDistributedCache _cache;
-
     public SongRepository(AppDbContext appContext, IDistributedCache cache) : base(appContext, cache)
     {
         _appContext = appContext;

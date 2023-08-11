@@ -6,7 +6,7 @@ namespace MusicApp.PlaylistService.Infrastructure.Extensions;
 
 public static class DistributedCacheExtension
 {
-    private static TimeSpan defaultExpireTime = TimeSpan.FromMinutes(1);
+    private static readonly TimeSpan defaultExpireTime = TimeSpan.FromMinutes(1);
 
     public static async Task SetEntityAsync<T>(this IDistributedCache cache,
         string key,

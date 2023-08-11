@@ -9,9 +9,6 @@ namespace MusicApp.PlaylistService.Infrastructure.Repositories;
 
 public class PlaylistRepository : BaseRepository<Playlist>,  IPlaylistRepository
 {
-    private readonly AppDbContext _appContext;
-    private readonly IDistributedCache _cache;
-
     public PlaylistRepository(AppDbContext appContext, IDistributedCache cache) : base(appContext, cache)
     {
         _appContext = appContext;

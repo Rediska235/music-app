@@ -9,9 +9,9 @@ namespace MusicApp.PlaylistService.Infrastructure.Repositories;
 
 public abstract class BaseRepository<T> : IBaseRepository<T> where T : Entity
 {
-    private readonly AppDbContext _appContext;
+    protected AppDbContext _appContext;
     private readonly DbSet<T> _dbSet;
-    private readonly IDistributedCache _cache;
+    protected IDistributedCache _cache;
 
     public BaseRepository(AppDbContext appContext, IDistributedCache cache)
     {
