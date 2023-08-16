@@ -13,6 +13,7 @@ public class CreateSongCommandValidatorTests
 
     private const string emptyTitleErrorMessage = "The field 'Title' is required.";
     private const string wrongLengthTitleErrorMessage = "The field 'Title' must be [2, 32] characters long.";
+    private const string validField = "12345678";
 
     public CreateSongCommandValidatorTests()
     {
@@ -23,16 +24,18 @@ public class CreateSongCommandValidatorTests
     [Fact]
     public void Validate_WhenTitleIsEmpty_ShouldHaveError()
     {
+        // Arrange
         var song = new SongInputDto
         {
             Title = string.Empty
         };
         var artist = _fixture.Create<Artist>();
-
         var command = new CreateSongCommand(song, artist);
 
+        // Act
         var result = _validator.Validate(command);
 
+        // Assert
         result.IsValid.Should().BeFalse();
         result.ToString().Should().Contain(emptyTitleErrorMessage)
             .And.Contain(wrongLengthTitleErrorMessage);
@@ -41,16 +44,18 @@ public class CreateSongCommandValidatorTests
     [Fact]
     public void Validate_WhenTitleIsTooShort_ShouldHaveError()
     {
+        // Arrange
         var song = new SongInputDto
         {
             Title = "a"
         };
         var artist = _fixture.Create<Artist>();
-
         var command = new CreateSongCommand(song, artist);
 
+        // Act
         var result = _validator.Validate(command);
 
+        // Assert
         result.IsValid.Should().BeFalse();
         result.ToString().Should().Be(wrongLengthTitleErrorMessage);
     }
@@ -58,33 +63,37 @@ public class CreateSongCommandValidatorTests
     [Fact]
     public void Validate_WhenTitleIsTooLong_ShouldHaveError()
     {
+        // Arrange
         var song = new SongInputDto
         {
             Title = "a".PadLeft(33, 'a')
         };
         var artist = _fixture.Create<Artist>();
-
         var command = new CreateSongCommand(song, artist);
 
+        // Act
         var result = _validator.Validate(command);
 
+        // Assert
         result.IsValid.Should().BeFalse();
         result.ToString().Should().Be(wrongLengthTitleErrorMessage);
     }
 
     [Fact]
-    public void Validate_WhenTitleIsCorrect_ShouldBeValid()
+    public void Validate_WhenTitleIsValid_ShouldNotHaveError()
     {
+        // Arrange
         var song = new SongInputDto
         {
-            Title = "a".PadLeft(12, 'a')
+            Title = validField
         };
         var artist = _fixture.Create<Artist>();
-
         var command = new CreateSongCommand(song, artist);
 
+        // Act
         var result = _validator.Validate(command);
 
+        // Assert
         result.IsValid.Should().BeTrue();
     }
 }
