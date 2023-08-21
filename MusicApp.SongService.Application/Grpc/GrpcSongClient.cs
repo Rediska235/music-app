@@ -15,7 +15,7 @@ public class GrpcSongClient
         _client = client;
     }
 
-    public void SendSongOperation(Song song, Operation operation)
+    public virtual void SendSongOperation(Song song, Operation operation)
     {
         var songMessage = _mapper.Map<GrpcSongModel>(song);
 

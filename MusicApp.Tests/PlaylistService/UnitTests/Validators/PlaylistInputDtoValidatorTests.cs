@@ -3,7 +3,7 @@ using FluentAssertions;
 using MusicApp.PlaylistService.Application.DTOs;
 using MusicApp.PlaylistService.Application.Validators;
 
-namespace MusicApp.Tests.Identity.UnitTests.Validators;
+namespace MusicApp.Tests.PlaylistService.UnitTests.Validators;
 
 public class PlaylistInputDtoValidatorTests
 {

@@ -3,33 +3,39 @@ using MusicApp.PlaylistService.Infrastructure.Extensions;
 using MusicApp.PlaylistService.Web.Extensions;
 using MusicApp.PlaylistService.Web.Grpc;
 using MusicApp.PlaylistService.Web.Middlewares;
-using MusicApp.PlaylistService.Infrastructure.Extensions;
-using MusicApp.PlaylistService.Application.Extensions;
 using Serilog;
 
-var builder = WebApplication.CreateBuilder(args);
+namespace MusicApp.PlaylistService.Web;
 
-builder.Services.AddControllers();
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddHttpContextAccessor();
+public class Program
+{
+    private static void Main(string[] args)
+    {
+        var builder = WebApplication.CreateBuilder(args);
 
-Configure.ConfigureLogging();
-builder.Host.UseSerilog();
+        builder.Services.AddControllers();
+        builder.Services.AddEndpointsApiExplorer();
+        builder.Services.AddHttpContextAccessor();
 
-var configuration = builder.Configuration;
-builder.Services.AddJwtAuthentication(configuration);
-builder.Services.AddInfrastructure(configuration);
-builder.Services.AddApplication(); 
-builder.AddGrpcService();
-builder.Services.AddMassTransitForRabbitMQ();
+        Configure.ConfigureLogging();
+        builder.Host.UseSerilog();
 
-var app = builder.Build();
+        var configuration = builder.Configuration;
+        builder.Services.AddJwtAuthentication(configuration);
+        builder.Services.AddInfrastructure(configuration);
+        builder.Services.AddApplication();
+        builder.AddGrpcService();
+        builder.Services.AddMassTransitForRabbitMQ();
 
-app.UseMiddleware<ErrorHandlingMiddleware>();
+        var app = builder.Build();
 
-app.UseAuthentication();
-app.UseAuthorization();
-app.MapControllers();
-app.MapGrpcService<GrpcSongService>();
+        app.UseMiddleware<ErrorHandlingMiddleware>();
 
-app.Run();
+        app.UseAuthentication();
+        app.UseAuthorization();
+        app.MapControllers();
+        app.MapGrpcService<GrpcSongService>();
+
+        app.Run();
+    }
+}

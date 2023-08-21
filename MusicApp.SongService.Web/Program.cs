@@ -7,40 +7,48 @@ using MusicApp.SongService.Web.Hubs;
 using MusicApp.SongService.Web.Middlewares;
 using Serilog;
 
-var builder = WebApplication.CreateBuilder(args);
+namespace MusicApp.SongService.Web;
 
-builder.Services.AddControllers();
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddHttpContextAccessor();
-
-Configure.ConfigureLogging();
-builder.Host.UseSerilog();
-
-var configuration = builder.Configuration;
-builder.Services.AddJwtAuthentication(configuration);
-builder.Services.AddHangfireSupport(configuration);
-builder.Services.AddGrpcService(configuration);
-builder.Services.AddCorsPolicy(configuration);
-builder.Services.AddInfrastructure(configuration);
-builder.Services.AddApplication();
-builder.Services.AddSignalR();
-builder.Services.AddMassTransitForRabbitMQ();
-
-var app = builder.Build();
-
-app.UseMiddleware<ErrorHandlingMiddleware>();
-
-app.UseAuthentication();
-app.UseAuthorization();
-app.MapControllers();
-
-var options = new DashboardOptions()
+public class Program
 {
-    Authorization = new[] { new HangfireAuthorizationFilter() }
-};
-app.UseHangfireDashboard("/hangfire", options);
+    private static void Main(string[] args)
+    {
+        var builder = WebApplication.CreateBuilder(args);
 
-app.UseCors("CorsPolicy");
-app.MapHub<SongHub>("/song");
+        builder.Services.AddControllers();
+        builder.Services.AddEndpointsApiExplorer();
+        builder.Services.AddHttpContextAccessor();
 
-app.Run();
+        Configure.ConfigureLogging();
+        builder.Host.UseSerilog();
+
+        var configuration = builder.Configuration;
+        builder.Services.AddJwtAuthentication(configuration);
+        builder.Services.AddHangfireSupport(configuration);
+        builder.Services.AddGrpcService(configuration);
+        builder.Services.AddCorsPolicy(configuration);
+        builder.Services.AddInfrastructure(configuration);
+        builder.Services.AddApplication();
+        builder.Services.AddSignalR();
+        builder.Services.AddMassTransitForRabbitMQ();
+
+        var app = builder.Build();
+
+        app.UseMiddleware<ErrorHandlingMiddleware>();
+
+        app.UseAuthentication();
+        app.UseAuthorization();
+        app.MapControllers();
+
+        var options = new DashboardOptions()
+        {
+            Authorization = new[] { new HangfireAuthorizationFilter() }
+        };
+        app.UseHangfireDashboard("/hangfire", options);
+
+        app.UseCors("CorsPolicy");
+        app.MapHub<SongHub>("/song");
+
+        app.Run();
+    }
+}
