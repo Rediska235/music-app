@@ -22,10 +22,11 @@ public class Program
 
         var configuration = builder.Configuration;
         builder.Services.AddJwtAuthentication(configuration);
+        builder.Services.AddMassTransitForRabbitMQ(configuration);
+        builder.Services.AddRedis(configuration);
         builder.Services.AddInfrastructure(configuration);
         builder.Services.AddApplication();
         builder.AddGrpcService();
-        builder.Services.AddMassTransitForRabbitMQ();
 
         var app = builder.Build();
 

@@ -31,7 +31,7 @@ public static class IServiceCollectionExtension
         return services;
     }
 
-    public static IServiceCollection AddMassTransitForRabbitMQ(this IServiceCollection services)
+    public static IServiceCollection AddMassTransitForRabbitMQ(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddMassTransit(config =>
         {
@@ -42,7 +42,7 @@ public static class IServiceCollectionExtension
 
             config.UsingRabbitMq((context, config) =>
             {
-                config.Host("rabbitmq", "/");
+                config.Host(configuration["RabbitMQHost"], "/");
                 config.ConfigureEndpoints(context);
             });
         });
