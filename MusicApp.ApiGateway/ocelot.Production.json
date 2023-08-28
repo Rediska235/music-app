@@ -11,8 +11,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "identity",
-          "Port": 80
+          "Host": "identity.default.svc.cluster.local",
+          "Port": 5000
         }
       ]
     },
@@ -23,8 +23,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "identity",
-          "Port": 80
+          "Host": "identity.default.svc.cluster.local",
+          "Port": 5000
         }
       ]
     },
@@ -35,8 +35,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "identity",
-          "Port": 80
+          "Host": "identity.default.svc.cluster.local",
+          "Port": 5000
         }
       ],
       "AuthenticationOptions": {
@@ -53,8 +53,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "songservice",
-          "Port": 80
+          "Host": "songservice.default.svc.cluster.local",
+          "Port": 5001
         }
       ]
     },
@@ -65,8 +65,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "songservice",
-          "Port": 80
+          "Host": "songservice.default.svc.cluster.local",
+          "Port": 5001
         }
       ]
     },
@@ -77,8 +77,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "songservice",
-          "Port": 80
+          "Host": "songservice.default.svc.cluster.local",
+          "Port": 5001
         }
       ],
       "AuthenticationOptions": {
@@ -96,8 +96,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "songservice",
-          "Port": 80
+          "Host": "songservice.default.svc.cluster.local",
+          "Port": 5001
         }
       ],
       "AuthenticationOptions": {
@@ -115,8 +115,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "songservice",
-          "Port": 80
+          "Host": "songservice.default.svc.cluster.local",
+          "Port": 5001
         }
       ],
       "AuthenticationOptions": {
@@ -136,8 +136,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "playlistservice",
-          "Port": 80
+          "Host": "playlistservice.default.svc.cluster.local",
+          "Port": 5002
         }
       ]
     },
@@ -148,8 +148,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "playlistservice",
-          "Port": 80
+          "Host": "playlistservice.default.svc.cluster.local",
+          "Port": 5002
         }
       ]
     },
@@ -160,8 +160,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "playlistservice",
-          "Port": 80
+          "Host": "playlistservice.default.svc.cluster.local",
+          "Port": 5002
         }
       ],
       "AuthenticationOptions": {
@@ -176,8 +176,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "playlistservice",
-          "Port": 80
+          "Host": "playlistservice.default.svc.cluster.local",
+          "Port": 5002
         }
       ],
       "AuthenticationOptions": {
@@ -192,8 +192,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "playlistservice",
-          "Port": 80
+          "Host": "playlistservice.default.svc.cluster.local",
+          "Port": 5002
         }
       ],
       "AuthenticationOptions": {
@@ -208,8 +208,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "playlistservice",
-          "Port": 80
+          "Host": "playlistservice.default.svc.cluster.local",
+          "Port": 5002
         }
       ],
       "AuthenticationOptions": {
@@ -224,8 +224,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "playlistservice",
-          "Port": 80
+          "Host": "playlistservice.default.svc.cluster.local",
+          "Port": 5002
         }
       ],
       "AuthenticationOptions": {
