@@ -12,12 +12,14 @@ public class CreateSongDelayedCommandHandler : IRequestHandler<CreateSongDelayed
     private readonly ISongRepository _songRepository;
     private readonly IArtistRepository _artistRepository;
     private readonly IMapper _mapper;
+    private readonly IBackgroundJobClient _backgroundJobClient;
 
-    public CreateSongDelayedCommandHandler(ISongRepository songRepository, IArtistRepository artistRepository, IMapper mapper)
+    public CreateSongDelayedCommandHandler(ISongRepository songRepository, IArtistRepository artistRepository, IMapper mapper, IBackgroundJobClient backgroundJobClient)
     {
         _songRepository = songRepository;
         _artistRepository = artistRepository;
         _mapper = mapper;
+        _backgroundJobClient = backgroundJobClient;
     }
 
     public async Task Handle(CreateSongDelayedCommand request, CancellationToken cancellationToken)
@@ -29,7 +31,7 @@ public class CreateSongDelayedCommandHandler : IRequestHandler<CreateSongDelayed
 
         var delay = request.delayedSongInputDto.PublishTime - DateTime.Now;
 
-        BackgroundJob.Schedule(job, delay);
+        _backgroundJobClient.Schedule(job, delay);
     }
 
     public async Task AddToDatabase(Song song, string artistName, CancellationToken cancellationToken)
