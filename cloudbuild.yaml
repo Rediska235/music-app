@@ -3,15 +3,16 @@
 #-----------------------------------------
 steps:
   - name: 'gcr.io/cloud-builders/docker'
-    entrypoint: /bin/sh
+    id: 'build reactclient image'
+    entrypoint: 'bash'
     args:
     - '-c'
     - |
       cd MusicApp.ReactClient/react-client/   
-
-  - name: 'gcr.io/cloud-builders/docker'
-    id: 'build reactclient image'
-    args: [ 'build', '-t', 'rediska235/reactclient', '.' ]
+    - 'build'
+    - '-t'
+    - 'rediska235/reactclient'
+    - '.'
 
 
   # - name: 'gcr.io/cloud-builders/docker'
