@@ -3,18 +3,50 @@
 #-----------------------------------------
 steps:
   - name: 'gcr.io/cloud-builders/docker'
-    id: 'build container to artifact registry'
-    args: [ 'build', '-t', 'rediska235/playlistservice', '-f', 'MusicApp.PlaylistService.Web/Dockerfile', '.' ]
-
-  - name: 'gcr.io/cloud-builders/docker'
     id: 'docker login'
     entrypoint: 'bash'
     args: ['-c', 'docker login --username=$$DOCKER_LOGIN --password=$$DOCKER_PASSWORD']
     secretEnv: ['DOCKER_LOGIN', 'DOCKER_PASSWORD']
 
   - name: 'gcr.io/cloud-builders/docker'
+    id: 'build image'
+    args: [ 'build', '-t', 'rediska235/identity', '-f', 'MusicApp.Identity.Web/Dockerfile', '.' ]
+
+  - name: 'gcr.io/cloud-builders/docker'
+    id: 'build image'
+    args: [ 'build', '-t', 'rediska235/songservice', '-f', 'MusicApp.SongService.Web/Dockerfile', '.' ]
+
+  - name: 'gcr.io/cloud-builders/docker'
+    id: 'build image'
+    args: [ 'build', '-t', 'rediska235/playlistservice', '-f', 'MusicApp.PlaylistService.Web/Dockerfile', '.' ]
+
+  - name: 'gcr.io/cloud-builders/docker'
+    id: 'build image'
+    args: [ 'build', '-t', 'rediska235/reactclient', '-f', 'MusicApp.ReactClient/react-client/Dockerfile', '.' ]
+
+  - name: 'gcr.io/cloud-builders/docker'
+    id: 'build image'
+    args: [ 'build', '-t', 'rediska235/apigateway', '-f', 'MusicApp.ApiGateway/Dockerfile', '.' ]
+
+  - name: 'gcr.io/cloud-builders/docker'
+    id: 'push to dockerhub'
+    args: ['push', 'rediska235/identity']
+
+  - name: 'gcr.io/cloud-builders/docker'
+    id: 'push to dockerhub'
+    args: ['push', 'rediska235/songservice']
+
+  - name: 'gcr.io/cloud-builders/docker'
     id: 'push to dockerhub'
     args: ['push', 'rediska235/playlistservice']
+
+  - name: 'gcr.io/cloud-builders/docker'
+    id: 'push to dockerhub'
+    args: ['push', 'rediska235/reactclient']
+
+  - name: 'gcr.io/cloud-builders/docker'
+    id: 'push to dockerhub'
+    args: ['push', 'rediska235/apigateway']
 
   - name: 'gcr.io/cloud-builders/kubectl'
     id: 'apply k8s configuration'
