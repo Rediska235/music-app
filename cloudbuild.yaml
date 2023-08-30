@@ -2,58 +2,66 @@
 # CloudBuild Pipeline for Prod CloudRun
 #-----------------------------------------
 steps:
-  - name: 'gcr.io/cloud-builders/docker'
-    id: 'docker login'
-    entrypoint: 'bash'
-    args: ['-c', 'docker login --username=$$DOCKER_LOGIN --password=$$DOCKER_PASSWORD']
-    secretEnv: ['DOCKER_LOGIN', 'DOCKER_PASSWORD']
-
-  - name: 'gcr.io/cloud-builders/docker'
-    id: 'build identity image'
-    args: [ 'build', '-t', 'rediska235/identity', '-f', 'MusicApp.Identity.Web/Dockerfile', '.' ]
-
-  - name: 'gcr.io/cloud-builders/docker'
-    id: 'build songservice image'
-    args: [ 'build', '-t', 'rediska235/songservice', '-f', 'MusicApp.SongService.Web/Dockerfile', '.' ]
-
-  - name: 'gcr.io/cloud-builders/docker'
-    id: 'build playlistservice image'
-    args: [ 'build', '-t', 'rediska235/playlistservice', '-f', 'MusicApp.PlaylistService.Web/Dockerfile', '.' ]
+- name: 'gcr.io/cloud-builders/docker'
+  entrypoint: /bin/sh
+  args:
+  - '-c'
+  - |
+    cd MusicApp.ReactClient/react-client/   
 
   - name: 'gcr.io/cloud-builders/docker'
     id: 'build reactclient image'
-    args: [ 'build', '-t', 'rediska235/reactclient', '-f', 'MusicApp.ReactClient/react-client/Dockerfile', '.' ]
+    args: [ 'build', '-t', 'rediska235/reactclient', '.' ]
 
-  - name: 'gcr.io/cloud-builders/docker'
-    id: 'build apigateway image'
-    args: [ 'build', '-t', 'rediska235/apigateway', '-f', 'MusicApp.ApiGateway/Dockerfile', '.' ]
 
-  - name: 'gcr.io/cloud-builders/docker'
-    id: 'push identity image'
-    args: ['push', 'rediska235/identity']
+  # - name: 'gcr.io/cloud-builders/docker'
+  #   id: 'docker login'
+  #   entrypoint: 'bash'
+  #   args: ['-c', 'docker login --username=$$DOCKER_LOGIN --password=$$DOCKER_PASSWORD']
+  #   secretEnv: ['DOCKER_LOGIN', 'DOCKER_PASSWORD']
 
-  - name: 'gcr.io/cloud-builders/docker'
-    id: 'push songservice image'
-    args: ['push', 'rediska235/songservice']
+  # - name: 'gcr.io/cloud-builders/docker'
+  #   id: 'build identity image'
+  #   args: [ 'build', '-t', 'rediska235/identity', '-f', 'MusicApp.Identity.Web/Dockerfile', '.' ]
 
-  - name: 'gcr.io/cloud-builders/docker'
-    id: 'push playlistservice image'
-    args: ['push', 'rediska235/playlistservice']
+  # - name: 'gcr.io/cloud-builders/docker'
+  #   id: 'build songservice image'
+  #   args: [ 'build', '-t', 'rediska235/songservice', '-f', 'MusicApp.SongService.Web/Dockerfile', '.' ]
 
-  - name: 'gcr.io/cloud-builders/docker'
-    id: 'push reactclient image'
-    args: ['push', 'rediska235/reactclient']
+  # - name: 'gcr.io/cloud-builders/docker'
+  #   id: 'build playlistservice image'
+  #   args: [ 'build', '-t', 'rediska235/playlistservice', '-f', 'MusicApp.PlaylistService.Web/Dockerfile', '.' ]
 
-  - name: 'gcr.io/cloud-builders/docker'
-    id: 'push apigateway image'
-    args: ['push', 'rediska235/apigateway']
+  # - name: 'gcr.io/cloud-builders/docker'
+  #   id: 'build apigateway image'
+  #   args: [ 'build', '-t', 'rediska235/apigateway', '-f', 'MusicApp.ApiGateway/Dockerfile', '.' ]
 
-  - name: 'gcr.io/cloud-builders/kubectl'
-    id: 'apply k8s configuration'
-    args: ['apply', '-f', 'k8s/']
-    env:
-    - 'CLOUDSDK_COMPUTE_ZONE=europe-west2-a'
-    - 'CLOUDSDK_CONTAINER_CLUSTER=music-app-cluster'
+  # - name: 'gcr.io/cloud-builders/docker'
+  #   id: 'push identity image'
+  #   args: ['push', 'rediska235/identity']
+
+  # - name: 'gcr.io/cloud-builders/docker'
+  #   id: 'push songservice image'
+  #   args: ['push', 'rediska235/songservice']
+
+  # - name: 'gcr.io/cloud-builders/docker'
+  #   id: 'push playlistservice image'
+  #   args: ['push', 'rediska235/playlistservice']
+
+  # - name: 'gcr.io/cloud-builders/docker'
+  #   id: 'push reactclient image'
+  #   args: ['push', 'rediska235/reactclient']
+
+  # - name: 'gcr.io/cloud-builders/docker'
+  #   id: 'push apigateway image'
+  #   args: ['push', 'rediska235/apigateway']
+
+  # - name: 'gcr.io/cloud-builders/kubectl'
+  #   id: 'apply k8s configuration'
+  #   args: ['apply', '-f', 'k8s/']
+  #   env:
+  #   - 'CLOUDSDK_COMPUTE_ZONE=europe-west2-a'
+  #   - 'CLOUDSDK_CONTAINER_CLUSTER=music-app-cluster'
 
 availableSecrets:
   secretManager:
