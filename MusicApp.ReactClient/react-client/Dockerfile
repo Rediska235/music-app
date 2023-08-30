@@ -2,11 +2,11 @@ FROM node:16-alpine
 
 WORKDIR /app
 
-COPY package*.json ./
+COPY MusicApp.ReactClient/react-client/package*.json ./
 
 RUN npm ci 
 
-COPY . .
+COPY MusicApp.ReactClient/react-client/ .
 
 RUN npm run build
 
