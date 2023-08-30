@@ -20,13 +20,13 @@ steps:
     args:
       - "-c"
       - |
-          echo $$DOCKER-LOGIN
-    secretEnv: ['DOCKER-LOGIN']
+          echo $$'DOCKER_LOGIN'
+    secretEnv: ['DOCKER_LOGIN']
 
   - name: 'gcr.io/cloud-builders/docker'
     entrypoint: 'bash'
-    args: ['-c', 'docker login --username=$$DOCKER-LOGIN --password=$$DOCKER-PASSWORD']
-    secretEnv: ['DOCKER-LOGIN', 'DOCKER-PASSWORD']
+    args: ['-c', 'docker login --username=$$DOCKER_LOGIN --password=$$DOCKER_PASSWORD']
+    secretEnv: ['DOCKER_LOGIN', 'DOCKER_PASSWORD']
 
   # - name: 'gcr.io/cloud-builders/docker'
   #   id: 'push to dockerhub'
@@ -48,6 +48,6 @@ images: ['us-docker.pkg.dev/music-app-396917/clouddemo/playlistservice']
 availableSecrets:
   secretManager:
   - versionName: projects/music-app-396917/secrets/docker-login/versions/latest
-    env: 'DOCKER-LOGIN'
+    env: 'DOCKER_LOGIN'
   - versionName: projects/music-app-396917/secrets/docker-password/versions/latest
-    env: 'DOCKER-PASSWORD'
+    env: 'DOCKER_PASSWORD'
