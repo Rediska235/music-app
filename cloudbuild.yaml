@@ -15,7 +15,7 @@ steps:
   #   args: ['-c', 'docker login --username=$$DOCKER-LOGIN --password=$$DOCKER-PASSWORD']
   #   secretEnv: ['DOCKER-LOGIN', 'DOCKER-PASSWORD']
 
- - name: 'gcr.io/cloud-builders/gcloud'
+  - name: 'gcr.io/cloud-builders/gcloud'
     entrypoint: "bash"
     args:
       - "-c"
