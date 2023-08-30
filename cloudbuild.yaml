@@ -9,6 +9,18 @@ steps:
     secretEnv: ['DOCKER_LOGIN', 'DOCKER_PASSWORD']
 
   - name: 'gcr.io/cloud-builders/docker'
+    id: 'build identity image'
+    args: [ 'build', '-t', 'rediska235/identity', '-f', 'MusicApp.Identity.Web/Dockerfile', '.' ]
+
+  - name: 'gcr.io/cloud-builders/docker'
+    id: 'build songservice image'
+    args: [ 'build', '-t', 'rediska235/songservice', '-f', 'MusicApp.SongService.Web/Dockerfile', '.' ]
+
+  - name: 'gcr.io/cloud-builders/docker'
+    id: 'build playlistservice image'
+    args: [ 'build', '-t', 'rediska235/playlistservice', '-f', 'MusicApp.PlaylistService.Web/Dockerfile', '.' ]
+
+  - name: 'gcr.io/cloud-builders/docker'
     id: 'build reactclient image'
     entrypoint: 'bash'
     args:
@@ -17,41 +29,29 @@ steps:
       cd MusicApp.ReactClient/react-client/ && \
       docker build -t rediska235/reactclient .
 
-  # - name: 'gcr.io/cloud-builders/docker'
-  #   id: 'build identity image'
-  #   args: [ 'build', '-t', 'rediska235/identity', '-f', 'MusicApp.Identity.Web/Dockerfile', '.' ]
+  - name: 'gcr.io/cloud-builders/docker'
+    id: 'build apigateway image'
+    args: [ 'build', '-t', 'rediska235/apigateway', '-f', 'MusicApp.ApiGateway/Dockerfile', '.' ]
 
-  # - name: 'gcr.io/cloud-builders/docker'
-  #   id: 'build songservice image'
-  #   args: [ 'build', '-t', 'rediska235/songservice', '-f', 'MusicApp.SongService.Web/Dockerfile', '.' ]
+  - name: 'gcr.io/cloud-builders/docker'
+    id: 'push identity image'
+    args: ['push', 'rediska235/identity']
 
-  # - name: 'gcr.io/cloud-builders/docker'
-  #   id: 'build playlistservice image'
-  #   args: [ 'build', '-t', 'rediska235/playlistservice', '-f', 'MusicApp.PlaylistService.Web/Dockerfile', '.' ]
+  - name: 'gcr.io/cloud-builders/docker'
+    id: 'push songservice image'
+    args: ['push', 'rediska235/songservice']
 
-  # - name: 'gcr.io/cloud-builders/docker'
-  #   id: 'build apigateway image'
-  #   args: [ 'build', '-t', 'rediska235/apigateway', '-f', 'MusicApp.ApiGateway/Dockerfile', '.' ]
-
-  # - name: 'gcr.io/cloud-builders/docker'
-  #   id: 'push identity image'
-  #   args: ['push', 'rediska235/identity']
-
-  # - name: 'gcr.io/cloud-builders/docker'
-  #   id: 'push songservice image'
-  #   args: ['push', 'rediska235/songservice']
-
-  # - name: 'gcr.io/cloud-builders/docker'
-  #   id: 'push playlistservice image'
-  #   args: ['push', 'rediska235/playlistservice']
+  - name: 'gcr.io/cloud-builders/docker'
+    id: 'push playlistservice image'
+    args: ['push', 'rediska235/playlistservice']
 
   - name: 'gcr.io/cloud-builders/docker'
     id: 'push reactclient image'
     args: ['push', 'rediska235/reactclient']
 
-  # - name: 'gcr.io/cloud-builders/docker'
-  #   id: 'push apigateway image'
-  #   args: ['push', 'rediska235/apigateway']
+  - name: 'gcr.io/cloud-builders/docker'
+    id: 'push apigateway image'
+    args: ['push', 'rediska235/apigateway']
 
   - name: 'gcr.io/cloud-builders/kubectl'
     id: 'apply k8s configuration'
