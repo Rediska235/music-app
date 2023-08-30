@@ -2,12 +2,12 @@
 # CloudBuild Pipeline for Prod CloudRun
 #-----------------------------------------
 steps:
-- name: 'gcr.io/cloud-builders/docker'
-  entrypoint: /bin/sh
-  args:
-  - '-c'
-  - |
-    cd MusicApp.ReactClient/react-client/   
+  - name: 'gcr.io/cloud-builders/docker'
+    entrypoint: /bin/sh
+    args:
+    - '-c'
+    - |
+      cd MusicApp.ReactClient/react-client/   
 
   - name: 'gcr.io/cloud-builders/docker'
     id: 'build reactclient image'
