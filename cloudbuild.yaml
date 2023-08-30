@@ -11,6 +11,10 @@ steps:
     args: [ 'tag', 'us-docker.pkg.dev/music-app-396917/clouddemo/playlistservice', 'rediska235/playlistservice' ]
 
   - name: 'gcr.io/cloud-builders/docker'
+    id: 'docker login'
+    args: ['login', '-u', $$DOCKER-LOGIN, '-p', $$DOCKER-PASSWORD, 'docker.io']
+
+  - name: 'gcr.io/cloud-builders/docker'
     id: 'push to dockerhub'
     args: ['push', 'rediska235/playlistservice']
 
@@ -26,3 +30,10 @@ steps:
     - 'CLOUDSDK_CONTAINER_CLUSTER=music-app-cluster'
 
 images: ['us-docker.pkg.dev/music-app-396917/clouddemo/playlistservice']
+
+availableSecrets:
+  secretManager:
+  - versionName: projects/music-app-396917/secrets/docker-login/versions/latest
+    env: 'DOCKER-LOGIN'
+  - versionName: projects/music-app-396917/secrets/docker-password/versions/latest
+    env: 'DOCKER-PASSWORD'
