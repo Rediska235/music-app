@@ -4,7 +4,7 @@
 steps:
   - name: 'gcr.io/cloud-builders/docker'
     id: 'build container to artifact registry'
-    args: [ 'build', '-t', 'europe-docker.pkg.dev/music-app-396917/clouddemo/playlistservice', '-f', 'MusicApp.PlaylistService.Web\Dockerfile', '.' ]
+    args: [ 'build', '-t', 'europe-docker.pkg.dev/music-app-396917/clouddemo/playlistservice', '-f', 'MusicApp.PlaylistService.Web/Dockerfile', '.' ]
 
   - name: 'gcr.io/cloud-builders/docker'
     id: 'tag image for dockerhub'
