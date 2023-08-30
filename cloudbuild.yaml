@@ -63,9 +63,9 @@ steps:
   #   - 'CLOUDSDK_COMPUTE_ZONE=europe-west2-a'
   #   - 'CLOUDSDK_CONTAINER_CLUSTER=music-app-cluster'
 
-availableSecrets:
-  secretManager:
-  - versionName: projects/music-app-396917/secrets/docker-login/versions/latest
-    env: 'DOCKER_LOGIN'
-  - versionName: projects/music-app-396917/secrets/docker-password/versions/latest
-    env: 'DOCKER_PASSWORD'
+# availableSecrets:
+#   secretManager:
+#   - versionName: projects/music-app-396917/secrets/docker-login/versions/latest
+#     env: 'DOCKER_LOGIN'
+#   - versionName: projects/music-app-396917/secrets/docker-password/versions/latest
+#     env: 'DOCKER_PASSWORD'
