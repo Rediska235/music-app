@@ -10,8 +10,13 @@ steps:
     id: 'tag image for dockerhub'
     args: [ 'tag', 'us-docker.pkg.dev/music-app-396917/clouddemo/playlistservice', 'rediska235/playlistservice' ]
 
+  # - name: 'gcr.io/cloud-builders/docker'
+  #   id: 'docker login'
+  #   args: ['-c', 'docker login --username=$$DOCKER-LOGIN --password=$$DOCKER-PASSWORD']
+  #   secretEnv: ['DOCKER-LOGIN', 'DOCKER-PASSWORD']
+
   - name: 'gcr.io/cloud-builders/docker'
-    id: 'docker login'
+    entrypoint: 'bash'
     args: ['-c', 'docker login --username=$$DOCKER-LOGIN --password=$$DOCKER-PASSWORD']
     secretEnv: ['DOCKER-LOGIN', 'DOCKER-PASSWORD']
 
