@@ -9,7 +9,7 @@ steps:
     - '-c'
     - |
       cd MusicApp.ReactClient/react-client/ && \
-      build -t rediska235/reactclient .
+      docker build -t rediska235/reactclient .
 
 
   # - name: 'gcr.io/cloud-builders/docker'
