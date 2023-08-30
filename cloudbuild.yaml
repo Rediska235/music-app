@@ -8,11 +8,8 @@ steps:
     args:
     - '-c'
     - |
-      cd MusicApp.ReactClient/react-client/   
-    - 'build'
-    - '-t'
-    - 'rediska235/reactclient'
-    - '.'
+      cd MusicApp.ReactClient/react-client/ && \
+      build -t rediska235/reactclient .
 
 
   # - name: 'gcr.io/cloud-builders/docker'
@@ -21,9 +18,9 @@ steps:
   #   args: ['-c', 'docker login --username=$$DOCKER_LOGIN --password=$$DOCKER_PASSWORD']
   #   secretEnv: ['DOCKER_LOGIN', 'DOCKER_PASSWORD']
 
-  # - name: 'gcr.io/cloud-builders/docker'
-  #   id: 'build identity image'
-  #   args: [ 'build', '-t', 'rediska235/identity', '-f', 'MusicApp.Identity.Web/Dockerfile', '.' ]
+  - name: 'gcr.io/cloud-builders/docker'
+    id: 'build identity image'
+    args: [ 'build', '-t', 'rediska235/identity', '-f', 'MusicApp.Identity.Web/Dockerfile', '.' ]
 
   # - name: 'gcr.io/cloud-builders/docker'
   #   id: 'build songservice image'
