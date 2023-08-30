@@ -5,5 +5,5 @@ steps:
   - name: 'gcr.io/cloud-builders/kubectl'
     args: ['apply', '-f', 'k8s/']
     env:
-    - 'CLOUDSDK_COMPUTE_ZONE=us-central1-a'
-    - 'CLOUDSDK_CONTAINER_CLUSTER=cicd-cluster'
+    - 'CLOUDSDK_COMPUTE_ZONE=europe-west2-a'
+    - 'CLOUDSDK_CONTAINER_CLUSTER=music-app-cluster'
