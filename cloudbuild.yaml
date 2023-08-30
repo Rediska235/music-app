@@ -12,7 +12,8 @@ steps:
 
   - name: 'gcr.io/cloud-builders/docker'
     id: 'docker login'
-    args: ['login', '-u', $$DOCKER-LOGIN, '-p', $$DOCKER-PASSWORD, 'docker.io']
+    args: ['-c', 'docker login --username=$$DOCKER-LOGIN --password=$$DOCKER-PASSWORD']
+    secretEnv: ['DOCKER-LOGIN', 'DOCKER-PASSWORD']
 
   - name: 'gcr.io/cloud-builders/docker'
     id: 'push to dockerhub'
