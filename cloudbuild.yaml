@@ -2,38 +2,43 @@
 # CloudBuild Pipeline for Prod CloudRun
 #-----------------------------------------
 steps:
-  - name: 'gcr.io/cloud-builders/docker'
-    id: 'build container to artifact registry'
-    args: [ 'build', '-t', 'us-docker.pkg.dev/music-app-396917/clouddemo/playlistservice', '-f', 'MusicApp.PlaylistService.Web/Dockerfile', '.' ]
+  # - name: 'gcr.io/cloud-builders/docker'
+  #   id: 'build container to artifact registry'
+  #   args: [ 'build', '-t', 'us-docker.pkg.dev/music-app-396917/clouddemo/playlistservice', '-f', 'MusicApp.PlaylistService.Web/Dockerfile', '.' ]
 
-  - name: 'gcr.io/cloud-builders/docker'
-    id: 'tag image for dockerhub'
-    args: [ 'tag', 'us-docker.pkg.dev/music-app-396917/clouddemo/playlistservice', 'rediska235/playlistservice' ]
+  # - name: 'gcr.io/cloud-builders/docker'
+  #   id: 'tag image for dockerhub'
+  #   args: [ 'tag', 'us-docker.pkg.dev/music-app-396917/clouddemo/playlistservice', 'rediska235/playlistservice' ]
 
   # - name: 'gcr.io/cloud-builders/docker'
   #   id: 'docker login'
   #   args: ['-c', 'docker login --username=$$DOCKER-LOGIN --password=$$DOCKER-PASSWORD']
   #   secretEnv: ['DOCKER-LOGIN', 'DOCKER-PASSWORD']
 
+  - name: 'echo'
+    entrypoint: 'bash'
+    args: ['-c', 'echo $$DOCKER-LOGIN']
+    secretEnv: ['DOCKER-LOGIN']
+
   - name: 'gcr.io/cloud-builders/docker'
     entrypoint: 'bash'
     args: ['-c', 'docker login --username=$$DOCKER-LOGIN --password=$$DOCKER-PASSWORD']
     secretEnv: ['DOCKER-LOGIN', 'DOCKER-PASSWORD']
 
-  - name: 'gcr.io/cloud-builders/docker'
-    id: 'push to dockerhub'
-    args: ['push', 'rediska235/playlistservice']
+  # - name: 'gcr.io/cloud-builders/docker'
+  #   id: 'push to dockerhub'
+  #   args: ['push', 'rediska235/playlistservice']
 
-  - name: 'gcr.io/cloud-builders/docker'
-    id: 'push to artifact registry'
-    args: ['push', 'us-docker.pkg.dev/music-app-396917/clouddemo/playlistservice']
+  # - name: 'gcr.io/cloud-builders/docker'
+  #   id: 'push to artifact registry'
+  #   args: ['push', 'us-docker.pkg.dev/music-app-396917/clouddemo/playlistservice']
 
-  - name: 'gcr.io/cloud-builders/kubectl'
-    id: 'apply k8s configuration'
-    args: ['apply', '-f', 'k8s/']
-    env:
-    - 'CLOUDSDK_COMPUTE_ZONE=europe-west2-a'
-    - 'CLOUDSDK_CONTAINER_CLUSTER=music-app-cluster'
+  # - name: 'gcr.io/cloud-builders/kubectl'
+  #   id: 'apply k8s configuration'
+  #   args: ['apply', '-f', 'k8s/']
+  #   env:
+  #   - 'CLOUDSDK_COMPUTE_ZONE=europe-west2-a'
+  #   - 'CLOUDSDK_CONTAINER_CLUSTER=music-app-cluster'
 
 images: ['us-docker.pkg.dev/music-app-396917/clouddemo/playlistservice']
 
