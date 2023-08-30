@@ -4,19 +4,19 @@
 steps:
   - name: 'gcr.io/cloud-builders/docker'
     id: 'build container to artifact registry'
-    args: [ 'build', '-t', 'europe-docker.pkg.dev/music-app-396917/clouddemo/playlistservice', '-f', 'MusicApp.PlaylistService.Web/Dockerfile', '.' ]
+    args: [ 'build', '-t', 'us-docker.pkg.dev/music-app-396917/clouddemo/playlistservice', '-f', 'MusicApp.PlaylistService.Web/Dockerfile', '.' ]
 
   - name: 'gcr.io/cloud-builders/docker'
     id: 'tag image for dockerhub'
-    args: [ 'tag', 'europe-docker.pkg.dev/music-app-396917/clouddemo/playlistservice', 'rediska235/playlistservice' ]
-
-  - name: 'gcr.io/cloud-builders/docker'
-    id: 'push to artifact registry'
-    args: ['push', 'europe-docker.pkg.dev/music-app-396917/clouddemo/playlistservice']
+    args: [ 'tag', 'us-docker.pkg.dev/music-app-396917/clouddemo/playlistservice', 'rediska235/playlistservice' ]
 
   - name: 'gcr.io/cloud-builders/docker'
     id: 'push to dockerhub'
     args: ['push', 'rediska235/playlistservice']
+
+  - name: 'gcr.io/cloud-builders/docker'
+    id: 'push to artifact registry'
+    args: ['push', 'us-docker.pkg.dev/music-app-396917/clouddemo/playlistservice']
 
   - name: 'gcr.io/cloud-builders/kubectl'
     id: 'apply k8s configuration'
@@ -25,4 +25,4 @@ steps:
     - 'CLOUDSDK_COMPUTE_ZONE=europe-west2-a'
     - 'CLOUDSDK_CONTAINER_CLUSTER=music-app-cluster'
 
-images: ['europe-docker.pkg.dev/music-app-396917/clouddemo/playlistservice']
+images: ['us-docker.pkg.dev/music-app-396917/clouddemo/playlistservice']
