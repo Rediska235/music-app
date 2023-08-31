@@ -1,9 +1,9 @@
 steps:
-  # - name: 'gcr.io/cloud-builders/docker'
-  #   id: 'docker login'
-  #   entrypoint: 'bash'
-  #   args: ['-c', 'docker login --username=$$DOCKER_LOGIN --password=$$DOCKER_PASSWORD']
-  #   secretEnv: ['DOCKER_LOGIN', 'DOCKER_PASSWORD']
+  - name: 'gcr.io/cloud-builders/docker'
+    id: 'docker login'
+    entrypoint: 'bash'
+    args: ['-c', 'docker login --username=$$DOCKER_LOGIN --password=$$DOCKER_PASSWORD']
+    secretEnv: ['DOCKER_LOGIN', 'DOCKER_PASSWORD']
 
   # - name: 'gcr.io/cloud-builders/docker'
   #   id: 'build identity image'
@@ -42,24 +42,24 @@ steps:
 #     id: 'push playlistservice image'
 #     args: ['push', 'rediska235/playlistservice']
 
-#   - name: 'gcr.io/cloud-builders/docker'
-#     id: 'push reactclient image'
-#     args: ['push', 'rediska235/reactclient']
+  - name: 'gcr.io/cloud-builders/docker'
+    id: 'push reactclient image'
+    args: ['push', 'rediska235/reactclient']
 
 #   - name: 'gcr.io/cloud-builders/docker'
 #     id: 'push apigateway image'
 #     args: ['push', 'rediska235/apigateway']
 
-#   - name: 'gcr.io/cloud-builders/kubectl'
-#     id: 'apply k8s configuration'
-#     args: ['apply', '-f', 'k8s/']
-#     env:
-#     - 'CLOUDSDK_COMPUTE_ZONE=europe-west2-a'
-#     - 'CLOUDSDK_CONTAINER_CLUSTER=music-app-cluster'
+  - name: 'gcr.io/cloud-builders/kubectl'
+    id: 'apply k8s configuration'
+    args: ['apply', '-f', 'k8s/']
+    env:
+    - 'CLOUDSDK_COMPUTE_ZONE=europe-west2-a'
+    - 'CLOUDSDK_CONTAINER_CLUSTER=music-app-cluster'
 
-# availableSecrets:
-#   secretManager:
-#   - versionName: projects/music-app-396917/secrets/docker-login/versions/latest
-#     env: 'DOCKER_LOGIN'
-#   - versionName: projects/music-app-396917/secrets/docker-password/versions/latest
-#     env: 'DOCKER_PASSWORD'
+availableSecrets:
+  secretManager:
+  - versionName: projects/music-app-396917/secrets/docker-login/versions/latest
+    env: 'DOCKER_LOGIN'
+  - versionName: projects/music-app-396917/secrets/docker-password/versions/latest
+    env: 'DOCKER_PASSWORD'
