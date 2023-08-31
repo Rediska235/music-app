@@ -3,8 +3,6 @@ using MusicApp.PlaylistService.Infrastructure.Extensions;
 using MusicApp.PlaylistService.Web.Extensions;
 using MusicApp.PlaylistService.Web.Grpc;
 using MusicApp.PlaylistService.Web.Middlewares;
-using MusicApp.PlaylistService.Infrastructure.Extensions;
-using MusicApp.PlaylistService.Application.Extensions;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,10 +16,11 @@ builder.Host.UseSerilog();
 
 var configuration = builder.Configuration;
 builder.Services.AddJwtAuthentication(configuration);
+builder.Services.AddMassTransitForRabbitMQ(configuration);
+builder.Services.AddRedis(configuration);
 builder.Services.AddInfrastructure(configuration);
-builder.Services.AddApplication(); 
+builder.Services.AddApplication();
 builder.AddGrpcService();
-builder.Services.AddMassTransitForRabbitMQ();
 
 var app = builder.Build();
 

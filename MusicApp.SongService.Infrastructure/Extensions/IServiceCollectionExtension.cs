@@ -22,4 +22,15 @@ public static class IServiceCollectionExtension
 
         return services;
     }
+
+    public static IServiceCollection AddRedis(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.AddStackExchangeRedisCache(options =>
+        {
+            options.Configuration = configuration.GetConnectionString("Redis");
+            options.InstanceName = "musicapp_";
+        });
+
+        return services;
+    }
 }
