@@ -9,7 +9,7 @@ const useSignalRClient = () => {
 
   useEffect(() => {
     const newConnection = new signalR.HubConnectionBuilder()
-      .withUrl('http://localhost:5001/song', {
+      .withUrl('http://songservice.default.svc.cluster.local:5001/song', {
         skipNegotiation: true,
         transport: signalR.HttpTransportType.WebSockets
       })
