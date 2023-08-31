@@ -1,23 +1,25 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Distributed;
+using MongoDB.Bson;
+using MongoDB.Driver;
 using MusicApp.SongService.Application.Repositories;
 using MusicApp.SongService.Domain.Entities;
 using MusicApp.SongService.Infrastructure.Data;
 using MusicApp.SongService.Infrastructure.Extensions;
 
-namespace MusicApp.SongService.Infrastructure.Repositories;
+namespace MusicApp.SongService.Infrastructure.Repositories.MongoDb;
 
 public abstract class BaseRepository<T> : IBaseRepository<T> where T : Entity
 {
-    protected AppDbContext _appContext;
+    protected MongoClient _mongoClient;
     private readonly DbSet<T> _dbSet;
     protected IDistributedCache _cache;
 
-    public BaseRepository(AppDbContext appContext, IDistributedCache cache)
+    public BaseRepository(MongoClient mongoClient, IDistributedCache cache)
     {
-        _appContext = appContext;
-        _dbSet = _appContext.Set<T>();
+        _mongoClient = mongoClient;
         _cache = cache;
+
     }
 
     public virtual async Task<IEnumerable<T>> GetAsync(CancellationToken cancellationToken)
