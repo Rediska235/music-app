@@ -39,6 +39,7 @@ public static class IServiceCollectionExtension
         services.AddHangfire(config =>
         {
             config.UseSqlServerStorage(connectionString);
+            //
         });
 
         services.AddHangfireServer();
