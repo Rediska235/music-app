@@ -3,8 +3,10 @@ using Microsoft.AspNetCore.Mvc;
 using MusicApp.SongService.Application.CQRS.Commands.CreateSong;
 using MusicApp.SongService.Application.CQRS.Commands.CreateSongDelayed;
 using MusicApp.SongService.Application.CQRS.Commands.DeleteSong;
+using MusicApp.SongService.Application.CQRS.Commands.LikeSong;
 using MusicApp.SongService.Application.CQRS.Commands.UpdateSong;
 using MusicApp.SongService.Application.CQRS.Queries.GetArtist;
+using MusicApp.SongService.Application.CQRS.Queries.GetFavoriteSongs;
 using MusicApp.SongService.Application.CQRS.Queries.GetSongById;
 using MusicApp.SongService.Application.CQRS.Queries.GetSongs;
 using MusicApp.SongService.Application.DTOs;
@@ -83,5 +85,23 @@ public class SongsController : ControllerBase
         await _mediator.Send(deleteCommand, cancellationToken);
 
         return NoContent();
+    }
+
+    [HttpPatch("{id:guid}")]
+    public async Task<IActionResult> LikeSong(Guid id, CancellationToken cancellationToken)
+    {
+        var likeCommand = new LikeSongCommand(id);
+        await _mediator.Send(likeCommand, cancellationToken);
+
+        return Ok();
+    }
+
+    [HttpGet("/api/songs/favorite")]
+    public async Task<IActionResult> GetFavoriteSongs(CancellationToken cancellationToken)
+    {
+        var getQuery = new GetFavoriteSongsQuery();
+        var songs = await _mediator.Send(getQuery, cancellationToken);
+
+        return Ok(songs);
     }
 }

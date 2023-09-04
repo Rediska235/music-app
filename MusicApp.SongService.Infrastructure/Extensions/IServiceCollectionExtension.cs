@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using MongoDB.Driver;
 using MusicApp.SongService.Application.Repositories;
 using MusicApp.SongService.Infrastructure.Data;
+using MusicApp.SongService.Infrastructure.Repositories.MongoDb;
 using MusicApp.SongService.Infrastructure.Repositories.SqlServer;
 
 namespace MusicApp.SongService.Infrastructure.Extensions;
@@ -18,6 +19,7 @@ public static class IServiceCollectionExtension
             options.UseSqlServer(connectionString);
         });
 
+        services.AddScoped<ISongMongoDbRepository, SongMongoDbRepository>();
         services.AddScoped<ISongRepository, SongRepository>();
         services.AddScoped<IArtistRepository, ArtistRepository>();
 
@@ -41,7 +43,4 @@ public static class IServiceCollectionExtension
 
         return services;
     }
-
-
-
 }
