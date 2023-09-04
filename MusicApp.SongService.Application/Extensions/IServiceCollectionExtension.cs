@@ -6,12 +6,11 @@ using Microsoft.Extensions.DependencyInjection;
 using MusicApp.SongService.Application.AutoMapper;
 using MusicApp.SongService.Application.BehaviourPipelines;
 using MusicApp.SongService.Application.CQRS.Commands.CreateSong;
-using MusicApp.SongService.Application.Services;
 using MusicApp.SongService.Application.Grpc;
-using Microsoft.Extensions.Configuration;
 using MusicApp.SongService.Application.Grpc.Protos;
 using MusicApp.SongService.Application.Services.Implementations;
 using MusicApp.SongService.Application.Services.Interfaces;
+using System.Data.SqlClient;
 
 namespace MusicApp.SongService.Application.Extensions;
 
@@ -32,21 +31,6 @@ public static class IServiceCollectionExtension
         return services;
     }
 
-    public static IServiceCollection AddHangfireSupport(this IServiceCollection services, IConfiguration configuration)
-    {
-        var connectionString = configuration.GetConnectionString("HangfireDb");
-
-        services.AddHangfire(config =>
-        {
-            config.UseSqlServerStorage(connectionString);
-            //
-        });
-
-        services.AddHangfireServer();
-  
-        return services;
-    }
-  
     public static IServiceCollection AddGrpcService(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddAutoMapper(typeof(GrpcModelsMapperProfile));
@@ -59,5 +43,39 @@ public static class IServiceCollectionExtension
         services.AddScoped<GrpcSongClient>();
 
         return services;
+    }
+
+    public async static Task<IServiceCollection> AddHangfireSupport(this IServiceCollection services, IConfiguration configuration)
+    {
+        await CreateHangfireDb(configuration);
+
+        var connectionString = string.Format(configuration.GetConnectionString("CustomDb"), "HangfireDb");
+        services.AddHangfire(config =>
+        {
+            config.UseSqlServerStorage(connectionString);
+        });
+
+        services.AddHangfireServer();
+  
+        return services;
+    }
+
+    private async static Task CreateHangfireDb(IConfiguration configuration)
+    {
+        await Task.Delay(TimeSpan.FromSeconds(1));
+
+        var connectionString = string.Format(configuration.GetConnectionString("CustomDb"), "master");
+
+        using (var connection = new SqlConnection(connectionString))
+        {
+            connection.Open();
+
+            using (var command = new SqlCommand(
+                @"IF NOT EXISTS (SELECT name FROM sys.databases WHERE name = 'HangfireDb') 
+                    create database HangfireDb;", connection))
+            {
+                command.ExecuteNonQuery();
+            }
+        }
     }
 }
