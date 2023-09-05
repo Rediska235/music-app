@@ -106,3 +106,8 @@ services:
       - '6379:6379'
     environment:
       - ALLOW_EMPTY_PASSWORD=yes
+  mongo:
+    image: 'mongo'
+    container_name: mongo
+    ports:
+      - '27017:27017'

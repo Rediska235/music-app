@@ -4,7 +4,6 @@ using MusicApp.SongService.Application.Repositories;
 
 namespace MusicApp.SongService.Infrastructure.Repositories.MongoDb;
 
-
 public class SongMongoDbRepository : ISongMongoDbRepository
 {
     const string FieldName = "liked-songs";
@@ -23,8 +22,17 @@ public class SongMongoDbRepository : ISongMongoDbRepository
     public async Task LikeSong(Guid songId, string username)
     {
         var filter = Builders<BsonDocument>.Filter.Eq("username", username);
-        var songs = await _collection.Find(filter).FirstOrDefaultAsync();
-        var songIds = songs[FieldName].AsBsonArray.ToList();
+        var document = await _collection.Find(filter).FirstOrDefaultAsync();
+
+        if (document == null)
+        {
+            await AddUser(username);
+        }
+
+        filter = Builders<BsonDocument>.Filter.Eq("username", username);
+        document = await _collection.Find(filter).FirstOrDefaultAsync();
+
+        var songIds = document[FieldName].AsBsonArray.ToList();
 
         if (!songIds.Contains(songId.ToString()))
         {
@@ -42,5 +50,10 @@ public class SongMongoDbRepository : ISongMongoDbRepository
             .ToList();
 
         return songIds.Select(Guid.Parse).ToList();
+    }
+
+    public async Task AddUser(string username)
+    {
+        await _collection.InsertOneAsync(new BsonDocument { { "username", username }, { "liked-songs", new BsonArray() } });
     }
 }

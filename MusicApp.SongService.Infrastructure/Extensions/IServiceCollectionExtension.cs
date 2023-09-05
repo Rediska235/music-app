@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using MusicApp.SongService.Application.Repositories;
 using MusicApp.SongService.Infrastructure.Data;
@@ -39,7 +40,11 @@ public static class IServiceCollectionExtension
 
     public static IServiceCollection AddMongoDb(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddSingleton(new MongoClient("mongodb://localhost:27017"));
+        var mongoClient = new MongoClient("mongodb://localhost:27017");
+        services.AddSingleton(mongoClient);
+
+        var db = mongoClient.GetDatabase("SongServiceMongoDb");
+        db.CreateCollection("Songs");
 
         return services;
     }
