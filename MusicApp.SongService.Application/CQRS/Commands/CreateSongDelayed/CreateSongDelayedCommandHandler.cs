@@ -14,7 +14,11 @@ public class CreateSongDelayedCommandHandler : IRequestHandler<CreateSongDelayed
     private readonly IMapper _mapper;
     private readonly IBackgroundJobClient _backgroundJobClient;
 
-    public CreateSongDelayedCommandHandler(ISongRepository songRepository, IArtistRepository artistRepository, IMapper mapper, IBackgroundJobClient backgroundJobClient)
+    public CreateSongDelayedCommandHandler(
+        ISongRepository songRepository, 
+        IArtistRepository artistRepository, 
+        IMapper mapper, 
+        IBackgroundJobClient backgroundJobClient)
     {
         _songRepository = songRepository;
         _artistRepository = artistRepository;

@@ -34,7 +34,7 @@ public class CreateSongDelayedCommandHandlerTests
     }
 
     [Fact]
-    public async Task Handle_ShouldReturnSuccessfulTask()
+    public async Task Handle_ShouldCreateSongWithDelay()
     {
         // Arrange
         var command = _fixture.Create<CreateSongDelayedCommand>();

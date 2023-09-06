@@ -72,7 +72,7 @@ public class UpdateSongCommandHandlerTests
     }
 
     [Fact]
-    public async Task Handle_ShouldReturnSong()
+    public async Task Handle_ShouldReturnUpdatedSong()
     {
         // Arrange
         var command = _fixture.Create<UpdateSongCommand>();

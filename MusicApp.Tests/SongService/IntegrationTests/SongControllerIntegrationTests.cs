@@ -33,7 +33,7 @@ public class SongControllerIntegrationTests : IDisposable
     }
 
     [Fact]
-    public async Task GetSongsAsync_ShouldReturnOkObjectResult()
+    public async Task GetSongsAsync_ShouldReturnOkObjectResultWithSongs()
     {
         // Arrange
         AddSongToDatabase();
@@ -65,7 +65,7 @@ public class SongControllerIntegrationTests : IDisposable
     }
 
     [Fact]
-    public async Task GetSongByIdAsync_ShouldReturnOkObjectResult()
+    public async Task GetSongByIdAsync_ShouldReturnOkObjectResultWithSong()
     {
         // Arrange
         AddSongToDatabase();
@@ -96,7 +96,7 @@ public class SongControllerIntegrationTests : IDisposable
     }
 
     [Fact]
-    public async Task CreateSongAsync_ShouldReturnCreatedAtActionResult()
+    public async Task CreateSongAsync_ShouldReturnCreatedAtActionResultWithCreatedSong()
     {
         // Arrange
         var content = new StringContent(JsonConvert.SerializeObject(TestData.SongInputDto), Encoding.UTF8, "application/json");
@@ -144,7 +144,7 @@ public class SongControllerIntegrationTests : IDisposable
     }
 
     [Fact]
-    public async Task UpdateSongAsync_ShouldReturnOkObjectResult()
+    public async Task UpdateSongAsync_ShouldReturnOkObjectResultWithUpdatedSong()
     {
         // Arrange
         AddSongToDatabase();

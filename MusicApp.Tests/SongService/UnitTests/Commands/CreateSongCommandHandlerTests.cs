@@ -34,7 +34,7 @@ public class CreateSongCommandHandlerTests
     }
 
     [Fact]
-    public async Task Handle_ShouldReturnSong()
+    public async Task Handle_ShouldReturnCreateSong()
     {
         // Arrange
         var songInputDto = _fixture.Create<SongInputDto>();

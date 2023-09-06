@@ -21,7 +21,7 @@ public class AddArtistCommandHandlerTests
     }
 
     [Fact]
-    public async Task Handle_ShouldReturnSuccessfulTask()
+    public async Task Handle_ShouldAddArtist()
     {
         // Arrange
         var command = _fixture.Create<AddArtistCommand>();

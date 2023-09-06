@@ -62,7 +62,7 @@ public class SongControllerTests
     }
 
     [Fact]
-    public async Task CreateSong_ShouldReturnCreatedAtActionResultWithSong()
+    public async Task CreateSong_ShouldReturnCreatedAtActionResultWithCreatedSong()
     {
         // Arrange
         var id = _fixture.Create<Guid>();
@@ -95,7 +95,7 @@ public class SongControllerTests
     }
 
     [Fact]
-    public async Task UpdateSong_ShouldReturnOkObjectResultWithSong()
+    public async Task UpdateSong_ShouldReturnOkObjectResultWithUpdatedSong()
     {
         // Arrange
         var id = _fixture.Create<Guid>();

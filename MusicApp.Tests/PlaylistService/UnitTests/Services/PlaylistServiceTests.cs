@@ -133,7 +133,7 @@ public class PlaylistServiceTests
     }
 
     [Fact]
-    public async void CreatePlaylistAsync_ShouldReturnPlaylistOutputDtoWithRightAuthor()
+    public async void CreatePlaylistAsync_ShouldReturnCreatedPlaylistOutputDtoWithCorrectAuthor()
     {
         //Arrange
         var user = _fixture.Create<User>();
@@ -196,7 +196,7 @@ public class PlaylistServiceTests
     }
 
     [Fact]
-    public async void UpdatePlaylistAsync_ShouldReturnPlaylistOutputDto()
+    public async void UpdatePlaylistAsync_ShouldReturnUpdatedPlaylistOutputDto()
     {
         //Arrange
         var id = _fixture.Create<Guid>();
@@ -257,7 +257,7 @@ public class PlaylistServiceTests
     }
 
     [Fact]
-    public async void DeletePlaylistAsync_ShouldReturnSuccessfulTask()
+    public async void DeletePlaylistAsync_ShouldDeletePlaylist()
     {
         //Arrange
         var id = _fixture.Create<Guid>();
@@ -329,7 +329,7 @@ public class PlaylistServiceTests
     }
 
     [Fact]
-    public async void AddSongAsync_ShouldReturnSuccessfulTask()
+    public async void AddSongAsync_ShouldAddSongToPlaylist()
     {
         //Arrange
         var playlistId = _fixture.Create<Guid>();
@@ -407,7 +407,7 @@ public class PlaylistServiceTests
     }
 
     [Fact]
-    public async void RemoveSongAsync_ShouldReturnSuccessfulTask()
+    public async void RemoveSongAsync_ShouldRemoveSongFromPlaylist()
     {
         //Arrange
         var playlistId = _fixture.Create<Guid>();

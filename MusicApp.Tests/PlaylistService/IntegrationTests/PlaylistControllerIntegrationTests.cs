@@ -33,7 +33,7 @@ public class PlaylistControllerIntegrationTests : IDisposable
     }
 
     [Fact]
-    public async Task GetPlaylistsAsync_ShouldReturnOkObjectResult()
+    public async Task GetPlaylistsAsync_ShouldReturnOkObjectResultWithPlaylists()
     {
         // Arrange
         AddPlaylistToDatabase();
@@ -65,7 +65,7 @@ public class PlaylistControllerIntegrationTests : IDisposable
     }
 
     [Fact]
-    public async Task GetPlaylistByIdAsync_ShouldReturnOkObjectResult()
+    public async Task GetPlaylistByIdAsync_ShouldReturnOkObjectResultWithPlaylist()
     {
         // Arrange
         AddPlaylistToDatabase();
@@ -101,7 +101,7 @@ public class PlaylistControllerIntegrationTests : IDisposable
     }
 
     [Fact]
-    public async Task CreatePlaylistAsync_ShouldReturnCreatedAtActionResult()
+    public async Task CreatePlaylistAsync_ShouldReturnCreatedAtActionResultWithCreatedPlaylist()
     {
         // Arrange
         var content = new StringContent(JsonConvert.SerializeObject(TestData.PlaylistInputDto), Encoding.UTF8, "application/json");
@@ -155,7 +155,7 @@ public class PlaylistControllerIntegrationTests : IDisposable
     }
 
     [Fact]
-    public async Task UpdatePlaylistAsync_ShouldReturnOkObjectResult()
+    public async Task UpdatePlaylistAsync_ShouldReturnOkObjectResultWithUpdatedPlaylist()
     {
         // Arrange
         ClearDb();

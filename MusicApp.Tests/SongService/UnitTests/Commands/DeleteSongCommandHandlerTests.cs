@@ -70,7 +70,7 @@ public class DeleteSongCommandHandlerTests
     }
 
     [Fact]
-    public async Task Handle_ShouldReturnSuccessfulTask()
+    public async Task Handle_ShouldDeleteSong()
     {
         // Arrange
         var command = _fixture.Create<DeleteSongCommand>();

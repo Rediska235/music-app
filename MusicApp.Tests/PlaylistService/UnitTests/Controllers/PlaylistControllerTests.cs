@@ -21,7 +21,7 @@ public class PlaylistControllerTests
     }
 
     [Fact]
-    public async Task GetPlaylistsAsync_ShouldReturnOkObjectResult()
+    public async Task GetPlaylistsAsync_ShouldReturnOkObjectResultWithPlaylists()
     {
         // Arrange
         var playlists = _fixture.CreateMany<PlaylistOutputDto>();
@@ -36,7 +36,7 @@ public class PlaylistControllerTests
     }
 
     [Fact]
-    public async Task GetPlaylistByIdAsync_ShouldReturnOkObjectResult()
+    public async Task GetPlaylistByIdAsync_ShouldReturnOkObjectResultWithPlaylist()
     {
         // Arrange
         var playlist = _fixture.Create<PlaylistOutputDto>();
@@ -52,7 +52,7 @@ public class PlaylistControllerTests
     }
 
     [Fact]
-    public async Task CreatePlaylistAsync_ShouldReturnCreatedAtActionResult()
+    public async Task CreatePlaylistAsync_ShouldReturnCreatedAtActionResultWithCreatedPlaylist()
     {
         // Arrange
         var playlist = _fixture.Create<PlaylistOutputDto>();
@@ -68,7 +68,7 @@ public class PlaylistControllerTests
     }
 
     [Fact]
-    public async Task UpdatePlaylistAsync_ShouldReturnOkObjectResult()
+    public async Task UpdatePlaylistAsync_ShouldReturnOkObjectResultWithUpdatedPlaylist()
     {
         // Arrange
         var playlist = _fixture.Create<PlaylistOutputDto>();
