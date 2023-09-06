@@ -96,7 +96,7 @@ public class SongsController : ControllerBase
         return Ok();
     }
 
-    [HttpGet("/api/songs/favorite")]
+    [HttpGet("favorite")]
     public async Task<IActionResult> GetFavoriteSongs(CancellationToken cancellationToken)
     {
         var getQuery = new GetFavoriteSongsQuery();
