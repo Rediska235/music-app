@@ -40,7 +40,7 @@ public static class IServiceCollectionExtension
 
     public static IServiceCollection AddMongoDb(this IServiceCollection services, IConfiguration configuration)
     {
-        var mongoClient = new MongoClient("mongodb://localhost:27017");
+        var mongoClient = new MongoClient(configuration.GetConnectionString("MongoDb"));
         services.AddSingleton(mongoClient);
 
         var db = mongoClient.GetDatabase("SongServiceMongoDb");

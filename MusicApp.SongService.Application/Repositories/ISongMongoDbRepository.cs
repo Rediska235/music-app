@@ -2,6 +2,7 @@
 
 public interface ISongMongoDbRepository
 {
-    Task LikeSong(Guid id, string username);
-    Task<IEnumerable<Guid>> GetFavoriteSongs(string username);
+    Task LikeSongAsync(Guid id, string username);
+    Task<IEnumerable<Guid>> GetFavoriteSongsAsync(string username);
+    Task AddUser(string username);
 }

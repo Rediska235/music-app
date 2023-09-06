@@ -19,21 +19,12 @@ public class SongMongoDbRepository : ISongMongoDbRepository
         _collection = db.GetCollection<BsonDocument>("Songs");
     }
 
-    public async Task LikeSong(Guid songId, string username)
+    public async Task LikeSongAsync(Guid songId, string username)
     {
         var filter = Builders<BsonDocument>.Filter.Eq("username", username);
         var document = await _collection.Find(filter).FirstOrDefaultAsync();
 
-        if (document == null)
-        {
-            await AddUser(username);
-        }
-
-        filter = Builders<BsonDocument>.Filter.Eq("username", username);
-        document = await _collection.Find(filter).FirstOrDefaultAsync();
-
         var songIds = document[FieldName].AsBsonArray.ToList();
-
         if (!songIds.Contains(songId.ToString()))
         {
             var update = Builders<BsonDocument>.Update.Push("liked-songs", songId.ToString());
@@ -41,10 +32,15 @@ public class SongMongoDbRepository : ISongMongoDbRepository
         }
     }
 
-    public async Task<IEnumerable<Guid>> GetFavoriteSongs(string username)
+    public async Task<IEnumerable<Guid>> GetFavoriteSongsAsync(string username)
     {
         var filter = Builders<BsonDocument>.Filter.Eq("username", username);
         var document = await _collection.Find(filter).FirstOrDefaultAsync();
+        if(document == null)
+        {
+            return null;
+        }
+
         var songIds = document[FieldName].AsBsonArray.Values
             .Select(x => x.AsString)
             .ToList();

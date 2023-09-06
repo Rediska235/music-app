@@ -6,19 +6,25 @@ namespace MusicApp.SongService.Application.CQRS.Commands.LikeSong;
 
 public class LikeSongCommandHandler : IRequestHandler<LikeSongCommand>
 {
-    private readonly ISongMongoDbRepository _repository;
+    private readonly ISongMongoDbRepository _mongoRepository;
     private readonly IArtistService _artistService;
 
-    public LikeSongCommandHandler(ISongMongoDbRepository repository, IArtistService artistService)
+    public LikeSongCommandHandler(ISongMongoDbRepository mongoRepository, IArtistService artistService)
     {
-        _repository = repository;
+        _mongoRepository = mongoRepository;
         _artistService = artistService;
     }
 
     public async Task Handle(LikeSongCommand request, CancellationToken cancellationToken)
     {
         var username = _artistService.GetUsername();
+
+        var favoriteSongs = await _mongoRepository.GetFavoriteSongsAsync(username);
+        if (favoriteSongs == null)
+        {
+            await _mongoRepository.AddUser(username);
+        }
         
-        await _repository.LikeSong(request.Id, username);
+        await _mongoRepository.LikeSongAsync(request.Id, username);
     }
 }

@@ -27,9 +27,10 @@ public class GetFavoriteSongsQueryHandler : IRequestHandler<GetFavoriteSongsQuer
     public async Task<IEnumerable<SongOutputDto>> Handle(GetFavoriteSongsQuery request, CancellationToken cancellationToken)
     {
         var username = _artistService.GetUsername();
-        var songIds = await _mongoRepository.GetFavoriteSongs(username);
+        var songIds = await _mongoRepository.GetFavoriteSongsAsync(username);
 
         var favoriteSongs = new List<SongOutputDto>();
+
         foreach(var songId in songIds)
         {
             var song = await _repository.GetByIdAsync(songId, cancellationToken);
