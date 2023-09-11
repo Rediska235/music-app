@@ -1,0 +1,47 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoFixture" Version="4.18.0" />
+    <PackageReference Include="EntityFramework" Version="5.0.0" />
+    <PackageReference Include="FluentAssertions" Version="6.11.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="7.0.10" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="7.0.10" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.5.0" />
+    <PackageReference Include="Moq" Version="4.20.69" />
+    <PackageReference Include="xunit" Version="2.4.2" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.5">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="coverlet.collector" Version="3.2.0">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MusicApp.Identity.Application\MusicApp.Identity.Application.csproj" />
+    <ProjectReference Include="..\MusicApp.Identity.Domain\MusicApp.Identity.Domain.csproj" />
+    <ProjectReference Include="..\MusicApp.Identity.Infrastructure\MusicApp.Identity.Infrastructure.csproj" />
+    <ProjectReference Include="..\MusicApp.Identity.Web\MusicApp.Identity.Web.csproj" />
+    <ProjectReference Include="..\MusicApp.PlaylistService.Application\MusicApp.PlaylistService.Application.csproj" />
+    <ProjectReference Include="..\MusicApp.PlaylistService.Domain\MusicApp.PlaylistService.Domain.csproj" />
+    <ProjectReference Include="..\MusicApp.PlaylistService.Infrastructure\MusicApp.PlaylistService.Infrastructure.csproj" />
+    <ProjectReference Include="..\MusicApp.PlaylistService.Web\MusicApp.PlaylistService.Web.csproj" />
+    <ProjectReference Include="..\MusicApp.Shared\MusicApp.Shared.csproj" />
+    <ProjectReference Include="..\MusicApp.SongService.Application\MusicApp.SongService.Application.csproj" />
+    <ProjectReference Include="..\MusicApp.SongService.Domain\MusicApp.SongService.Domain.csproj" />
+    <ProjectReference Include="..\MusicApp.SongService.Infrastructure\MusicApp.SongService.Infrastructure.csproj" />
+    <ProjectReference Include="..\MusicApp.SongService.Web\MusicApp.SongService.Web.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,113 @@
+version: "3.9"
+services:
+  identity:
+    image: rediska235/identity:latest
+    container_name: identity
+    ports:
+      - "5000:80"
+    depends_on:
+      - identity_db
+      - rabbitmq
+      - elasticsearch
+  identity_db:
+    image: "mcr.microsoft.com/mssql/server:2022-latest"
+    container_name: identity_db
+    ports:
+      - "1433:1433" 
+    environment:
+      - ACCEPT_EULA=y
+      - SA_PASSWORD=Strong_Password0
+  songservice:
+    image: rediska235/songservice:latest
+    container_name: songservice
+    ports:
+      - "5001:80"
+    environment:
+        - TZ=Europe/Minsk
+    depends_on:
+      - songservice_db
+      - rabbitmq
+      - elasticsearch
+      - redis
+  songservice_db:
+    image: "mcr.microsoft.com/mssql/server:2022-latest"
+    container_name: songservice_db
+    ports:
+      - "1434:1433" 
+    environment:
+      - ACCEPT_EULA=y
+      - SA_PASSWORD=Strong_Password0
+  playlistservice:
+    image: rediska235/playlistservice:latest
+    container_name: playlistservice
+    ports:
+      - "5002:80"
+      - "5005:5005"
+    depends_on:
+      - playlistservice_db
+      - elasticsearch
+      - redis
+  playlistservice_db:
+    image: "mcr.microsoft.com/mssql/server:2022-latest"
+    container_name: playlistservice_db
+    ports:
+      - "1435:1433" 
+    environment:
+      - ACCEPT_EULA=y
+      - SA_PASSWORD=Strong_Password0
+  apigateway:
+    image: rediska235/apigateway:latest
+    container_name: apigateway
+    ports:
+      - "5003:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+    depends_on:
+      - identity
+      - songservice
+      - playlistservice
+  rabbitmq:
+    image: rabbitmq:3.12-management
+    container_name: 'rabbitmq'
+    ports:
+      - 5672:5672
+      - 15672:15672
+  reactclient:
+    image: rediska235/reactclient:latest
+    container_name: reactclient
+    ports:
+      - "3000:3000"
+    depends_on:
+      - songservice
+  elasticsearch:
+    container_name: elasticsearch
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.6.2
+    ports:
+      - 9200:9200
+    environment:
+      - xpack.monitoring.enabled=true
+      - xpack.watcher.enabled=false
+      - xpack.ml.enabled=false
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - discovery.type=single-node
+  kibana:
+    container_name: kibana
+    image: docker.elastic.co/kibana/kibana:7.6.2
+    ports:
+      - 5601:5601
+    environment:
+      - ELASTICSEARCH_URL=http://localhost:9200
+    depends_on:
+      - elasticsearch
+  redis:
+    image: 'bitnami/redis:latest'
+    container_name: redis
+    ports:
+      - '6379:6379'
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+  mongo:
+    image: 'mongo'
+    container_name: mongo
+    ports:
+      - '27017:27017'
