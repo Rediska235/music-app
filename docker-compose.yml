@@ -1,7 +1,7 @@
 version: "3.9"
 services:
   identity:
-    image: identity
+    image: rediska235/identity:latest
     container_name: identity
     ports:
       - "5000:80"
@@ -18,7 +18,7 @@ services:
       - ACCEPT_EULA=y
       - SA_PASSWORD=Strong_Password0
   songservice:
-    image: songservice
+    image: rediska235/songservice:latest
     container_name: songservice
     ports:
       - "5001:80"
@@ -38,7 +38,7 @@ services:
       - ACCEPT_EULA=y
       - SA_PASSWORD=Strong_Password0
   playlistservice:
-    image: playlistservice
+    image: rediska235/playlistservice:latest
     container_name: playlistservice
     ports:
       - "5002:80"
@@ -56,7 +56,7 @@ services:
       - ACCEPT_EULA=y
       - SA_PASSWORD=Strong_Password0
   apigateway:
-    image: apigateway
+    image: rediska235/apigateway:latest
     container_name: apigateway
     ports:
       - "5003:80"
@@ -73,7 +73,7 @@ services:
       - 5672:5672
       - 15672:15672
   reactclient:
-    image: reactclient
+    image: rediska235/reactclient:latest
     container_name: reactclient
     ports:
       - "3000:3000"
@@ -106,3 +106,8 @@ services:
       - '6379:6379'
     environment:
       - ALLOW_EMPTY_PASSWORD=yes
+  mongo:
+    image: 'mongo'
+    container_name: mongo
+    ports:
+      - '27017:27017'

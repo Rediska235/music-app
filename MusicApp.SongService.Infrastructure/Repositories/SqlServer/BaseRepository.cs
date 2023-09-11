@@ -5,7 +5,7 @@ using MusicApp.SongService.Domain.Entities;
 using MusicApp.SongService.Infrastructure.Data;
 using MusicApp.SongService.Infrastructure.Extensions;
 
-namespace MusicApp.SongService.Infrastructure.Repositories;
+namespace MusicApp.SongService.Infrastructure.Repositories.SqlServer;
 
 public abstract class BaseRepository<T> : IBaseRepository<T> where T : Entity
 {

@@ -24,13 +24,15 @@ public class Program
 
         var configuration = builder.Configuration;
         builder.Services.AddJwtAuthentication(configuration);
-        builder.Services.AddHangfireSupport(configuration);
+        builder.Services.AddMassTransitForRabbitMQ(configuration);
+        await builder.Services.AddHangfireSupport(configuration);
         builder.Services.AddGrpcService(configuration);
         builder.Services.AddCorsPolicy(configuration);
+        builder.Services.AddRedis(configuration);
+        builder.Services.AddMongoDb(configuration);
         builder.Services.AddInfrastructure(configuration);
         builder.Services.AddApplication();
         builder.Services.AddSignalR();
-        builder.Services.AddMassTransitForRabbitMQ();
 
         var app = builder.Build();
 
