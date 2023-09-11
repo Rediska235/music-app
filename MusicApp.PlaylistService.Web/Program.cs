@@ -5,30 +5,38 @@ using MusicApp.PlaylistService.Web.Grpc;
 using MusicApp.PlaylistService.Web.Middlewares;
 using Serilog;
 
-var builder = WebApplication.CreateBuilder(args);
+namespace MusicApp.PlaylistService.Web;
 
-builder.Services.AddControllers();
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddHttpContextAccessor();
+public class Program
+{
+    private static void Main(string[] args)
+    {
+        var builder = WebApplication.CreateBuilder(args);
 
-Configure.ConfigureLogging();
-builder.Host.UseSerilog();
+        builder.Services.AddControllers();
+        builder.Services.AddEndpointsApiExplorer();
+        builder.Services.AddHttpContextAccessor();
 
-var configuration = builder.Configuration;
-builder.Services.AddJwtAuthentication(configuration);
-builder.Services.AddMassTransitForRabbitMQ(configuration);
-builder.Services.AddRedis(configuration);
-builder.Services.AddInfrastructure(configuration);
-builder.Services.AddApplication();
-builder.AddGrpcService();
+        Configure.ConfigureLogging();
+        builder.Host.UseSerilog();
 
-var app = builder.Build();
+        var configuration = builder.Configuration;
+        builder.Services.AddJwtAuthentication(configuration);
+        builder.Services.AddMassTransitForRabbitMQ(configuration);
+        builder.Services.AddRedis(configuration);
+        builder.Services.AddInfrastructure(configuration);
+        builder.Services.AddApplication();
+        builder.AddGrpcService();
 
-app.UseMiddleware<ErrorHandlingMiddleware>();
+        var app = builder.Build();
 
-app.UseAuthentication();
-app.UseAuthorization();
-app.MapControllers();
-app.MapGrpcService<GrpcSongService>();
+        app.UseMiddleware<ErrorHandlingMiddleware>();
 
-app.Run();
+        app.UseAuthentication();
+        app.UseAuthorization();
+        app.MapControllers();
+        app.MapGrpcService<GrpcSongService>();
+
+        app.Run();
+    }
+}

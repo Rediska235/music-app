@@ -5,32 +5,40 @@ using MusicApp.Identity.Web.Extensions;
 using MusicApp.Identity.Web.Middlewares;
 using Serilog;
 
-var builder = WebApplication.CreateBuilder(args);
+namespace MusicApp.Identity.Web;
 
-builder.Services.AddControllers();
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddHttpContextAccessor();
+public class Program
+{
+    private static void Main(string[] args)
+    {
+        var builder = WebApplication.CreateBuilder(args);
 
-Configure.ConfigureLogging();
-builder.Host.UseSerilog();
+        builder.Services.AddControllers();
+        builder.Services.AddEndpointsApiExplorer();
+        builder.Services.AddHttpContextAccessor();
 
-var configuration = builder.Configuration;
-builder.Services.AddJwtAuthentication(configuration);
-builder.Services.AddCorsPolicy(configuration);
-builder.Services.AddInfrastructure(configuration);
-builder.Services.AddApplication();
-builder.Services.AddMassTransitForRabbitMQ();
-builder.Services.AddAutoMapper(typeof(UserMapperProfile));
+        Configure.ConfigureLogging();
+        builder.Host.UseSerilog();
 
-var app = builder.Build();
+        var configuration = builder.Configuration;
+        builder.Services.AddJwtAuthentication(configuration);
+        builder.Services.AddCorsPolicy(configuration);
+        builder.Services.AddInfrastructure(configuration);
+        builder.Services.AddApplication();
+        builder.Services.AddMassTransitForRabbitMQ();
+        builder.Services.AddAutoMapper(typeof(UserMapperProfile));
 
-app.UseMiddleware<ErrorHandlingMiddleware>();
+        var app = builder.Build();
 
-app.UseHttpsRedirection();
-app.UseAuthentication();
-app.UseAuthorization();
-app.MapControllers();
+        app.UseMiddleware<ErrorHandlingMiddleware>();
 
-app.UseCors("CorsPolicy");
+        app.UseHttpsRedirection();
+        app.UseAuthentication();
+        app.UseAuthorization();
+        app.MapControllers();
 
-app.Run();
+        app.UseCors("CorsPolicy");
+
+        app.Run();
+    }
+}

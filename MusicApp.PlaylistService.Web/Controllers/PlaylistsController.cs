@@ -27,9 +27,9 @@ public class PlaylistsController : ControllerBase
     [HttpGet("{id:guid}")]
     public async Task<IActionResult> GetPlaylistById(Guid id, CancellationToken cancellationToken)
     {
-        var playlists = await _playlistService.GetPlaylistByIdAsync(id, cancellationToken);
+        var playlist = await _playlistService.GetPlaylistByIdAsync(id, cancellationToken);
 
-        return Ok(playlists);
+        return Ok(playlist);
     }
 
     [HttpPost]
