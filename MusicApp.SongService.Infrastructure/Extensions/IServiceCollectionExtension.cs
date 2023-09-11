@@ -1,9 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using MongoDB.Bson;
+using MongoDB.Driver;
 using MusicApp.SongService.Application.Repositories;
 using MusicApp.SongService.Infrastructure.Data;
-using MusicApp.SongService.Infrastructure.Repositories;
+using MusicApp.SongService.Infrastructure.Repositories.MongoDb;
+using MusicApp.SongService.Infrastructure.Repositories.SqlServer;
 
 namespace MusicApp.SongService.Infrastructure.Extensions;
 
@@ -17,6 +20,7 @@ public static class IServiceCollectionExtension
             options.UseSqlServer(connectionString);
         });
 
+        services.AddScoped<ISongMongoDbRepository, SongMongoDbRepository>();
         services.AddScoped<ISongRepository, SongRepository>();
         services.AddScoped<IArtistRepository, ArtistRepository>();
 
@@ -30,6 +34,17 @@ public static class IServiceCollectionExtension
             options.Configuration = configuration.GetConnectionString("Redis");
             options.InstanceName = "musicapp_";
         });
+
+        return services;
+    }
+
+    public static IServiceCollection AddMongoDb(this IServiceCollection services, IConfiguration configuration)
+    {
+        var mongoClient = new MongoClient(configuration.GetConnectionString("MongoDb"));
+        services.AddSingleton(mongoClient);
+
+        var db = mongoClient.GetDatabase("SongServiceMongoDb");
+        db.CreateCollection("Songs");
 
         return services;
     }

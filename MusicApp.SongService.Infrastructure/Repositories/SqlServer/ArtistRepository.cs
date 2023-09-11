@@ -5,7 +5,7 @@ using MusicApp.SongService.Domain.Entities;
 using MusicApp.SongService.Infrastructure.Data;
 using MusicApp.SongService.Infrastructure.Extensions;
 
-namespace MusicApp.SongService.Infrastructure.Repositories;
+namespace MusicApp.SongService.Infrastructure.Repositories.SqlServer;
 
 public class ArtistRepository : BaseRepository<Artist>, IArtistRepository
 {
